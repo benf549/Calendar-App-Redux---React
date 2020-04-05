@@ -1,24 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Calendar from './Calendar';
+import CalendarHead from './CalendarHead';
+import EventSpace from './EventSpace';
 
 function App() {
+  const sayHello = () => console.log("Hello There");
+
+  //Need to have API/New Event creator split events that cross over midnight into two. Find a way to link the two so that they can be deleted together?
+  let events = [{"id":1, "name":"General Physics II for Biology Majors", "time":"03 April 2020 09:00:00 EDT", "ends": "03 April 2020 09:50:00 EDT"}, {"id":2, "name":"Organic Chemistry Lecture", "time":"03 April 2020 10:00:00 EDT", "ends": "03 April 2020 10:50:00 EDT"}];
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="content">
+        <div className="upper">
+            <CalendarHead />
+        </div>
+        <div className="lower">
+          <div className="scrollcontainercontainer">
+            <div className="scrollcontainer">
+            <div className="scroller">
+              <Calendar />
+              <EventSpace eventlist={events}/>
+            </div>
+            </div>
+          </div>
+          <div className="neweventcircle" onClick={sayHello}>
+          <i className="fas fa-plus"></i>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

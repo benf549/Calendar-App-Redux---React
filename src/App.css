@@ -1,38 +1,227 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+  background-color: #0D1B2A;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.content {
+  height: 90vh;
+  width: 90vw;
+  background-color: #3E4E50;
+  border-radius: 5px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.upper {
+  height: 10%;
+  border-radius: 5px 5px 0 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #3E4E50;
+}
+
+.lower {
+  height: 90%;
+  background-color: #D6E5E3;
+  position: relative;
+  overflow: hidden;
+}
+
+.neweventcircle {
+  width: 50px;
+  height: 50px;
+  background-color: rgb(216, 30, 91);
+  border-radius: 50%;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #D6E5E3;
+}
+
+.neweventcircle i {
+  color: #D6E5E3;
+  font-size: 2em;
+}
+
+.scrollcontainercontainer {
+  height: 100%;
+  overflow: hidden;
+}
+
+.scrollcontainer {
+  background-color: #D6E5E3;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100%;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+
+.scrollcontainer::-webkit-scrollbar {
+  width: 0px;               /* Remove scrollbar space */
+  background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+.scroller {
+  height: 150vh;
+  position: relative;
+}
+
+.calbody {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  height: 100%;
+  position: relative;
+}
+
+.daycolumn {
+  width: 13.571%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba( 119, 141, 169, 0.3);
+}
+
+.dayheadercontainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: #D6E5E3;
+}
+
+.dayheader {
+  text-align: center;
+  height: 100%;
+  width: 13.571%;
+  border-right: 1px solid rgba( 119, 141, 169, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dayheader:nth-child(8) {
+  border-right: 1px solid rgba( 119, 141, 169, 0);
+}
+
+.spacer {
+  width: 5%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid {
+  width: 100%;
+  height: 6.25vh;
+}
+
+.grid:nth-child(24){
+  border-bottom: none;
+}
+
+.suffering {
+  width: 100%;
+  height: 100% ;
+  display: flex;
+  flex-direction: row;
+
+}
+
+.calbody hr {
+  border: 1px solid rgba(110, 126, 133, 0.15);
+}
+
+.spacer p {
+  font-size: 0.75em;
+}
+
+.eventspace {
+  height: 100%;
+  width: 100%;
+  /**background-color: rgba(0,255,0,0.1);**/
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid2 {
+  width: 100%;
+  height: 6.25vh;
+  
+}
+
+.eventgrid {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 98%;
+  position: relative;
+
+}
+
+.eventunit {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 13.571%
+}
+
+.displayspacer {
+  width: 2%;
+  height: 100%;
+}
+
+.Event {
+  position: absolute;
+  width: 100%;
+  background-color: rgb(216, 30, 91);
+  left: 0;
+  height: 6.25vh;
+  margin-top: 2px;
+  border-radius: 3px;
+}
+
+.Event p {
+  color: #D6E5E3;
+  font-size: 0.5em;
+  text-align: left;
+  padding: 5px;
+
+}
+
+.dayheader h5, h1 {
+  font-size: 0.9em;
+  padding: 5px;
 }
