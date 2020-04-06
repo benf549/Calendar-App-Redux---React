@@ -20,7 +20,6 @@ let updateDays = () => {
     }
     let first = curr.getDate() - testday; 
 
-    let day;
     let firstday = new Date(curr.setDate(first)).getDate();
     for (let i = 0; i <= 6; i++) {
         switch (i) {
@@ -33,16 +32,7 @@ let updateDays = () => {
                 break
         }
     }
- 
-    console.log(week)
-
-
-
-        //week.push(day)
-
-
-      console.log(week)
-      
+    console.log("week:" + week)      
       for (let i = 0; i < week.length; i++) {
           switch (i) {
               case 0:
