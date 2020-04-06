@@ -61,7 +61,7 @@ let EventGrid = ({ eventlist, day, test }) => {
 
 console.log(test)
 
-let EventSpace = ({ eventlist }) => {
+let EventSpace = ({ eventlist, week }) => {
     eventlist.forEach(item => {
         console.log(item);
     });
