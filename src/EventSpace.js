@@ -12,8 +12,6 @@ let EventGrid = ({eventlist, day, test}) => {
      eventlist.forEach(item => {
          let parsed = new Date(Date.parse(item.time));
          let eventday = parsed.getDay();
-         console.log(eventday)
-         console.log(day)
          if (eventday === day){
              test[day].push(<CalendarEvent day={day} key={item.id} time={item.time} ends={item.ends} title={item.name}/>)
          } else {
@@ -21,7 +19,6 @@ let EventGrid = ({eventlist, day, test}) => {
         }
     })
 
-    console.log(test)
 
     return (
     <div className="eventgrid">
@@ -34,6 +31,8 @@ let EventGrid = ({eventlist, day, test}) => {
 
 
 }
+
+console.log(test)
 
 let EventSpace = ({eventlist}) => {
     console.log(eventlist)
