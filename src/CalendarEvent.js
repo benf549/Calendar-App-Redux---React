@@ -1,12 +1,6 @@
 import React from 'react';
 import "./App.css";
 
-
-
-
-
-
-
 let CalendarEvent = ({time, title, day, ends}) => {
 
     let parsed = new Date(Date.parse(time));
