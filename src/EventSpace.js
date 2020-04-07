@@ -3,10 +3,9 @@ import CalendarEvent from './CalendarEvent';
 import './App.css';
 
 let days = [1, 2, 3, 4, 5, 6, 0]
-let test = [[], [], [], [], [], [], []]
 
 
-let EventGrid = ({ eventlist, day, test }) => {
+let EventGrid = ({ eventlist, day, weekofevents }) => {
 
     for (let i = 0; i < eventlist.length; i++) {
         let parsed = new Date(Date.parse(eventlist[i].time));
@@ -25,21 +24,21 @@ let EventGrid = ({ eventlist, day, test }) => {
 
             if (totaltop + minbetweenheight > 150) {
                 let overflowheight = (totaltop + minbetweenheight) - 150;
-                test[day].push(<CalendarEvent key={eventlist[i].id} totaltop={totaltop} totalheight={minbetweenheight - overflowheight} title={eventlist[i].name} />)
+                weekofevents[day].push(<CalendarEvent key={eventlist[i].id} totaltop={totaltop} totalheight={minbetweenheight - overflowheight} title={eventlist[i].name} />)
                 switch (day) {
                     case 6:
 
                         //this doesnt work because monday has already been drawn at this point. Howver, realistically this doesnt matter, we just want it to go to the next day so need to conver the list to use Date objects rather than simple indices
 
-                        test[0].push(<CalendarEvent key={eventlist[i].id} totaltop={0} totalheight={overflowheight} title={eventlist[i].name} />)
+                        weekofevents[0].push(<CalendarEvent key={eventlist[i].id} totaltop={0} totalheight={overflowheight} title={eventlist[i].name} />)
                         break
                     default:
-                        test[day + 1].push(<CalendarEvent key={eventlist[i].id} totaltop={0} totalheight={overflowheight} title={eventlist[i].name} />)
+                        weekofevents[day + 1].push(<CalendarEvent key={eventlist[i].id} totaltop={0} totalheight={overflowheight} title={eventlist[i].name} />)
                         break
                 }
 
             } else {
-                test[day].push(<CalendarEvent key={eventlist[i].id} totaltop={totaltop} totalheight={minbetweenheight} title={eventlist[i].name} />)
+                weekofevents[day].push(<CalendarEvent key={eventlist[i].id} totaltop={totaltop} totalheight={minbetweenheight} title={eventlist[i].name} />)
 
             }
 
@@ -49,7 +48,7 @@ let EventGrid = ({ eventlist, day, test }) => {
     }
     return (
         <div className="eventgrid">
-            {test[day].map(item => (
+            {weekofevents[day].map(item => (
                 item
             ))}
 
@@ -59,9 +58,9 @@ let EventGrid = ({ eventlist, day, test }) => {
 
 }
 
-console.log(test)
+let EventSpace = ({ eventlist, week, overflow }) => {
+    let weekofevents = [[], [], [], [], [], [], []]
 
-let EventSpace = ({ eventlist, week }) => {
     eventlist.forEach(item => {
         console.log(item);
     });
@@ -78,7 +77,7 @@ let EventSpace = ({ eventlist, week }) => {
                     id={day}>
 
                     <EventGrid
-                        test={test}
+                        weekofevents={weekofevents}
                         eventlist={eventlist}
                         key={day}
                         day={day}
