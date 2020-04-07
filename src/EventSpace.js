@@ -1,5 +1,5 @@
 import React from 'react';
-import CalendarEvent from './CalendarEvent';
+//import CalendarEvent from './CalendarEvent';
 import './App.css';
 
 let days = [1, 2, 3, 4, 5, 6, 0]
