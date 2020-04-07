@@ -52,8 +52,7 @@ function App() {
 //!this function adds a week to the week array
   week = updateDays();
 
-  if (inc === 0) {
-  } else {
+  if (inc != 0) {
     let tempDate = new Date();
     let daynum;
     //this allows sunday to be the last index in the array rather than the first. 
@@ -65,12 +64,14 @@ function App() {
           daynum = tempDate.getDay() - 1;
           break;
       }
-    // week array is empty?
+
+    //daynum just gives the day of the week
     let dayforadd = week[daynum];
     console.log(week)
     week = [];
     let weekinms = 7 * 24 * 60 * 60 * 1000;
-    week = updateDays(dayforadd.getTime() + weekinms)
+    week = updateDays(dayforadd.getTime() + (weekinms*inc))
+  } else {
   }
 
   //!want to use this syntax to change what week it is. Hook? The week is an empty array by default but we can set it to something with the update days function. 
