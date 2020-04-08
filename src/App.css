@@ -8,10 +8,26 @@
   background-color: #0D1B2A;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
 }
+
+.leftbutton, .rightbutton {
+  height: 10vh;
+  width: 5vw;
+  font-size: 1.7em;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.leftbutton:hover, .rightbutton:hover {
+  background-color: teal;
+
+}
+
+
 
 .content {
   height: 90vh;

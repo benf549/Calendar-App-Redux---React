@@ -52,7 +52,6 @@ function App() {
 //!this function adds a week to the week array
   week = updateDays();
 
-  if (inc != 0) {
     let tempDate = new Date();
     let daynum;
     //this allows sunday to be the last index in the array rather than the first. 
@@ -71,14 +70,15 @@ function App() {
     week = [];
     let weekinms = 7 * 24 * 60 * 60 * 1000;
     week = updateDays(dayforadd.getTime() + (weekinms*inc))
-  } else {
-  }
 
   //!want to use this syntax to change what week it is. Hook? The week is an empty array by default but we can set it to something with the update days function. 
   let increment = () => {
     setinc(inc + 1)
   }
-  //const sayHello = () => console.log("Hello There");
+  let deincrement = () => {
+    setinc(inc - 1)
+  }
+  const sayHello = () => console.log("Hello There");
   let events = [{ "id": 1, "name": "General Physics II for Biology Majors", "time": "14 April 2020 09:00:00 EDT", "ends": "14 April 2020 09:50:00 EDT" }, { "id": 2, "name": "Organic Chemistry Lecture", "time": "07 April 2020 10:00:00 EDT", "ends": "07 April 2020 10:50:00 EDT" }];
 
   //Here i am going through each event in the event dictionary and checking if the event date (event.time) is the same date as a day in the week array.
@@ -106,12 +106,12 @@ function App() {
       // loop iterates through the week array and each 'z' corresponds to the day of the week.
       let day = week[z]
       // if the date of the event calculated by the loop of 'i' is equal to the the date of the day of the week that we're iterating with 'z'
-      if (eventday === day.getDate()) {
+      if ((eventday === day.getDate()) && (parsed.getMonth() === day.getMonth()) && (parsed.getFullYear() === day.getFullYear())) {
 
         //checks if the event is going to overflow the event grid (height + distance from the top are > 150vh)
 
         //!doesnt work for multiple overflows. only one. 
-        //doesnt work for sunday->monday overflow.
+        //!doesnt work for sunday->monday overflow.
         if (totaltop + minbetweenheight > 150) {
           let overflowheight = (totaltop + minbetweenheight) - 150;
           weekofevents[day.getDay()].push(<CalendarEvent key={events[i].id} totaltop={totaltop} totalheight={minbetweenheight - overflowheight} title={events[i].name} />)
@@ -139,6 +139,7 @@ function App() {
 
   return (
     <div className="App">
+      <div className="leftbutton" onClick={deincrement}><i className="fas fa-chevron-left"></i></div>
       <div className="content">
         <div className="upper">
           <CalendarHead weekdays={week} />
@@ -152,11 +153,13 @@ function App() {
               </div>
             </div>
           </div>
-          <div className="neweventcircle" onClick={increment}>
+          <div className="neweventcircle" onClick={sayHello}>
             <i className="fas fa-plus"></i>
           </div>
         </div>
       </div>
+      <div className="rightbutton" onClick={increment}><i className="fas fa-chevron-right"></i></div>
+
     </div>
   );
 }
