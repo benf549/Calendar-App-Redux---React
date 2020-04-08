@@ -62,7 +62,6 @@ let CalendarHead = ({weekdays}) => {
         }
       }
 
-      console.log(days)
     return(
         <div className="dayheadercontainer">
             <div className="spacer"></div>
