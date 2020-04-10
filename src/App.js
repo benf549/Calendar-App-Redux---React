@@ -124,11 +124,55 @@ function App() {
     }
   }
 
+  let month;
+  switch (week[0].getMonth()) {
+    case 0:
+      month = "January"
+      break;
+    case 1:
+      month = "February"
+      break;
+    case 2:
+      month = "March"
+      break;
+    case 3:
+      month = "April"
+      break;
+    case 4:
+      month = "May"
+      break;
+    case 5:
+      month = "June"
+      break;
+    case 6:
+      month = "July"
+      break;
+    case 7:
+      month = "August"
+      break;
+    case 8:
+      month = "September"
+      break;
+    case 9:
+      month = "October"
+      break;
+    case 10:
+      month = "November"
+      break;
+    default:
+      month = "December"
+      break;
+  }
+  let monthyear = `${month} ${week[0].getFullYear()}`;
+
+
   return (
     <div className="App">
+      <div className="topmostwrapper">
       <div className="leftbutton" onClick={deincrement}><i className="fas fa-chevron-left"></i></div>
       <div className="content">
         <div className="upper">
+          <h2 id="month">{monthyear}</h2>
           <CalendarHead weekdays={week} />
         </div>
         <div className="lower">
@@ -146,7 +190,7 @@ function App() {
         </div>
       </div>
       <div className="rightbutton" onClick={increment}><i className="fas fa-chevron-right"></i></div>
-
+      </div>
     </div>
   );
 }

@@ -3,28 +3,44 @@
   padding: 0;
 }
 
+#root {
+  padding-top: 3vh;
+  height: 200vh;
+  background: linear-gradient(180deg, rgba(58, 80, 107, 0.8) 0%, rgba(58, 66, 75, 0.8) 56.84%, rgba(58, 80, 107, 0.096) 100%);
+}
+
 .App {
   text-align: center;
-  background-color: #0D1B2A;
-  min-height: 100vh;
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
 }
 
+#month {
+  color: #f7f7f7;
+  padding-left: 5%;
+  margin-bottom: 2vh;
+}
+
+.topmostwrapper {
+  padding-top: 5vh;
+  display: flex;
+  flex-direction: row;
+}
+
+
 .leftbutton, .rightbutton {
+  margin-top: 40vh;
   height: 10vh;
   width: 5vw;
-  font-size: 1.7em;
-  color: white;
+  font-size: 1.7rem;
+  color: #f7f7f7;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .leftbutton:hover, .rightbutton:hover {
-  background-color: teal;
-
+  background-color: #1F7A8C;
 }
 
 
@@ -37,18 +53,19 @@
 }
 
 .upper {
-  height: 10%;
+  height: 20%;
   border-radius: 5px 5px 0 0;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #3E4E50;
+  background-color: #3A506B;
+  border: 1px solid rgba( 119, 141, 169, 0.2);
 }
 
 .lower {
-  height: 90%;
-  background-color: #D6E5E3;
+  height: 80%;
+  background-color: #f7f7f7;
   position: relative;
   overflow: hidden;
 }
@@ -65,12 +82,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #D6E5E3;
+  border: 2px solid #f7f7f7;
 }
 
 .neweventcircle i {
-  color: #D6E5E3;
-  font-size: 2em;
+  color: #f7f7f7;
+  font-size: 2rem;
 }
 
 .scrollcontainercontainer {
@@ -79,7 +96,7 @@
 }
 
 .scrollcontainer {
-  background-color: #D6E5E3;
+  background-color: #f7f7f7;
   overflow-y: scroll;
   overflow-x: hidden;
   height: 100%;
@@ -121,8 +138,8 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
-  color: #D6E5E3;
+  height: 40%;
+  color: #f7f7f7;
 }
 
 .dayheader {
@@ -171,7 +188,7 @@
 }
 
 .spacer p {
-  font-size: 0.75em;
+  font-size: 0.75rem;
 }
 
 .eventspace {
@@ -230,19 +247,19 @@
 }
 
 .Event p {
-  color: #D6E5E3;
-  font-size: 0.5em;
+  color: #f7f7f7;
+  font-size: 0.75rem;
   text-align: left;
   padding: 5px;
 
 }
 
 .dayheader h5{
-  font-size: 0.9em;
+  font-size: 0.9rem;
   margin-top: 10px;
 }
 
 .dayheader h1 {
-  font-size: 1.7em;
+  font-size: 1.7rem;
   margin-bottom: 10px;
 } 
