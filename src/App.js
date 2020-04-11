@@ -4,6 +4,7 @@ import Calendar from './Calendar';
 import CalendarHead from './CalendarHead';
 import EventSpace from './EventSpace';
 import CalendarEvent from './CalendarEvent'
+import NewEventForm from './NewEventForm'
 
 let updateDays = (newweekdate = null) => {
   //This function takes in a day or nothing (to get current week) and returns an array of the days of the current week which is later stored into the 'week' array
@@ -79,6 +80,18 @@ function App() {
 
   let week = [];
   let weekofevents = [[], [], [], [], [], [], []];
+  //test
+  let [test, setTest] = useState(false)
+  const sayHello = () => {
+    setTest(true)
+  };
+  let testing = "none"
+  if (test === true ){
+     testing = "inline-block"
+  }
+  //test
+
+
   let [inc, setinc] = useState(0)
   //!this function adds a week to the week array
   week = updateDays();
@@ -109,7 +122,6 @@ function App() {
     setinc(inc - 1)
   }
 
-  const sayHello = () => console.log("Hello There");
 
   // going through each event in the event dictionary and checking if the event date (event.time) is the same date as a day in the week array.
   for (let i = 0; i < processedevents.length; i++) {
@@ -183,6 +195,9 @@ function App() {
                 <EventSpace events={events} weekofevents={weekofevents} />
               </div>
             </div>
+          </div>
+          <div className="neweventpopup" style={{display:testing}}>
+          <NewEventForm/>
           </div>
           <div className="neweventcircle" onClick={sayHello}>
             <i className="fas fa-plus"></i>
