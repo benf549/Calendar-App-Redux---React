@@ -18,8 +18,10 @@
 
 #month {
   color: #f7f7f7;
+  padding: 0.5vh 0;
   padding-left: 5%;
-  margin-bottom: 2vh;
+  font-size: 3.56vh;
+  height: 40%;
 }
 
 .topmostwrapper {
@@ -43,17 +45,15 @@
   background-color: #1F7A8C;
 }
 
-
-
 .content {
-  height: 90vh;
+  height: 95vh;
   width: 90vw;
   background-color: #3E4E50;
   border-radius: 5px;
 }
 
 .upper {
-  height: 20%;
+  height: 12%;
   border-radius: 5px 5px 0 0;
   display: flex;
   flex-direction: column;
@@ -64,7 +64,7 @@
 }
 
 .lower {
-  height: 80%;
+  height: 88%;
   background-color: #f7f7f7;
   position: relative;
   overflow: hidden;
@@ -138,7 +138,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 40%;
+  height: 60%;
   color: #f7f7f7;
 }
 
@@ -169,6 +169,8 @@
 .grid {
   width: 100%;
   height: 6.25vh;
+  border-right:1px solid rgba( 119, 141, 169, 0.2);
+
 }
 
 .grid:nth-child(24){
@@ -255,24 +257,83 @@
 }
 
 .dayheader h5{
-  font-size: 0.9rem;
-  margin-top: 10px;
+  font-size: 1.936vh;
+  line-height: 0.9;
+  padding: 0.25vh 0;
 }
 
 .dayheader h1 {
-  font-size: 1.7rem;
-  margin-bottom: 10px;
+  font-size: 2.904vh;
+  padding-bottom: 0.5vh;
+  line-height: 0.9;
 } 
 
 .neweventpopup {
-  background-color: #F7f7f7;
+  background-color: #F7F7F7;
   border: 1px solid rgba( 119, 141, 169, 0.2);
-  border-radius: 5px;
   position: absolute;
   transform: translate(-50%, -50%);
-  height: 60vh;
+  height: 80vh;
   width: 60vw;
   top: 50%;
   left: 50%;
   z-index: 4;
+}
+
+.topbar {
+  display: flex;
+  justify-content: center;
+}
+
+.topbar p {
+  width: 5%;
+  z-index: 5;
+}
+
+.topbar p:hover{
+  color: #f7f7f7;
+  background-color: rgb(216, 30, 91);
+}
+
+.topbar h3 {
+  width: 95%;
+  transform: translate(5%, 0);
+}
+
+form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  width: 30%;
+  text-align: left;
+  padding-left: 2vw;
+}
+
+input[type=text] {
+  width: 95%;
+}
+
+#name {
+  width: 70%;
+}
+
+input[type=submit] {
+  width: 30%;
+  margin-left: 70%;
+}
+
+.testtt h5 {
+  width: 30%;
+}
+
+.react-datepicker-wrapper {
+  width: 70%;
+}
+
+.testtt {
+  display: flex;
+  flex-direction: row;
 }

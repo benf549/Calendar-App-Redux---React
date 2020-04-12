@@ -83,7 +83,7 @@ function App() {
   //test
   let [test, setTest] = useState(false)
   const sayHello = () => {
-    setTest(true)
+    setTest(!test)
   };
   let testing = "none"
   if (test === true ){
@@ -197,6 +197,10 @@ function App() {
             </div>
           </div>
           <div className="neweventpopup" style={{display:testing}}>
+            <div className="topbar">
+              <h3>Add a New Event</h3>
+              <p onClick={sayHello}>x</p>
+            </div>            
           <NewEventForm/>
           </div>
           <div className="neweventcircle" onClick={sayHello}>
