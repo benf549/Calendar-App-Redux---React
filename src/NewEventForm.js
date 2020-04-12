@@ -1,44 +1,46 @@
-import React from "react"
+import React, {useState} from "react"
 import "./App.css"
-import "./Test"
-import Test from "./Test";
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 
-class NewEventForm extends React.Component {
+let NewEventForm = () => {
+    const [newName, setNewName] = useState("");
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
 
-  constructor(props) {
-        super(props);
-        this.state = {value: ''}
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this)
-    }
-    handleChange(event) {
-        this.setState({value:event.target.value})
-    }
-    handleSubmit(event) {
-        console.log('A name was submitted: ' + this.state.value);
-        event.preventDefault();
+    let handleClick = (e) => {
+      e.preventDefault();
+      if (newName === "") {
+        alert("Hey! Name can't be blank!")
+      } else if ((endDate.getTime() - startDate.getTime()) < 0){
+        alert("Hey! End date can't be before start date")
+      } else { 
+      console.log(newName);
+      console.log(startDate.getTime());
+      console.log(endDate.getTime());
       }
+    }
 
+     return (
+      <form>
+        <label htmlFor="name">Name</label>
+        <input type="text" id="name" value={newName} onChange={e => setNewName(e.target.value)}/>
+        <label htmlFor="date">Start Date</label>
+          <DatePicker
+            id = "date"
+            selected={startDate}
+            onChange={date => setStartDate(date)}
+          />
+        <label htmlFor="date">End Date</label>
 
-      render() {
-        return (
-          <form onSubmit={this.handleSubmit}>
-            <div className="test">
-            <label htmlFor="name">Event Name</label>
-              <input type="text" id="name" value={this.state.value} onChange={this.handleChange} />
-            </div>
-            <div className="testtt">
-              <h5>Start Date</h5>
-              <Test/>
-            </div>
-            <div className="testtt">
-              <h5>End Date</h5>
-              <Test/>
-            </div>
-            <input type="submit" value="Submit" />
-          </form>
-        );
-      }
+          <DatePicker
+            id = "enddate"
+            selected={endDate}
+            onChange={date => setEndDate(date)}
+          />
+        <button type="submit" onClick={handleClick}>Test</button>
+      </form>
+     )
 }
 
 export default NewEventForm

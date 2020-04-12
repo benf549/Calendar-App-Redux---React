@@ -43,7 +43,7 @@ let updateDays = (newweekdate = null) => {
 
 }
 
-let events = [{ "id": 1, "name": "General Physics II for Biology Majors", "time": "12 April 2020 09:00:00 EDT", "ends": "16 April 2020 09:50:00 EDT" }, { "id": 2, "name": "Organic Chemistry Lecture", "time": "07 April 2020 10:00:00 EDT", "ends": "07 April 2020 10:50:00 EDT" }];
+let events = [{ "id": 1, "name": "General Physics II for Biology Majors", "time": "11 April 2020 09:00:00 EDT", "ends": "12 April 2020 09:50:00 EDT" }, { "id": 2, "name": "Organic Chemistry Lecture", "time": "07 April 2020 10:00:00 EDT", "ends": "07 April 2020 10:50:00 EDT" }];
 //initialize new processedevents array to treat events that overflow a day as a new event
 //!could use this to duplicate events that repeat as well?
 let processedevents = [];
@@ -62,11 +62,11 @@ for (let t = 0; t < events.length; t++) {
   //calculate the overflow of the event
   if (overflow > 0) {
     //if there is an overflow trim the original event and push it into the array
-    processedevents.push({ "key": events[t].id, "totaltop": totaltop, "totalheight": (150 - totaltop), "title": events[t].name, "eventday": parsed })
+    processedevents.push({ "key": events[t].id, "totaltop": totaltop, "totalheight": (150 - totaltop), "title": events[t].name, "eventday": parsed, "repeator" : 1})
     let cnt = 1
     //while the overflow is > 0, push the event into an array, if its >150vh, trim it and set its day to be 24hrs after the original event. the number of times through the while loop sets number of days to add to event.
     while (overflow > 0) {
-      processedevents.push({ "key": events[t].id * overflow, "totaltop": 0, "totalheight": overflow > 150 ? 150 : overflow, "title": events[t].name, "eventday": new Date(parsed.getTime() + (864E5 * cnt)) })
+      processedevents.push({ "key": events[t].id * overflow, "totaltop": 0, "totalheight": overflow > 150 ? 150 : overflow, "title": events[t].name, "eventday": new Date(parsed.getTime() + (864E5 * cnt)), "repeator" : 0})
       cnt += 1
       overflow -= 150
     }
@@ -126,15 +126,17 @@ function App() {
   // going through each event in the event dictionary and checking if the event date (event.time) is the same date as a day in the week array.
   for (let i = 0; i < processedevents.length; i++) {
     let parsedtemp = processedevents[i].eventday;
+
     //now that the dates in the week have been determined, for every event as called above, we check if the event falls on any date in the current week. 
     for (let z = 0; z < week.length; z++) {
       let day = week[z]
       if ((parsedtemp.getDate() === day.getDate()) && (parsedtemp.getMonth() === day.getMonth()) && (parsedtemp.getFullYear() === day.getFullYear())) {
         //checks if the event its looking at is in the week, on the month, of the year and if it is, checks the overflow array for the same event
-        weekofevents[day.getDay()].push(<CalendarEvent key={processedevents[i].key} totaltop={processedevents[i].totaltop} totalheight={processedevents[i].totalheight} title={processedevents[i].title} />)
+          weekofevents[day.getDay()].push(<CalendarEvent key={processedevents[i].key} totaltop={processedevents[i].totaltop} totalheight={processedevents[i].totalheight} title={processedevents[i].title} repeator={processedevents[i].repeator} />)
+        } 
       }
     }
-  }
+
 
   let month;
   switch (week[0].getMonth()) {

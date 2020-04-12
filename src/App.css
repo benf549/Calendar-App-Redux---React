@@ -245,7 +245,7 @@
   left: 0;
   height: 6.25vh;
   margin-top: 2px;
-  border-radius: 3px;
+  border-radius: 3px 3px 0 0;
 }
 
 .Event p {
