@@ -73,7 +73,8 @@ export function ParseResponse(fetchagain) {
 
 }
 
-export function PostData({newName, start, end}) {
+export function PostData({newName, start, end, setfetchagain}){
+  setfetchagain(false)
   const requestOptions = {
     method:"post",
     headers: {"content-type": "application/json"},
@@ -82,7 +83,10 @@ export function PostData({newName, start, end}) {
   
   fetch(URL, requestOptions)
   .then(response => response.json())
-  .then(data => console.log(data));
-
-
+  .then(data => {
+    if(data) {
+      setfetchagain(true)
+  }
+  })
 }
+

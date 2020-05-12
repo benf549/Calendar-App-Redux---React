@@ -59,7 +59,8 @@ function App() {
   let [test, setTest] = useState(false)
   const sayHello = () => {
     setTest(!test)
-    test ? setfetchagain(true) : setfetchagain(false)
+    //calls api when window is closed. Want to move this to onsubmit!
+    //test ? setfetchagain(true) : setfetchagain(false)
   };
   let testing = "none"
   if (test === true ){
@@ -181,7 +182,7 @@ function App() {
               <h3>Add a New Event</h3>
               <p onClick={sayHello}>x</p>
             </div>            
-          <NewEventForm/>
+          <NewEventForm setfetchagain={setfetchagain}/>
           </div>
           <div className="neweventcircle" onClick={sayHello}>
             <i className="fas fa-plus"></i>

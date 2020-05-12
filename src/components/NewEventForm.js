@@ -2,14 +2,13 @@ import React, {useState} from "react"
 import "../App.css"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
-import {PostData, FetchData} from "../api"
+import {PostData} from "../api"
 
-function NewEventForm() {
+
+function NewEventForm({setfetchagain}) {
     const [newName, setNewName] = useState("");
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-
-    const [newthing, setnewThing] = useState(false)
 
     let handleClick = (e) => {
       e.preventDefault();
@@ -20,14 +19,11 @@ function NewEventForm() {
       } else {
         let start = startDate.getTime()
         let end = endDate.getTime()
-        PostData({newName, start, end})
-        setnewThing(true)
+        //refresh api call?
+        PostData({newName, start, end, setfetchagain})
       }
     }
 
-    if (newthing) {
-      FetchData()
-    }
 
      return (
       <form>
