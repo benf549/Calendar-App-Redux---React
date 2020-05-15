@@ -6,8 +6,10 @@
 :root {
   --main-bg-color : #0D1B2A;
   --main-white : #f7f7f7;
-  --accent-color-A: rgb(216, 30, 91);
+  --accent-color-A: #D81E5B;
   --accent-color-B: #263b54;
+  --test-blue: #263b54;
+  /* --test-blue: #1F7A8C; */
 }
 
 
@@ -54,7 +56,7 @@ body {
   justify-content: center;
 }
 .leftbutton:hover, .rightbutton:hover {
-  background-color: #1F7A8C;
+  background-color: var(--test-blue);
 }
 
 .content {
@@ -79,7 +81,7 @@ body {
   height: 88%;
   background-color: var(--main-white);
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .neweventcircle {
@@ -363,7 +365,7 @@ input[type=text] {
 }
 
 .DEB:hover {
-  background-color: #1F7A8C;
+  background-color: var(--test-blue);
 }
 
 /* .neweventpopup input {
@@ -372,7 +374,8 @@ input[type=text] {
 } */
 
 .finalsubmit {
-  margin-top: 3vh;
+  margin-left: 2vw;
+  margin-top: 5vh;
   color: white;
   height: 5vh;
   width: 10vw;
@@ -386,27 +389,17 @@ input[type=text] {
   flex-direction: row;
   margin-top: 3vh;
 }
-/* 
-.inputlayout div {
-  width: 35vw;
-} */
-
-/* .testwrap {
-width:70%;
-} */
 
 input[type=text] {
   width: 35vw;
-  border: none;
+  border: 1px solid rgba( 119, 141, 169, 0.2) !important;
   border-radius: 3px;
   padding: 4px 8px !important; 
 }
 
-
-
-.react-datepicker__input-container input{
-  border: rgba( 119, 141, 169, 0.3);
-}
+/* .react-datepicker__input-container input{
+  border: 1px solid rgba( 119, 141, 169, 0.3) !important;
+} */
 
  input[type=text]:focus {
   outline: none;
