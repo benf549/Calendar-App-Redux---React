@@ -6,7 +6,7 @@ import {PostData} from "../api"
 
 
 function NewEventForm({setfetchagain}) {
-    const [newName, setNewName] = useState("");
+    const [newName, setNewName] = useState('');
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
 
@@ -19,7 +19,6 @@ function NewEventForm({setfetchagain}) {
       } else {
         let start = startDate.getTime()
         let end = endDate.getTime()
-        //refresh api call?
         PostData({newName, start, end, setfetchagain})
       }
     }
@@ -27,9 +26,18 @@ function NewEventForm({setfetchagain}) {
 
      return (
       <form>
+
+        <div className="inputlayout">
         <label htmlFor="name">Name</label>
+        <div className="NameContainer">
         <input type="text" id="name" value={newName} onChange={e => setNewName(e.target.value)}/>
+        </div>
+        </div>
+
+
+        <div className="inputlayout">
         <label htmlFor="date">Start Date</label>
+        <div className="testwrap">
           <DatePicker
             selected={startDate}
             onChange={date => setStartDate(date)}
@@ -39,8 +47,12 @@ function NewEventForm({setfetchagain}) {
             timeCaption="Start Time"
             dateFormat="MMMM d, yyyy h:mm aa"
           />
-        <label htmlFor="date">End Date</label>
+        </div>
+        </div>
 
+        <div className="inputlayout">
+        <label htmlFor="date">End Date</label>
+          <div className="testwrap">
           <DatePicker
             selected={endDate}
             minDate={startDate}
@@ -51,7 +63,10 @@ function NewEventForm({setfetchagain}) {
             timeCaption="End Time"
             dateFormat="MMMM d, yyyy h:mm aa"
           />
-        <button type="submit" onClick={handleClick}>Test</button>
+          </div>
+        </div>
+
+        <button className="finalsubmit" type="submit" onClick={handleClick}>Submit</button>
       </form>
      )
 }

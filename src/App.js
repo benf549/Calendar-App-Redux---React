@@ -101,7 +101,7 @@ function App() {
 
 
   // going through each event in the event dictionary and checking if the event date (event.time) is the same date as a day in the week array.
-  if (processedevents) {  
+  if (processedevents) {
   for (let i = 0; i < processedevents.length; i++) {
     let parsedtemp = processedevents[i].eventday;
 
@@ -110,7 +110,7 @@ function App() {
       let day = week[z]
       if ((parsedtemp.getDate() === day.getDate()) && (parsedtemp.getMonth() === day.getMonth()) && (parsedtemp.getFullYear() === day.getFullYear())) {
         //checks if the event its looking at is in the week, on the month, of the year and if it is, checks the overflow array for the same event
-          weekofevents[day.getDay()].push(<CalendarEvent key={processedevents[i].key} totaltop={processedevents[i].totaltop} totalheight={processedevents[i].totalheight} title={processedevents[i].title} repeator={processedevents[i].repeator} />)
+          weekofevents[day.getDay()].push(<CalendarEvent key={processedevents[i].key} totaltop={processedevents[i].totaltop} totalheight={processedevents[i].totalheight} title={processedevents[i].title} repeator={processedevents[i].repeator} number={processedevents[i].id} deletefun={setfetchagain}/>)
         } 
       }
     }
@@ -179,7 +179,7 @@ function App() {
           </div>
           <div className="neweventpopup" style={{display:testing}}>
             <div className="topbar">
-              <h3>Add a New Event</h3>
+              <h3>Add A New Event</h3>
               <p onClick={sayHello}>x</p>
             </div>            
           <NewEventForm setfetchagain={setfetchagain}/>

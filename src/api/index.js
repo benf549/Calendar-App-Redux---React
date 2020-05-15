@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 
-const URL = "http://localhost:5000/task_database"
+const URL = "http://tcp.ngrok.io:13831/task_database"
 let firstRender = true;
+
 
 export function FetchData(fetchagain) {
   const [special, setSpecial] = useState([]);
@@ -49,21 +50,22 @@ export function ParseResponse(fetchagain) {
       let msbetween = Math.abs(parsed2 - parsed);
       let minbetweenheight = (msbetween / 60000) * 0.104167;
 
+
       let overflow = (minbetweenheight + totaltop) - 150;
       //calculate the overflow of the event
       if (overflow > 0) {
         //if there is an overflow trim the original event and push it into the array
-        processedevents.push({ "key": response[t].id, "totaltop": totaltop, "totalheight": (150 - totaltop), "title": response[t].name, "eventday": parsed, "repeator" : 1})
+        processedevents.push({ "key": response[t].id, "totaltop": totaltop, "totalheight": (150 - totaltop), "title": response[t].name, "eventday": parsed, "repeator" : 1, "id" : response[t].id})
         let cnt = 1
         //while the overflow is > 0, push the event into an array, if its >150vh, trim it and set its day to be 24hrs after the original event. the number of times through the while loop sets number of days to add to event.
         while (overflow > 0) {
-          processedevents.push({ "key": response[t].id * overflow, "totaltop": 0, "totalheight": overflow > 150 ? 150 : overflow, "title": response[t].name, "eventday": new Date(parsed.getTime() + (864E5 * cnt)), "repeator" : 0})
+          processedevents.push({ "key": response[t].id * overflow, "totaltop": 0, "totalheight": overflow > 150 ? 150 : overflow, "title": response[t].name, "eventday": new Date(parsed.getTime() + (864E5 * cnt)), "repeator" : 0, "id" : response[t].id})
           cnt += 1
           overflow -= 150
         }
       } else {
         //if there is no overflow, just push the event into the array wuthout changing it and add calculated top and height distances. 
-        processedevents.push({ "key": response[t].id, "totaltop": totaltop, "totalheight": minbetweenheight, "title": response[t].name, "eventday": parsed })
+        processedevents.push({ "key": response[t].id, "totaltop": totaltop, "totalheight": minbetweenheight, "title": response[t].name, "eventday": parsed, "id" : response[t].id})
       }
     }
 
@@ -90,3 +92,16 @@ export function PostData({newName, start, end, setfetchagain}){
   })
 }
 
+export function DeleteRequest(key, setfetchagain) {
+  setfetchagain(false)
+  const requestOptions = {
+    method:"delete",
+  }
+  fetch(URL + '/' + key, requestOptions)
+  .then(response => response.json())
+  .then(data => {
+    if(data) {
+      setfetchagain(true)
+    }
+  })
+}
