@@ -4,12 +4,14 @@
 }
 
 :root {
-  --main-bg-color : #0D1B2A;
-  --main-white : #f7f7f7;
-  --accent-color-A: #D81E5B;
-  --accent-color-B: #263b54;
-  --test-blue: #263b54;
-  /* --test-blue: #1F7A8C; */
+  --main-bg-color : #022B3A;
+  --main-white : #FFFFFF;
+  --accent-color-A: #548E8C;
+  --accent-color-B: #385179;
+  --test-accent: #E1E5F2;
+  --red-accent: #993955;
+
+  --transition-curve: cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 
@@ -56,13 +58,13 @@ body {
   justify-content: center;
 }
 .leftbutton:hover, .rightbutton:hover {
-  background-color: var(--test-blue);
+  transform: scale(1.25, 1.25);
+  transition: transform 0.5s var(--transition-curve);
 }
 
 .content {
   height: 95vh;
   width: 90vw;
-  background-color: var(--accent-color-B);
   border-radius: 5px;
 }
 
@@ -73,7 +75,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #3A506B;
+  background-color: var(--accent-color-B);
   border: 1px solid rgba( 119, 141, 169, 0.2);
 }
 
@@ -87,7 +89,7 @@ body {
 .neweventcircle {
   width: 50px;
   height: 50px;
-  background-color: var(--accent-color-A);
+  background-color: var(--red-accent);
   border-radius: 50%;
   position: absolute;
   bottom: 10px;
@@ -97,6 +99,11 @@ body {
   justify-content: center;
   align-items: center;
   border: 2px solid var(--main-white);
+}
+
+.neweventcircle:hover {
+  transform: scale(0.95, 0.95);
+  transition: transform 0.5s var(--transition-curve);
 }
 
 .neweventcircle i {
@@ -262,6 +269,10 @@ body {
   border-radius: 3px 3px 0 0;
 }
 
+.Event:hover {
+  background-color: var(--accent-color-B);
+}
+
 .Event p {
   color: var(--main-white);
   font-size: 0.75rem;
@@ -284,7 +295,7 @@ body {
 
 .neweventpopup {
   background-color: var(--main-white);
-  color: var(--main-bg-color);
+  color: var(--accent-color-B);
   box-shadow: 5px 10px rgba( 119, 141, 169, 0.2);
   border-radius: 5px;
   position: absolute;
@@ -305,12 +316,12 @@ body {
 .topbar p {
   width: 5%;
   border-radius: 3px;
-  z-index: 5;
+  z-index: 4;
 }
 
 .topbar p:hover{
   color: var(--main-white);
-  background-color: var(--accent-color-A);
+  background-color: var(--red-accent);
 }
 
 .topbar h3 {
@@ -360,18 +371,17 @@ input[type=text] {
 
 .DEB {
   position: absolute;
+  border-radius: 3px;
+  margin: 2px 2px 0px 0px;
   top: 0;
   right: 0;
+  
 }
 
 .DEB:hover {
-  background-color: var(--test-blue);
+  color: var(--red-accent);
 }
 
-/* .neweventpopup input {
-  box-shadow: 5px 5px 10px rgba( 119, 141, 169, 0.2);
-  width: 100%;
-} */
 
 .finalsubmit {
   margin-left: 2vw;
@@ -411,7 +421,26 @@ input[type=text] {
   background-color: var(--accent-color-A) !important;
 }
 
-button:focus {
+.finalsubmit:focus {
   outline: none;
   border: 1px solid var(--main-white);
+}
+
+.react-datepicker-popper {
+  z-index: 6 !important;
+}
+
+.react-datepicker__header {
+  background-color: var(--test-accent) !important;
+  border-bottom: 1px solid rgba( 119, 141, 169, 0.2) !important;
+}
+
+.react-datepicker {
+  border: 1px solid rgba( 119, 141, 169, 0.2) !important;
+}
+.react-datepicker__time-container {
+  border-left: 1px solid rgba( 119, 141, 169, 0.2) !important;
+}
+.hidex  {
+  display: none;
 }

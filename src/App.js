@@ -47,7 +47,6 @@ let updateDays = (newweekdate = null) => {
 let processedevents = [];
 
 function App() {
-  //console.log("app was loaded")
   let [fetchagain, setfetchagain] = useState(false)
   processedevents = ParseResponse(fetchagain)
   
@@ -55,22 +54,17 @@ function App() {
   let week = [];
   let weekofevents = [[], [], [], [], [], [], []];
 
-  //test: shows popup for new event creation
-  let [test, setTest] = useState(false)
-  const sayHello = () => {
-    setTest(!test)
-    //calls api when window is closed. Want to move this to onsubmit!
-    //test ? setfetchagain(true) : setfetchagain(false)
+  let [popup, setPopup] = useState(false)
+  const showNewEventPopUp = () => {
+    setPopup(!popup)
   };
   let testing = "none"
-  if (test === true ){
+  if (popup === true ){
      testing = "inline-block"
   }
-  //test
 
 
   let [inc, setinc] = useState(0)
-  //!this function adds a week to the week array
   week = updateDays();
 
   let tempDate = new Date();
@@ -180,11 +174,11 @@ function App() {
           <div className="neweventpopup" style={{display:testing}}>
             <div className="topbar">
               <h3>Add A New Event</h3>
-              <p onClick={sayHello}>x</p>
+              <p className="closepopup" onClick={showNewEventPopUp}>x</p>
             </div>            
           <NewEventForm setfetchagain={setfetchagain}/>
           </div>
-          <div className="neweventcircle" onClick={sayHello}>
+          <div className="neweventcircle" onClick={showNewEventPopUp}>
             <i className="fas fa-plus"></i>
           </div>
         </div>
