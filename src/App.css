@@ -41,7 +41,6 @@ body {
 }
 
 .topmostwrapper {
-  padding-top: 5vh;
   display: flex;
   flex-direction: row;
 }
@@ -242,7 +241,7 @@ body {
   height: 100%;
   width: 98%;
   position: relative;
-
+  overflow: hidden;
 }
 
 .eventunit {
@@ -271,6 +270,8 @@ body {
 
 .Event:hover {
   background-color: var(--accent-color-B);
+  /* text-decoration: line-through;
+  text-decoration-color: var(--main-white); */
 }
 
 .Event p {
@@ -370,9 +371,10 @@ input[type=text] {
 }
 
 .DEB {
+  font-weight: 800;
   position: absolute;
   border-radius: 3px;
-  margin: 2px 2px 0px 0px;
+  /* margin: 2px 2px 0px 0px; */
   top: 0;
   right: 0;
   

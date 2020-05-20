@@ -176,7 +176,7 @@ function App() {
               <h3>Add A New Event</h3>
               <p className="closepopup" onClick={showNewEventPopUp}>x</p>
             </div>            
-          <NewEventForm setfetchagain={setfetchagain}/>
+          <NewEventForm setfetchagain={setfetchagain} setPopup={setPopup}/>
           </div>
           <div className="neweventcircle" onClick={showNewEventPopUp}>
             <i className="fas fa-plus"></i>

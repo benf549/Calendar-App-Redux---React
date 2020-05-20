@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import {PostData} from "../api"
 
 
-function NewEventForm({setfetchagain}) {
+function NewEventForm({setfetchagain, setPopup}) {
     const [newName, setNewName] = useState('');
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
@@ -20,6 +20,10 @@ function NewEventForm({setfetchagain}) {
         let start = startDate.getTime()
         let end = endDate.getTime()
         PostData({newName, start, end, setfetchagain})
+        setNewName('')
+        setStartDate(new Date())
+        setEndDate(new Date())
+        setPopup(false)
       }
     }
 
