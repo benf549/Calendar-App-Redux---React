@@ -7,6 +7,7 @@ import CalendarEvent from './components/CalendarEvent';
 import NewEventForm from './components/NewEventForm';
 import {ParseResponse} from './api'
 
+
 let updateDays = (newweekdate = null) => {
   //This function takes in a day or nothing (to get current week) and returns an array of the days of the current week which is later stored into the 'week' array
   let curr;
