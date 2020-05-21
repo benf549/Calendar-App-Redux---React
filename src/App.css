@@ -296,12 +296,12 @@ body {
 
 .neweventpopup {
   background-color: var(--main-white);
-  color: var(--accent-color-B);
+  /* color: var(--accent-color-B); */
   box-shadow: 5px 10px rgba( 119, 141, 169, 0.2);
   border-radius: 5px;
   position: absolute;
   transform: translate(-50%, -50%);
-  height: 40vh;
+  /* height: 40vh; */
   width: 60vw;
   top: 50%;
   left: 50%;
@@ -388,6 +388,7 @@ input[type=text] {
 .finalsubmit {
   margin-left: 2vw;
   margin-top: 5vh;
+  margin-bottom: 5vh;
   color: white;
   height: 5vh;
   width: 10vw;

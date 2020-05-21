@@ -27,6 +27,11 @@ function NewEventForm({setfetchagain, setPopup}) {
       }
     }
 
+  //  useEffect(() => {
+  //     var scroller = document.getElementsByClassName("scrollcontainer")
+  //     var toppos= document.getElementsByClassName("eventspace").offsetTop
+  //     scroller.scrollTop(200)
+  //  })
 
      return (
       <form>
