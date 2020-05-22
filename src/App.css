@@ -397,6 +397,11 @@ input[type=text] {
   border-radius: 3px;
 }
 
+.finalsubmit:hover {
+  transform: scale(0.95, 0.95);
+  transition: transform 0.5s var(--transition-curve);
+}
+
 .inputlayout {
   display: flex;
   flex-direction: row;
@@ -446,4 +451,11 @@ input[type=text] {
 }
 .hidex  {
   display: none;
+}
+
+.currenttime {
+  height: 0.5vh;
+  background-color: red;
+  width: 13.571%;
+  position: absolute;
 }

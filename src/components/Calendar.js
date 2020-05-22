@@ -25,10 +25,14 @@ let Daycolumn = (props) => {
 
 
 let Calendar = () => {
+
+    //Scroll the calendar to 8am. Maybe scroll to the current time?
     useEffect(() => {
         var el = document.getElementById("8am")
         el.scrollIntoView(true)
       }, [])
+
+
 
     return (
         <div className="calbody">

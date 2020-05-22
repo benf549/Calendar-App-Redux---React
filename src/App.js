@@ -40,7 +40,6 @@ let updateDays = (newweekdate = null) => {
         break
     }
   }
-
   return (temp)
 
 }
@@ -59,11 +58,6 @@ function App() {
   const showNewEventPopUp = () => {
     setPopup(!popup)
   };
-  let testing = "none"
-  if (popup === true ){
-     testing = "inline-block"
-  }
-
 
   let [inc, setinc] = useState(0)
   week = updateDays();
@@ -151,9 +145,9 @@ function App() {
       month = "December"
       break;
   }
+  
   let monthyear = `${month} ${week[0].getFullYear()}`;
-
-
+  
   return (
     <div className="App">
       <div className="topmostwrapper">
@@ -168,11 +162,11 @@ function App() {
             <div className="scrollcontainer">
               <div className="scroller">
                 <Calendar />
-                <EventSpace weekofevents={weekofevents} />
+                <EventSpace weekofevents={weekofevents} week={week} />
               </div>
             </div>
           </div>
-          <div className="neweventpopup" style={{display:testing}}>
+          <div className="neweventpopup" style={{display: popup ? "inline-block" : "none"}}>
             <div className="topbar">
               <h3>Add A New Event</h3>
               <p className="closepopup" onClick={showNewEventPopUp}>x</p>
