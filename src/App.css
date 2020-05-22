@@ -4,6 +4,7 @@
 }
 
 :root {
+  overflow-x: hidden;
   --main-bg-color : #022B3A;
   --main-white : #FFFFFF;
   --accent-color-A: #548E8C;
@@ -263,7 +264,6 @@ body {
   width: 100%;
   background-color: var(--accent-color-A);
   left: 0;
-  height: 6.25vh;
   margin-top: 2px;
   border-radius: 3px 3px 0 0;
 }
@@ -458,6 +458,7 @@ input[type=text] {
   background-color: var(--red-accent);
   width: 13.571%;
   position: absolute;
+  z-index: 2;
 }
 
 .resetbtn {
