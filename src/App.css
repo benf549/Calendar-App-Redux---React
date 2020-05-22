@@ -397,6 +397,11 @@ input[type=text] {
   border-radius: 3px;
 }
 
+.finalsubmit:hover {
+  transform: scale(0.95, 0.95);
+  transition: transform 0.5s var(--transition-curve);
+}
+
 .inputlayout {
   display: flex;
   flex-direction: row;
@@ -446,4 +451,29 @@ input[type=text] {
 }
 .hidex  {
   display: none;
+}
+
+.currenttime {
+  height: 0.5vh;
+  background-color: var(--red-accent);
+  width: 13.571%;
+  position: absolute;
+}
+
+.resetbtn {
+  background-color: var(--red-accent);
+  border-radius: 5px;
+  color: white;
+  position: absolute;
+  right: 6vw;
+  margin:5px 5px 0 0;
+  height: 2vh;
+  line-height: 1.5vh;
+  font-size: 2vh;
+  padding: 5px;
+}
+
+.resetbtn:hover {
+  transform: scale(0.95, 0.95);
+  transition: transform 0.5s var(--transition-curve);
 }

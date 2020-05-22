@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import "../App.css";
 
 let days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -22,7 +22,18 @@ let Daycolumn = (props) => {
     );
 }
 
+
+
 let Calendar = () => {
+
+    //Scroll the calendar to 8am. Maybe scroll to the current time?
+    useEffect(() => {
+        var el = document.getElementById("8am")
+        el.scrollIntoView(true)
+      }, [])
+
+
+
     return (
         <div className="calbody">
             <div className="spacer">
@@ -31,7 +42,7 @@ let Calendar = () => {
                     key = {hour}
                     className="grid">
                         <hr></hr>
-                        <p>{hour}</p>
+                        <p id={hour}>{hour}</p>
                     </div>
                 ))}
             </div>

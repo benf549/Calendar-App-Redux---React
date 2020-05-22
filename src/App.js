@@ -7,6 +7,7 @@ import CalendarEvent from './components/CalendarEvent';
 import NewEventForm from './components/NewEventForm';
 import {ParseResponse} from './api'
 
+
 let updateDays = (newweekdate = null) => {
   //This function takes in a day or nothing (to get current week) and returns an array of the days of the current week which is later stored into the 'week' array
   let curr;
@@ -39,7 +40,6 @@ let updateDays = (newweekdate = null) => {
         break
     }
   }
-
   return (temp)
 
 }
@@ -58,11 +58,6 @@ function App() {
   const showNewEventPopUp = () => {
     setPopup(!popup)
   };
-  let testing = "none"
-  if (popup === true ){
-     testing = "inline-block"
-  }
-
 
   let [inc, setinc] = useState(0)
   week = updateDays();
@@ -91,6 +86,9 @@ function App() {
   }
   let deincrement = () => {
     setinc(inc - 1)
+  }
+  let reset = () => {
+    setinc(0)
   }
 
 
@@ -150,14 +148,15 @@ function App() {
       month = "December"
       break;
   }
+  
   let monthyear = `${month} ${week[0].getFullYear()}`;
-
-
+  
   return (
     <div className="App">
       <div className="topmostwrapper">
       <div className="leftbutton" onClick={deincrement}><i className="fas fa-chevron-left"></i></div>
       <div className="content">
+        <p className="resetbtn" onClick={reset}>Reset</p>
         <div className="upper">
           <h2 id="month">{monthyear}</h2>
           <CalendarHead weekdays={week}/>
@@ -167,11 +166,11 @@ function App() {
             <div className="scrollcontainer">
               <div className="scroller">
                 <Calendar />
-                <EventSpace weekofevents={weekofevents} />
+                <EventSpace weekofevents={weekofevents} week={week} />
               </div>
             </div>
           </div>
-          <div className="neweventpopup" style={{display:testing}}>
+          <div className="neweventpopup" style={{display: popup ? "inline-block" : "none"}}>
             <div className="topbar">
               <h3>Add A New Event</h3>
               <p className="closepopup" onClick={showNewEventPopUp}>x</p>
