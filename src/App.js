@@ -87,6 +87,9 @@ function App() {
   let deincrement = () => {
     setinc(inc - 1)
   }
+  let reset = () => {
+    setinc(0)
+  }
 
 
   // going through each event in the event dictionary and checking if the event date (event.time) is the same date as a day in the week array.
@@ -153,6 +156,7 @@ function App() {
       <div className="topmostwrapper">
       <div className="leftbutton" onClick={deincrement}><i className="fas fa-chevron-left"></i></div>
       <div className="content">
+        <p className="resetbtn" onClick={reset}>Reset</p>
         <div className="upper">
           <h2 id="month">{monthyear}</h2>
           <CalendarHead weekdays={week}/>

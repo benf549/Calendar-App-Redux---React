@@ -38,18 +38,9 @@ let EventSpace = ({weekofevents, week}) => {
             <div className="spacer">
             </div>
             {days.map(day => (
-                <div
-                key={day}
-                className="eventunit"
-                id={day}>
-                    
-                    <div className="currenttime" style={{top: totaltop + "vh", display : ((todaydate.getDay() === day) && (today.getDate() === todaydate.getDate()) && (today.getMonth() === todaydate.getMonth()) && (today.getFullYear() === todaydate.getFullYear())) ? "inline" : "none"}}></div>   
-                    
-                    <EventGrid
-                        weekofevents={weekofevents}
-                        key={day}
-                        day={day}/>
-                      
+                <div key={day} className="eventunit" id={day}>
+                    <div className="currenttime" style={{top: totaltop + "vh", display : ((todaydate.getDay() === day) && (today.getDate() === todaydate.getDate()) && (today.getMonth() === todaydate.getMonth()) && (today.getFullYear() === todaydate.getFullYear())) ? "inline" : "none"}}></div>
+                    <EventGrid weekofevents={weekofevents} key={day} day={day}/>
                     <div className="displayspacer"></div>
                 </div>
             ))}
