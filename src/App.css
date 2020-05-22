@@ -276,9 +276,9 @@ body {
 
 .Event p {
   color: var(--main-white);
-  font-size: 0.75rem;
+  font-size: 70%;
   text-align: left;
-  padding: 5px;
+  padding: 2px 0 0 5px;
 
 }
 
@@ -360,11 +360,6 @@ input[type=text] {
   width: 30%;
 }
 
-/* .react-datepicker-wrapper input {
-  width: 70%;
-  border: 0;
-} */
-
 .testtt {
   display: flex;
   flex-direction: row;
@@ -374,9 +369,8 @@ input[type=text] {
   font-weight: 800;
   position: absolute;
   border-radius: 3px;
-  /* margin: 2px 2px 0px 0px; */
   top: 0;
-  right: 0;
+  right: 5px;
   
 }
 
@@ -415,13 +409,8 @@ input[type=text] {
   padding: 4px 8px !important; 
 }
 
-/* .react-datepicker__input-container input{
-  border: 1px solid rgba( 119, 141, 169, 0.3) !important;
-} */
-
  input[type=text]:focus {
   outline: none;
-  /* outline: 1px solid var(--accent-color-A); */
   box-shadow: 0 0 0 1px var(--accent-color-A);
 }
 
