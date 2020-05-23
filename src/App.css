@@ -5,12 +5,20 @@
 
 :root {
   overflow-x: hidden;
-  --main-bg-color : #022B3A;
+  --main-bg-color : #121212;
   --main-white : #FFFFFF;
-  --accent-color-A: #548E8C;
-  --accent-color-B: #385179;
-  --test-accent: #E1E5F2;
-  --red-accent: #993955;
+  --accent-color-A: #8B2635;
+  --accent-color-B: rgba(255,255,255,0.05);
+  --test-accent: var(--red-accent);
+  --red-accent: #8B2635;
+  --test-lower: rgba(255,255,255,0.07);
+  --lighter-gray: rgba(255,255,255,0.05);
+  --popupcolor: rgba(255,255,255,0.11);
+
+  /* --hrcolor: rgba( 119, 141, 169, 0.2);
+  --daycolborder: rgba(119, 141, 169, 0.1); */
+  --hrcolor: rgba(255,255,255,0.03);
+  --daycolborder: rgba(255,255,255,0.02);
 
   --transition-curve: cubic-bezier(0.33, 1, 0.68, 1);
 }
@@ -70,21 +78,23 @@ body {
 
 .upper {
   height: 12%;
+  border-bottom:1px solid var(--lighter-gray);
   border-radius: 5px 5px 0 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: var(--accent-color-B);
-  border: 1px solid rgba( 119, 141, 169, 0.2);
+  /* border: 1px solid rgba( 119, 141, 169, 0.2); */
 }
 
 .lower {
   height: 88%;
-  background-color: var(--main-white);
+  background-color: var(--test-lower);
   position: relative;
   /* overflow: hidden; */
 }
+
 
 .neweventcircle {
   width: 50px;
@@ -98,7 +108,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid var(--main-white);
+  /* border: 2px solid var(--main-white); */
 }
 
 .neweventcircle:hover {
@@ -117,7 +127,6 @@ body {
 }
 
 .scrollcontainer {
-  background-color: var(--main-white);
   overflow-y: scroll;
   overflow-x: hidden;
   height: 100%;
@@ -150,8 +159,13 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid rgba( 119, 141, 169, 0.3);
+  border-right: 1px solid var(--daycolborder);
 }
+
+.daycolumn:last-child {
+  border-right: none;
+}
+
 
 .dayheadercontainer {
   display: flex;
@@ -187,31 +201,60 @@ body {
   align-items: center;
 }
 
+
 .grid {
+  position: relative;
   width: 100%;
   height: 6.25vh;
-  border-right:1px solid rgba( 119, 141, 169, 0.2);
+  border-right:1px solid var(--daycolborder);
 
 }
+
+.spacergrid {
+  position: relative;
+  color: rgba(255,255,255,0.6);
+  font-weight: bolder;
+  width: 100%;
+  height: 6.25vh;
+
+}
+
+.spacergrid p {
+  white-space: nowrap;
+  position: absolute;
+  line-height: 1;
+  top: -0.5em;
+  right: 0.25vw;
+  font-size: 1vw;
+  padding-right: 0.5vw;
+}
+
+.spacergrid:first-child p{
+  top: 0;
+}
+
 
 .grid:nth-child(24){
   border-bottom: none;
 }
 
-.suffering {
-  width: 100%;
-  height: 100% ;
-  display: flex;
-  flex-direction: row;
-
+.grid:nth-child(1){
+  border-bottom: none;
 }
+
 
 .calbody hr {
-  border: 1px solid rgba(110, 126, 133, 0.15);
+  border: 1px solid var(--hrcolor);
+  z-index: -1;
 }
 
-.spacer p {
-  font-size: 0.75rem;
+.spacergrid hr {
+  display: none;
+}
+
+
+ .grid:first-child hr{
+  display: none;
 }
 
 .eventspace {
@@ -228,11 +271,6 @@ body {
   align-items: center;
 }
 
-.grid2 {
-  width: 100%;
-  height: 6.25vh;
-  
-}
 
 .eventgrid {
   display: flex;
@@ -295,9 +333,10 @@ body {
 } 
 
 .neweventpopup {
-  background-color: var(--main-white);
+  background-color: #2A2A2A;
+  color: var(--main-white);
   /* color: var(--accent-color-B); */
-  box-shadow: 5px 10px rgba( 119, 141, 169, 0.2);
+  /* box-shadow: 5px 10px rgba( 119, 141, 169, 0.2); */
   border-radius: 5px;
   position: absolute;
   transform: translate(-50%, -50%);
@@ -309,6 +348,7 @@ body {
 }
 
 .topbar {
+  padding: 5px;
   display: flex;
   justify-content: center;
 
@@ -338,8 +378,9 @@ form {
 
 label {
   width: 30%;
-  text-align: left;
-  padding-left: 2vw;
+  text-align: right;
+  padding-right: 2vw;
+
 }
 
 input[type=text] {
@@ -380,15 +421,16 @@ input[type=text] {
 
 
 .finalsubmit {
-  margin-left: 2vw;
+  /* margin-left: 2vw; */
   margin-top: 5vh;
   margin-bottom: 5vh;
   color: white;
   height: 5vh;
   width: 10vw;
   background-color: var(--accent-color-A);
-  border: white;
   border-radius: 3px;
+  border: none;
+  position: ;
 }
 
 .finalsubmit:hover {
@@ -402,11 +444,14 @@ input[type=text] {
   margin-top: 3vh;
 }
 
+
 input[type=text] {
   width: 35vw;
   border: 1px solid rgba( 119, 141, 169, 0.2) !important;
   border-radius: 3px;
   padding: 4px 8px !important; 
+  background-color: #3A3838;
+  color: white;
 }
 
  input[type=text]:focus {
@@ -453,7 +498,7 @@ input[type=text] {
 .resetbtn {
   background-color: var(--red-accent);
   border-radius: 5px;
-  color: white;
+  color: var(--main-white);
   position: absolute;
   right: 6vw;
   margin:5px 5px 0 0;
