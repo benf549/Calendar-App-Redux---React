@@ -339,6 +339,7 @@ body {
   /* color: var(--accent-color-B); */
   /* box-shadow: 5px 10px rgba( 119, 141, 169, 0.2); */
   border-radius: 5px;
+  border: 2px solid var(--hrcolor);
   position: absolute;
   transform: translate(-50%, -50%);
   /* height: 40vh; */

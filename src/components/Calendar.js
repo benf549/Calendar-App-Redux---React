@@ -26,7 +26,7 @@ let Daycolumn = (props) => {
 
 let Calendar = () => {
 
-    //Scroll the calendar to 8am. Maybe scroll to the current time?
+    //Scroll the calendar to 9 am. Maybe scroll to the current time or allow this as an option for user.
     useEffect(() => {
         var el = document.getElementById("9 am")
         el.scrollIntoView(true)
