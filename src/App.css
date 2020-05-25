@@ -308,9 +308,8 @@ body {
 }
 
 .Event:hover {
-  background-color: var(--accent-color-B);
-  /* text-decoration: line-through;
-  text-decoration-color: var(--main-white); */
+  transform: scale(0.95, 0.95);
+  transition: transform 0.5s var(--transition-curve);
 }
 
 .Event p {
@@ -420,7 +419,7 @@ input[type=text] {
 }
 
 .DEB:hover {
-  color: var(--red-accent);
+  color: var(--test-lower);
 }
 
 
