@@ -153,6 +153,10 @@ body {
   border-right: 1px solid rgba( 119, 141, 169, 0.3);
 }
 
+.daycolumn:last-child {
+  border-right: none;
+}
+
 .dayheadercontainer {
   display: flex;
   flex-direction: row;
@@ -188,6 +192,7 @@ body {
 }
 
 .grid {
+  position: relative;
   width: 100%;
   height: 6.25vh;
   border-right:1px solid rgba( 119, 141, 169, 0.2);
@@ -228,10 +233,28 @@ body {
   align-items: center;
 }
 
-.grid2 {
+.spacergrid {
+  position: relative;
   width: 100%;
   height: 6.25vh;
-  
+}
+
+.spacergrid hr {
+  display: none;
+}
+
+.spacergrid p {
+  white-space: nowrap;
+  position: absolute;
+  line-height: 1;
+  top: -0.5em;
+  right: 0.25vw;
+  font-size: 1vw;
+  padding-right: 0.5vw;
+}
+
+.spacergrid:first-child p{
+  top: 0;
 }
 
 .eventgrid {
