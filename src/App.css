@@ -11,9 +11,10 @@
   --accent-color-B: rgba(255,255,255,0.05);
   --test-accent: var(--red-accent);
   --red-accent: #8B2635;
-  --test-lower: rgba(255,255,255,0.07);
+  --test-lower: rgba(255,255,255,0.17);
   --lighter-gray: rgba(255,255,255,0.05);
-  --popupcolor: rgba(255,255,255,0.11);
+  --popupcolor: #444444;
+  --pickercolor: #5b5b5b;
 
   /* --hrcolor: rgba( 119, 141, 169, 0.2);
   --daycolborder: rgba(119, 141, 169, 0.1); */
@@ -333,7 +334,7 @@ body {
 } 
 
 .neweventpopup {
-  background-color: #2A2A2A;
+  background-color: var(--popupcolor);
   color: var(--main-white);
   /* color: var(--accent-color-B); */
   /* box-shadow: 5px 10px rgba( 119, 141, 169, 0.2); */
@@ -358,6 +359,7 @@ body {
   width: 5%;
   border-radius: 3px;
   z-index: 4;
+  height: 5vh;
 }
 
 .topbar p:hover{
@@ -366,6 +368,7 @@ body {
 }
 
 .topbar h3 {
+  padding-top: 10px;
   width: 95%;
   transform: translate(5%, 0);
 }
@@ -421,7 +424,7 @@ input[type=text] {
 
 
 .finalsubmit {
-  /* margin-left: 2vw; */
+  margin-left: 2vw;
   margin-top: 5vh;
   margin-bottom: 5vh;
   color: white;
@@ -430,7 +433,6 @@ input[type=text] {
   background-color: var(--accent-color-A);
   border-radius: 3px;
   border: none;
-  position: ;
 }
 
 .finalsubmit:hover {
