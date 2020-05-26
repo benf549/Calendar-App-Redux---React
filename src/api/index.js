@@ -108,5 +108,5 @@ export function DeleteRequest(key, setfetchagain) {
 }
 
 export function PullRequest(vals) {
-  console.log("Here is where I would like a Pull Request. Which object? i need to get it to push it back with changes. duplicate neweventpopup as editeventpopup")
+  console.log("Here is where I would like a Put Request. Which object? i need to get it to push it back with changes. duplicate neweventpopup as editeventpopup")
 }
