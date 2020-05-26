@@ -5,8 +5,8 @@ import "../App.css"
 
 let Day = (param) => {
     return (
+      // If today is a date in the calendar head, then show a red rectangle around it as an indicator. 
         <div className="dayheader" style={ param.td ? {backgroundColor:  "var(--red-accent)", borderRadius : "5px"} : null}>
-          {console.log(param)}
             <h5>{param.day}</h5>
             <h1>{param.date}</h1>
         </div>
@@ -56,7 +56,6 @@ let CalendarHead = ({weekdays}) => {
         <div className="dayheadercontainer">
             <div className="spacer"></div>
             {days.map(item => (
-
                 <Day 
                 key={item.date}
                 day={item.day}
