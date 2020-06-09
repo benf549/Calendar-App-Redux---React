@@ -94,7 +94,7 @@ body {
   position: absolute;
   bottom: 10px;
   right: 10px;
-  z-index: 3;
+  z-index: 5;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -265,7 +265,7 @@ body {
   height: 100%;
   width: 98%;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .eventunit {
@@ -289,12 +289,13 @@ body {
   left: 0;
   margin-top: 2px;
   border-radius: 3px 3px 0 0;
+  box-shadow: 0 0 3px var(--accent-color-B);
+  overflow: hidden;
+  transition: all 0.5s  var(--transition-curve);
 }
 
 .Event:hover {
   background-color: var(--accent-color-B);
-  /* text-decoration: line-through;
-  text-decoration-color: var(--main-white); */
 }
 
 .Event p {
@@ -302,7 +303,10 @@ body {
   font-size: 70%;
   text-align: left;
   padding: 2px 0 0 5px;
+}
 
+.eventtitle {
+  width: 80%;
 }
 
 .dayheader h5{
@@ -328,7 +332,7 @@ body {
   width: 60vw;
   top: 50%;
   left: 50%;
-  z-index: 4;
+  z-index: 5;
 }
 
 .topbar {
@@ -389,18 +393,19 @@ input[type=text] {
 }
 
 .DEB {
+  display: none;
   font-weight: 800;
   position: absolute;
   border-radius: 3px;
   top: 0;
   right: 5px;
-  
 }
 
-.DEB:hover {
+.Event:hover .DEB {
+  display: inline;
   color: var(--red-accent);
+  cursor: pointer;
 }
-
 
 .finalsubmit {
   margin-left: 2vw;
@@ -451,18 +456,22 @@ input[type=text] {
 }
 
 .react-datepicker__header {
-  background-color: var(--test-accent) !important;
+  background-color: var(--accent-color-B) !important;
   border-bottom: 1px solid rgba( 119, 141, 169, 0.2) !important;
 }
 
+.react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header, .react-datepicker__day-name {
+  color: var(--main-white) !important;
+}
+
+.react-datepicker__navigation--next--with-time:not(.react-datepicker__navigation--next--with-today-button) {
+  right: 100px !important;
+}
 .react-datepicker {
   border: 1px solid rgba( 119, 141, 169, 0.2) !important;
 }
 .react-datepicker__time-container {
   border-left: 1px solid rgba( 119, 141, 169, 0.2) !important;
-}
-.hidex  {
-  display: none;
 }
 
 .currenttime {
@@ -470,7 +479,7 @@ input[type=text] {
   background-color: var(--red-accent);
   width: 13.571%;
   position: absolute;
-  z-index: 2;
+  z-index: 4;
 }
 
 .resetbtn {
