@@ -3,6 +3,10 @@
   padding: 0;
 }
 
+html {
+  --hovered-element-height:10px;
+}
+
 :root {
   overflow-x: hidden;
   --main-bg-color : #022B3A;
@@ -14,6 +18,7 @@
 
   --transition-curve: cubic-bezier(0.33, 1, 0.68, 1);
 }
+
 
 
 #root {
@@ -296,6 +301,7 @@ body {
 
 .Event:hover {
   background-color: var(--accent-color-B);
+  height: var(--hovered-element-height) !important;
 }
 
 .Event p {
