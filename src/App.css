@@ -299,9 +299,16 @@ body {
   transition: all 0.5s  var(--transition-curve);
 }
 
-.Event:hover {
+.hoverexpand:hover {
   background-color: var(--accent-color-B);
   height: var(--hovered-element-height) !important;
+  padding-bottom: 1vh;
+  width: 102%;
+}
+
+.Event:hover {
+  background-color: var(--accent-color-B);
+
 }
 
 .Event p {
@@ -313,6 +320,7 @@ body {
 
 .eventtitle {
   width: 80%;
+  /* height: 100%; */
 }
 
 .dayheader h5{
