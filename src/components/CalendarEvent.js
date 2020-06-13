@@ -10,7 +10,7 @@ function getWindowDimensions() {
     };
 }
 
-  export function useWindowDimensions() {
+export function useWindowDimensions() {
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
   
     useEffect(() => {
@@ -49,23 +49,30 @@ let CalendarEvent = ({totaltop, totalheight, title, repeator, number, deletefun,
         //The second to nth block that repeats for a repeater.
         return (
             <div className="Event" style={{top:totaltop+'vh', height:totalheight+'vh', marginTop:'0', borderTopLeftRadius:'0', borderTopRightRadius:'0'}} onClick = {() => {showEditEventPopup(number)}}>
-                {/* <p>{title}</p> */}
             </div>
         )
     } else if (repeator === 1){
         // First block in a repeator
         return (
             <div className="Event" style={{top:totaltop+'vh', height:totalheight+'vh', borderBottomLeftRadius:'0', borderBottomRightRadius:'0'}}>
-                <p className = "eventtitle" onClick = {() => {showEditEventPopup(number)}}>{title}</p>
-                <p className="DEB t2" onClick={() => {DeleteRequest(number, deletefun)}}>X</p>
+              <div className="nameandtimewrapper" onClick = {() => {showEditEventPopup(number)}}>
+                <p className = "eventtitle" >{title}</p>
+                <p className="timerange">04/07/2000-05/07/2000</p>
+                <p className="timerange">9:00am-9:30am</p>
+              </div>
+                <span className="DEB t2" onClick={() => {DeleteRequest(number, deletefun)}}><i className="fas fa-times"></i></span>
             </div>
             )
     } else {
         return (
         // Corresponds to events that dont span multiple days or weeks.
-        <div  className="Event hoverexpand" ref={ref2} onMouseEnter={handleenter} onMouseOut={handleexit} style={{zIndex:"3", top:totaltop+'vh', height:totalheight+"vh", borderBottomLeftRadius:'3px', borderBottomRightRadius:'3px'}}>
-            <p className = "eventtitle" onClick = {() => {showEditEventPopup(number)}}>{title}</p>
-            <p className="DEB t3" onClick={() => {DeleteRequest(number, deletefun)}}>X</p>
+        <div  className="Event hoverexpand" ref={ref2} onMouseOver={handleenter} onMouseOut={handleexit} style={{zIndex:"3", top:totaltop+'vh', height:totalheight+"vh", borderBottomLeftRadius:'3px', borderBottomRightRadius:'3px'}}>
+            <div className="nameandtimewrapper" onClick = {() => {showEditEventPopup(number)}}>
+              <p className = "eventtitle">{title}</p>
+              <p className="timerange">9:00am-9:30am</p>
+            </div>
+            <span className="DEB t3" onClick={() => {DeleteRequest(number, deletefun)}}><i className="fas fa-times"></i></span>
+            
         </div>
         )
     }

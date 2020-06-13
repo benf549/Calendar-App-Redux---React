@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import "../App.css"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
@@ -27,11 +27,9 @@ function NewEventForm({setfetchagain, setPopup}) {
       }
     }
 
-  //  useEffect(() => {
-  //     var scroller = document.getElementsByClassName("scrollcontainer")
-  //     var toppos= document.getElementsByClassName("eventspace").offsetTop
-  //     scroller.scrollTop(200)
-  //  })
+    useEffect(() => {
+      setEndDate(startDate)
+    }, [startDate])
 
      return (
       <form>

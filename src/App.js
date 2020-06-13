@@ -200,8 +200,8 @@ function App() {
           </div>
           <div className="neweventpopup" style={{display: popup ? "inline-block" : "none"}}>
             <div className="topbar">
-              <h3>Add A New Event</h3>
-              <p className="closepopup" onClick={showNewEventPopUp}>x</p>
+              <h3>Add a New Event</h3>
+              <span className="closepopup" onClick={showNewEventPopUp}><i className="fas fa-times"></i></span>
             </div>            
           <NewEventForm setfetchagain={setfetchagain} setPopup={setPopup}/>
           </div>
@@ -209,7 +209,7 @@ function App() {
           <div className="neweventpopup" style = {{display : editevent ? "inline-block" : "none"}}>
             <div className="topbar">
             <h3>Edit an Event</h3>
-            <p className="closepopup" onClick={hideEditEventPopup}>x</p>
+            <span className="closepopup" onClick={hideEditEventPopup}><i className="fas fa-times"></i></span>
             </div>
 
             <EditPopup eventforedit = {eventforedit} eventlist = {processedevents} hidepopup = {hideEditEventPopup} refresh = {setfetchagain}/>
