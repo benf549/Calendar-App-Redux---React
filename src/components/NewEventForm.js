@@ -14,7 +14,7 @@ function NewEventForm({setfetchagain, setPopup, showPopup}) {
       e.preventDefault();
       if (newName === "") {
         alert("Hey! Name can't be blank!")
-      } else if ((endDate.getTime() - startDate.getTime()) < 0){
+      } else if ((endDate.getTime() - startDate.getTime()) <= 0){
         alert("Hey! End date can't be before start date")
       } else {
         let start = startDate.getTime()
