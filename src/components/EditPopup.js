@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import {PutRequest} from "../api";
 
-let EditPopup = ({eventforedit, eventlist, hidepopup, refresh}) => {
+let EditPopup = ({eventforedit, eventlist, hidepopup, refresh, editevent}) => {
 
     const [newName, setNewName] = useState("");
     const [startDate, setStartDate] = useState(new Date());
@@ -21,12 +21,26 @@ let EditPopup = ({eventforedit, eventlist, hidepopup, refresh}) => {
         setEndDate(endforedit);
     }, [eventforedit, eventlist])
 
+    useEffect(() => {
+      const handleEsc = (event) => {
+          if (editevent && event.keyCode === 27) {
+            hidepopup();
+            console.log("closed")
+          }
+      };
+      window.addEventListener('keydown', handleEsc);
+  
+      return () => {
+        window.removeEventListener('keydown', handleEsc);
+      };
+    }, [editevent, hidepopup]);
+
 
     let handleClick = (e) => {
         e.preventDefault();
         if (newName === "") {
           alert("Hey! Name can't be blank!");
-        } else if ((endDate.getTime() - startDate.getTime()) < 0){
+        } else if ((endDate.getTime() - startDate.getTime()) <= 0){
           alert("Hey! End date can't be before start date");
         } else {
           let start = startDate.getTime();

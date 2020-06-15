@@ -3,6 +3,14 @@
   padding: 0;
 }
 
+h1, h2, h3, h4 {
+  font-family: 'Nunito', sans-serif;
+}
+
+p, h5 {
+  font-family: 'Lato', sans-serif;
+}
+
 html {
   --hovered-element-height:10px;
 }
@@ -65,6 +73,7 @@ body {
 .leftbutton:hover, .rightbutton:hover {
   transform: scale(1.25, 1.25);
   transition: transform 0.5s var(--transition-curve);
+  cursor: pointer;
 }
 
 .content {
@@ -270,7 +279,6 @@ body {
   height: 100%;
   width: 98%;
   position: relative;
-  /* overflow: hidden; */
 }
 
 .eventunit {
@@ -308,19 +316,26 @@ body {
 
 .Event:hover {
   background-color: var(--accent-color-B);
-
 }
 
-.Event p {
-  color: var(--main-white);
-  font-size: 70%;
-  text-align: left;
-  padding: 2px 0 0 5px;
+.nameandtimewrapper {
+  padding-top: 1vh;
+  padding-left: 5px;
+  cursor: pointer;
 }
 
 .eventtitle {
+  color: var(--main-white);
+  text-align: left;
   width: 80%;
-  /* height: 100%; */
+  font-size: 2vh;
+}
+
+.timerange {
+  color: white;
+  text-align: left;
+  font-size: 1.5vh;
+  margin-top: 0.5em;
 }
 
 .dayheader h5{
@@ -337,6 +352,7 @@ body {
 
 .neweventpopup {
   background-color: var(--main-white);
+  border: 1px solid rgba( 119, 141, 169, 0.5);
   /* color: var(--accent-color-B); */
   box-shadow: 5px 10px rgba( 119, 141, 169, 0.2);
   border-radius: 5px;
@@ -352,21 +368,26 @@ body {
 .topbar {
   display: flex;
   justify-content: center;
-
 }
 
-.topbar p {
+.topbar span {
   width: 5%;
-  border-radius: 3px;
+  border-radius: 5px;
   z-index: 4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.topbar p:hover{
-  color: var(--main-white);
-  background-color: var(--red-accent);
+.topbar span:hover i{
+  color: var(--red-accent);
+  transform: scale(1.25, 1.25);
+  transition: transform 1s var(--transition-curve);
+  cursor: pointer;
 }
 
 .topbar h3 {
+  padding-top:3vh;
   width: 95%;
   transform: translate(5%, 0);
 }
@@ -408,18 +429,33 @@ input[type=text] {
 
 .DEB {
   display: none;
-  font-weight: 800;
   position: absolute;
   border-radius: 3px;
   top: 0;
   right: 5px;
+  color: white;
+  width: 20%;
 }
+.DEB i {
+  font-size: 0.7rem;
+  position: absolute;
+  top:1vh;
+  right: 0.3vw;
+}
+
 
 .Event:hover .DEB {
   display: inline;
-  color: var(--red-accent);
   cursor: pointer;
 }
+
+.DEB:hover {
+  color: #d35d7e;
+  transform: scale(1.25, 1.25);
+  transform-origin: 50% 50%;
+  transition: transform 0.5s var(--transition-curve);
+}
+
 
 .finalsubmit {
   margin-left: 2vw;
@@ -431,6 +467,7 @@ input[type=text] {
   background-color: var(--accent-color-A);
   border: white;
   border-radius: 3px;
+  cursor: pointer;
 }
 
 .finalsubmit:hover {
@@ -501,12 +538,13 @@ input[type=text] {
   border-radius: 5px;
   color: white;
   position: absolute;
-  right: 6vw;
+  right: 5vw;
   margin:5px 5px 0 0;
   height: 2vh;
   line-height: 1.5vh;
   font-size: 2vh;
   padding: 5px;
+  cursor: pointer;
 }
 
 .resetbtn:hover {

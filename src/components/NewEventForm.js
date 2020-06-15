@@ -1,11 +1,11 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import "../App.css"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import {PostData} from "../api"
 
 
-function NewEventForm({setfetchagain, setPopup}) {
+function NewEventForm({setfetchagain, setPopup, showPopup}) {
     const [newName, setNewName] = useState('');
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
@@ -14,7 +14,7 @@ function NewEventForm({setfetchagain, setPopup}) {
       e.preventDefault();
       if (newName === "") {
         alert("Hey! Name can't be blank!")
-      } else if ((endDate.getTime() - startDate.getTime()) < 0){
+      } else if ((endDate.getTime() - startDate.getTime()) <= 0){
         alert("Hey! End date can't be before start date")
       } else {
         let start = startDate.getTime()
@@ -27,11 +27,24 @@ function NewEventForm({setfetchagain, setPopup}) {
       }
     }
 
-  //  useEffect(() => {
-  //     var scroller = document.getElementsByClassName("scrollcontainer")
-  //     var toppos= document.getElementsByClassName("eventspace").offsetTop
-  //     scroller.scrollTop(200)
-  //  })
+  // Allows you to close the new event form by pressing esc key
+    useEffect(() => {
+      const handleEsc = (event) => {
+          if (showPopup && event.keyCode === 27) {
+            setPopup(false)
+            console.log("closed")
+          }
+      };
+      window.addEventListener('keydown', handleEsc);
+  
+      return () => {
+        window.removeEventListener('keydown', handleEsc);
+      };
+    }, [showPopup, setPopup]);
+
+    useEffect(() => {
+      setEndDate(startDate)
+    }, [startDate])
 
      return (
       <form>
