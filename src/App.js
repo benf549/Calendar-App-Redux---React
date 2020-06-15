@@ -122,15 +122,15 @@ function App() {
 
   // going through each event in the event dictionary and checking if the event date (event.time) is the same date as a day in the week array.
   if (processedevents) {
+  console.log(processedevents)
   for (let i = 0; i < processedevents.length; i++) {
-    let parsedtemp = processedevents[i].eventday;
-
+    let parsedtemp = processedevents[i].eventday; 
     //now that the dates in the week have been determined, for every event as called above, we check if the event falls on any date in the current week. 
     for (let z = 0; z < week.length; z++) {
       let day = week[z]
       if ((parsedtemp.getDate() === day.getDate()) && (parsedtemp.getMonth() === day.getMonth()) && (parsedtemp.getFullYear() === day.getFullYear())) {
         //checks if the event its looking at is in the week, on the month, of the year and if it is, checks the overflow array for the same event
-          weekofevents[day.getDay()].push(<CalendarEvent key={processedevents[i].key} totaltop={processedevents[i].totaltop} totalheight={processedevents[i].totalheight} title={processedevents[i].title} repeator={processedevents[i].repeator} number={processedevents[i].id} deletefun={setfetchagain} showEditEventPopup = {showEditEventPopup}/>)
+          weekofevents[day.getDay()].push(<CalendarEvent key={processedevents[i].key} totaltop={processedevents[i].totaltop} totalheight={processedevents[i].totalheight} title={processedevents[i].title} repeator={processedevents[i].repeator} number={processedevents[i].id} deletefun={setfetchagain} showEditEventPopup = {showEditEventPopup} startDT={processedevents[i].ostarted} stopDT={processedevents[i].oended}/>)
         } 
       }
     }
