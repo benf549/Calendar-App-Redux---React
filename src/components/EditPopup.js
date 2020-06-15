@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import {PutRequest} from "../api";
 
-let EditPopup = ({eventforedit, eventlist, hidepopup, refresh}) => {
+let EditPopup = ({eventforedit, eventlist, hidepopup, refresh, editevent}) => {
 
     const [newName, setNewName] = useState("");
     const [startDate, setStartDate] = useState(new Date());
@@ -20,6 +20,20 @@ let EditPopup = ({eventforedit, eventlist, hidepopup, refresh}) => {
         setStartDate(startforedit);
         setEndDate(endforedit);
     }, [eventforedit, eventlist])
+
+    useEffect(() => {
+      const handleEsc = (event) => {
+          if (editevent && event.keyCode === 27) {
+            hidepopup();
+            console.log("closed")
+          }
+      };
+      window.addEventListener('keydown', handleEsc);
+  
+      return () => {
+        window.removeEventListener('keydown', handleEsc);
+      };
+    }, [editevent, hidepopup]);
 
 
     let handleClick = (e) => {

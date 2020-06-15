@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import {PostData} from "../api"
 
 
-function NewEventForm({setfetchagain, setPopup}) {
+function NewEventForm({setfetchagain, setPopup, showPopup}) {
     const [newName, setNewName] = useState('');
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
@@ -26,6 +26,21 @@ function NewEventForm({setfetchagain, setPopup}) {
         setPopup(false)
       }
     }
+
+  // Allows you to close the new event form by pressing esc key
+    useEffect(() => {
+      const handleEsc = (event) => {
+          if (showPopup && event.keyCode === 27) {
+            setPopup(false)
+            console.log("closed")
+          }
+      };
+      window.addEventListener('keydown', handleEsc);
+  
+      return () => {
+        window.removeEventListener('keydown', handleEsc);
+      };
+    }, [showPopup, setPopup]);
 
     useEffect(() => {
       setEndDate(startDate)

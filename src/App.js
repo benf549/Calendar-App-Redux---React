@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Calendar from './components/Calendar';
 import CalendarHead from './components/CalendarHead';
@@ -70,7 +70,6 @@ function App() {
   let [eventforedit, setEventForEdit] = useState(null);
 
   const showEditEventPopup = (id) => {
-      console.log(id);
       setEventForEdit(id);
       setEditEvent(true);
   }
@@ -79,7 +78,6 @@ function App() {
     setEditEvent(false);
     setEventForEdit(null);
   }
-
 
 
   //Hook for incrementing the counter to advance pages in the calendar. 
@@ -178,6 +176,37 @@ function App() {
   }
   //This performs the formatting for the month name at the top of the page. 
   let monthyear = `${month} ${week[0].getFullYear()}`;
+
+
+  //Listen for right and left arrow key presses to advance or de-advance the calendar pages
+  //in the future, if you want to disable the arrowkey functionality when popup and editpopup use negate and AND with event
+  useEffect(() => {
+    const handleRight = (event) => {
+        if (event.keyCode === 39) {
+          setinc(inc+1)
+          console.log("inc")
+        }
+    };
+    window.addEventListener('keydown', handleRight);
+
+    return () => {
+      window.removeEventListener('keydown', handleRight);
+    };
+  }, [inc]);
+
+  useEffect(() => {
+    const handleLeft = (event) => {
+        if (event.keyCode === 37) {
+          setinc(inc-1)
+          console.log("inc")
+        }
+    };
+    window.addEventListener('keydown', handleLeft);
+
+    return () => {
+      window.removeEventListener('keydown', handleLeft);
+    };
+  }, [inc]);
   
   return (
     <div className="App">
@@ -203,7 +232,7 @@ function App() {
               <h3>Add a New Event</h3>
               <span className="closepopup" onClick={showNewEventPopUp}><i className="fas fa-times"></i></span>
             </div>            
-          <NewEventForm setfetchagain={setfetchagain} setPopup={setPopup}/>
+          <NewEventForm setfetchagain={setfetchagain} setPopup={setPopup} showPopup={popup}/>
           </div>
 
           <div className="neweventpopup" style = {{display : editevent ? "inline-block" : "none"}}>
@@ -212,7 +241,7 @@ function App() {
             <span className="closepopup" onClick={hideEditEventPopup}><i className="fas fa-times"></i></span>
             </div>
 
-            <EditPopup eventforedit = {eventforedit} eventlist = {processedevents} hidepopup = {hideEditEventPopup} refresh = {setfetchagain}/>
+            <EditPopup eventforedit = {eventforedit} eventlist = {processedevents} editevent={editevent} hidepopup = {hideEditEventPopup} refresh = {setfetchagain}/>
           </div>
 
           <div className="neweventcircle" onClick={showNewEventPopUp}>
