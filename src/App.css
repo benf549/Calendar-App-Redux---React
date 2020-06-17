@@ -59,17 +59,33 @@ body {
 
 
 .leftbutton, .rightbutton {
-  margin-top: 40vh;
+  position: absolute;
+  padding: 43vh 0;
   height: 10vh;
   width: 5vw;
   font-size: 1.7rem;
   color: var(--main-white);
+  background-color: var(--main-bg-color);
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 7;
 }
 
-.leftbutton:hover, .rightbutton:hover {
+.leftbutton i, .rightbutton i {
+  width: 100%;
+}
+
+.leftbutton {
+  left: 0;
+
+}
+
+.rightbutton {
+  right: 0;
+}
+
+.leftbutton i:hover, .rightbutton:hover i:hover{
   transform: scale(1.25, 1.25);
   transition: transform 0.5s var(--transition-curve);
   cursor: pointer;
@@ -79,6 +95,7 @@ body {
   height: 95vh;
   width: 90vw;
   border-radius: 5px;
+  padding: 0 5vw;
 }
 
 .upper {
@@ -93,7 +110,7 @@ body {
   height: 88%;
   background-color: var(--main-white);
   position: relative;
-  box-shadow: 0 15px 15px black;
+  /* box-shadow: inset 15px 15px black; */
 }
 
 .neweventcircle {
@@ -184,6 +201,9 @@ body {
   justify-content: center;
   align-items: center;
 }
+.dayheader:hover {
+  background-color: red;
+}
 
 .dayheader:nth-child(8) {
   border-right: 1px solid rgba( 119, 141, 169, 0);
@@ -229,7 +249,6 @@ body {
 .eventspace {
   height: 100%;
   width: 100%;
-  /**background-color: rgba(0,255,0,0.1);**/
   position: absolute;
   left: 0;
   top: 0;
@@ -531,10 +550,11 @@ input[type=text] {
   cursor: pointer;
   position: absolute;
   right: 0;
+  z-index: 8;
 }
 
 .resetbtn:hover {
-  transform: scale(0.95, 0.95);
+  transform: scale(1.05, 1.05);
   transition: transform 0.5s var(--transition-curve);
 }
 
@@ -545,6 +565,7 @@ input[type=text] {
   top: 2vh;
   align-items: center;
   width: 90%;
+  
 }
 
 .hamburger {
@@ -555,6 +576,41 @@ input[type=text] {
 
 .hamburger:hover {
   cursor: pointer;
-  transform: scale(0.95, 0.95);
+  transform: scale(1.05, 1.05);
   transition: transform 0.5s var(--transition-curve);
+}
+
+.todoContainers {
+  background-color: var(--main-white);
+  height: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 6;
+  border: 2px solid var(--test-accent);
+}
+
+.rightTodo {
+  width: 27.142%;
+  right: -100%;
+  transition: right 0.5s var(--transition-curve);
+}
+
+.rightTodoShow {
+  right: 0 !important;
+}
+
+.leftTodo {
+  width: 32.142%;
+  left: -100%;
+  transition: left 0.5s var(--transition-curve);
+}
+
+.leftTodoShow {
+  left: 0 !important;
+}
+
+.todoContainers span {
+  position: absolute;
+  right: 1vw;
+  top: 1vh;
 }

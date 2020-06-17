@@ -30,7 +30,6 @@ let updateDays = (newweekdate = null) => {
       break;
   }
   let first = curr.getDate() - daynum;
-
   let firstday = new Date(curr.setDate(first));
   for (let i = 0; i <= 6; i++) {
     switch (i) {
@@ -44,10 +43,18 @@ let updateDays = (newweekdate = null) => {
     }
   }
   return (temp)
-
 }
 
 function App() {
+  let [areLeftTasksShown, setAreLeftTasksShown] = useState(false)
+  let [areRightTasksShown, setAreRightTasksShown] = useState(false)
+
+  const selectForShowTask = (day) => {
+    console.log(day);
+    (day === "Mon" || day === "Tue" || day === "Wed" || day === "Thu") ? setAreLeftTasksShown(true) : setAreRightTasksShown(true);
+  }
+
+
   //This hook controls how many rerenders as well as how many API requests occur. Fetchagain is passed into api functions and only when true will a new request be made. Prevents fetching upon every render of App().
   let [fetchagain, setfetchagain] = useState(false)
 
@@ -155,6 +162,8 @@ function App() {
     };
   }, [inc, popup, editevent]);
 
+
+
   return (
     <div className="App">
       <div className="topmostwrapper">
@@ -166,11 +175,17 @@ function App() {
           <p className="resetbtn" onClick={reset}>Today</p>
         </div>
         <div className="upper">
-          <CalendarHead weekdays={week}/>
+          <CalendarHead weekdays={week} selectForShowTask={selectForShowTask}/>
         </div>
         <div className="lower">
           <div className="scrollcontainercontainer">
             <div className="scrollcontainer">
+              <div className={`todoContainers rightTodo ${areLeftTasksShown ? "rightTodoShow" : null}`}>
+                <span onClick={() => setAreLeftTasksShown(false)}><i className="fas fa-times"></i></span>
+              </div>
+              <div className={`todoContainers leftTodo ${areRightTasksShown ? "leftTodoShow" : null}`}>
+                <span onClick={() => setAreRightTasksShown(false)}><i className="fas fa-times"></i></span>
+              </div>
               <div className="scroller">
                 <Calendar />
                 <EventSpace weekofevents={weekofevents} week={week} />
