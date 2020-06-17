@@ -23,7 +23,7 @@ let CalendarHead = ({weekdays, selectForShowTask}) => {
         "date": weekdays[i].getDate(),
         "isToday": ((weekdays[i].getDate() === today.getDate()) && (weekdays[i].getMonth() === today.getMonth()) && (weekdays[i].getFullYear() === today.getFullYear())) ? true : false
       }
-    
+      //Sets the day of the week
       const dsow = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
       var dow = dsow[i]
       daypush.day = dow;

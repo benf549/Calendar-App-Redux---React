@@ -5,7 +5,9 @@ import CalendarHead from './components/CalendarHead';
 import EventSpace from './components/EventSpace';
 import CalendarEvent from './components/CalendarEvent';
 import NewEventForm from './components/NewEventForm';
-import EditPopup from './components/EditPopup'
+import EditPopup from './components/EditPopup';
+import Lefttdwindow from './components/Lefttdwindow';
+import Righttdwindow from './components/Righttdwindow';
 import {ParseResponse} from './api'
 
 let processedevents = [];
@@ -49,9 +51,21 @@ function App() {
   let [areLeftTasksShown, setAreLeftTasksShown] = useState(false)
   let [areRightTasksShown, setAreRightTasksShown] = useState(false)
 
-  const selectForShowTask = (day) => {
-    console.log(day);
-    (day === "Mon" || day === "Tue" || day === "Wed" || day === "Thu") ? setAreLeftTasksShown(true) : setAreRightTasksShown(true);
+  console.log(`Left:${areLeftTasksShown}\nRight:${areRightTasksShown}`)
+
+  //This function allows the left box to show when a right header clicked and vice versa. Also allows, when one is already shown, if the opposite header is clicked for the current box to be hidden and that header to be shown.
+  const handleHeaderClick =  (a, b, c) => {
+    if (!areLeftTasksShown && !areRightTasksShown) {
+      a(!c)
+    } else if ((areLeftTasksShown && !areRightTasksShown) || (areRightTasksShown && !areLeftTasksShown)) {
+      a(!c)
+      b(false)
+    }
+
+  }
+
+  let selectForShowTask = (day) => {
+    day === "Mon" || day === "Tue" || day === "Wed" || day === "Thu" ? handleHeaderClick(setAreLeftTasksShown, setAreRightTasksShown, areLeftTasksShown) : handleHeaderClick(setAreRightTasksShown, setAreLeftTasksShown, areRightTasksShown);
   }
 
 
@@ -180,11 +194,13 @@ function App() {
         <div className="lower">
           <div className="scrollcontainercontainer">
             <div className="scrollcontainer">
-              <div className={`todoContainers rightTodo ${areLeftTasksShown ? "rightTodoShow" : null}`}>
+              <div className={`todoContainers rightTodo ${(areLeftTasksShown) ?  "rightTodoShow" : null}`}>
                 <span onClick={() => setAreLeftTasksShown(false)}><i className="fas fa-times"></i></span>
+                <Righttdwindow />
               </div>
-              <div className={`todoContainers leftTodo ${areRightTasksShown ? "leftTodoShow" : null}`}>
+              <div className={`todoContainers leftTodo ${(areRightTasksShown) ? "leftTodoShow" : null}`}>
                 <span onClick={() => setAreRightTasksShown(false)}><i className="fas fa-times"></i></span>
+                <Lefttdwindow />
               </div>
               <div className="scroller">
                 <Calendar />
