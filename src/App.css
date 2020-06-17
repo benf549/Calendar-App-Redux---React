@@ -131,6 +131,7 @@ body {
 .neweventcircle:hover {
   transform: scale(0.95, 0.95);
   transition: transform 0.5s var(--transition-curve);
+  cursor: pointer;
 }
 
 .neweventcircle i {
@@ -203,6 +204,7 @@ body {
 }
 .dayheader:hover {
   background-color: red;
+  cursor: pointer;
 }
 
 .dayheader:nth-child(8) {
@@ -613,4 +615,14 @@ input[type=text] {
   position: absolute;
   right: 1vw;
   top: 1vh;
+}
+
+.todoitem {
+  color: red;
+  display: flex;
+  flex-direction: row;
+}
+
+.todoitem p {
+  padding: 15px;
 }
