@@ -214,6 +214,7 @@ function App() {
       <div className="leftbutton" onClick={deincrement}><i className="fas fa-chevron-left"></i></div>
       <div className="content">
         <div className="topinfo">
+          <i className="fas fa-bars hamburger"></i>
           <h1 id="month">{monthyear}</h1>
           <p className="resetbtn" onClick={reset}>Today</p>
         </div>

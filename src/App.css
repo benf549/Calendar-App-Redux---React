@@ -532,6 +532,8 @@ input[type=text] {
   font-size: 2vh;
   padding: 5px;
   cursor: pointer;
+  position: absolute;
+  right: 0;
 }
 
 .resetbtn:hover {
@@ -543,6 +545,17 @@ input[type=text] {
   display: flex;
   flex-direction: row;
   position: absolute;
-  top:2vh;
+  top: 2vh;
   align-items: center;
+  width: 90%;
+}
+
+.hamburger {
+  color: white;
+  font-size: 3.5vh;
+  margin-right: 2vw;
+}
+
+.hamburger:hover {
+  cursor: pointer;
 }
