@@ -1,28 +1,26 @@
 import React from 'react';
+import FetchData from '../api/todo';
 
-const ToDoEvent = () => {
+const ToDoEvent = ({name, time}) => {
 
     return (
         <div className="todoitem">
-            <p>Time</p>
-            <p>Name</p>
+            <p>{name}</p>
+            <p>{time}</p>
         </div>
     )
 }
 
 const Righttdwindow = () => {
-
+    
+    let data = FetchData(false)
     
     return(
         <div>
             <p>To Do Window</p>
-            <ToDoEvent/>
-            <ToDoEvent/>
-            <ToDoEvent/>
-            <ToDoEvent/>
-            <ToDoEvent/>
-            <ToDoEvent/>
-            <ToDoEvent/>        
+            {data.map(item => {
+                return <ToDoEvent key={item.id} name={item.name} time={item.time}/>
+            })}
         </div>
     )
 
