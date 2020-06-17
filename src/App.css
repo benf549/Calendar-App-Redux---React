@@ -32,7 +32,7 @@ html {
 #root {
   padding-top: 3vh;
   /* height: 200vh; */
-  /* background: linear-gradient(180deg, rgba(58, 80, 107, 0.8) 0%, rgba(58, 66, 75, 0.8) 56.84%, rgba(58, 80, 107, 0.096) 100%); */
+
 }
 
 body {
@@ -83,20 +83,17 @@ body {
 
 .upper {
   height: 12%;
-  /* border-radius: 5px 5px 0 0; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* background-color: var(--accent-color-B); */
-  /* border: 1px solid rgba( 119, 141, 169, 0.2); */
 }
 
 .lower {
   height: 88%;
   background-color: var(--main-white);
   position: relative;
-  /* overflow: hidden; */
+  box-shadow: 0 15px 15px black;
 }
 
 .neweventcircle {
@@ -558,4 +555,6 @@ input[type=text] {
 
 .hamburger:hover {
   cursor: pointer;
+  transform: scale(0.95, 0.95);
+  transition: transform 0.5s var(--transition-curve);
 }
