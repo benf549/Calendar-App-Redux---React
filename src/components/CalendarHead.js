@@ -6,14 +6,14 @@ import "../App.css"
 let Day = (param) => {
     return (
       // If today is a date in the calendar head, then show a red rectangle around it as an indicator. 
-        <div className="dayheader" style={ param.td ? {backgroundColor:  "var(--red-accent)", borderRadius : "5px"} : null}>
+        <div className="dayheader" style={ param.td ? {backgroundColor:  "var(--red-accent)", borderRadius : "5px 5px 0 0", border : "1px solid #ba4b6b"} : null}>
             <h5>{param.day}</h5>
             <h1>{param.date}</h1>
         </div>
     )
 }
 
-let CalendarHead = ({weekdays}) => {
+let CalendarHead = ({weekdays, monthyear}) => {
     let days = [];
     let today = new Date();
 

@@ -213,9 +213,12 @@ function App() {
       <div className="topmostwrapper">
       <div className="leftbutton" onClick={deincrement}><i className="fas fa-chevron-left"></i></div>
       <div className="content">
-        <p className="resetbtn" onClick={reset}>Today</p>
+        <div className="topinfo">
+          <i className="fas fa-bars hamburger"></i>
+          <h1 id="month">{monthyear}</h1>
+          <p className="resetbtn" onClick={reset}>Today</p>
+        </div>
         <div className="upper">
-          <h2 id="month">{monthyear}</h2>
           <CalendarHead weekdays={week}/>
         </div>
         <div className="lower">

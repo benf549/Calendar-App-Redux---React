@@ -48,10 +48,8 @@ body {
 
 #month {
   color: var(--main-white);
-  padding: 0.5vh 0;
-  padding-left: 5%;
-  font-size: 3.56vh;
-  height: 40%;
+  font-size: 4vh;
+  padding-right: 1vw;
 }
 
 .topmostwrapper {
@@ -70,6 +68,7 @@ body {
   align-items: center;
   justify-content: center;
 }
+
 .leftbutton:hover, .rightbutton:hover {
   transform: scale(1.25, 1.25);
   transition: transform 0.5s var(--transition-curve);
@@ -84,13 +83,13 @@ body {
 
 .upper {
   height: 12%;
-  border-radius: 5px 5px 0 0;
+  /* border-radius: 5px 5px 0 0; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--accent-color-B);
-  border: 1px solid rgba( 119, 141, 169, 0.2);
+  /* background-color: var(--accent-color-B); */
+  /* border: 1px solid rgba( 119, 141, 169, 0.2); */
 }
 
 .lower {
@@ -112,7 +111,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid var(--main-white);
+  border: 1px solid #ba4b6b;
 }
 
 .neweventcircle:hover {
@@ -167,12 +166,9 @@ body {
   border-right: 1px solid rgba( 119, 141, 169, 0.3);
 }
 
-.daycolumn:last-child {
-  border-right: none;
-}
-
 .dayheadercontainer {
   display: flex;
+  padding-top: 5vh;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -353,12 +349,10 @@ body {
 .neweventpopup {
   background-color: var(--main-white);
   border: 1px solid rgba( 119, 141, 169, 0.5);
-  /* color: var(--accent-color-B); */
   box-shadow: 5px 10px rgba( 119, 141, 169, 0.2);
   border-radius: 5px;
   position: absolute;
   transform: translate(-50%, -50%);
-  /* height: 40vh; */
   width: 60vw;
   top: 50%;
   left: 50%;
@@ -412,11 +406,6 @@ input[type=text] {
   padding: 0;
   border: 0;
 }
-
-/* input[type=submit] {
-  width: 30%;
-  margin-left: 70%;
-} */
 
 .testtt h5 {
   width: 30%;
@@ -535,19 +524,38 @@ input[type=text] {
 
 .resetbtn {
   background-color: var(--red-accent);
+  border: 1px solid #ba4b6b;
   border-radius: 5px;
   color: white;
-  position: absolute;
-  right: 5vw;
-  margin:5px 5px 0 0;
   height: 2vh;
   line-height: 1.5vh;
   font-size: 2vh;
   padding: 5px;
   cursor: pointer;
+  position: absolute;
+  right: 0;
 }
 
 .resetbtn:hover {
   transform: scale(0.95, 0.95);
   transition: transform 0.5s var(--transition-curve);
+}
+
+.topinfo {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  top: 2vh;
+  align-items: center;
+  width: 90%;
+}
+
+.hamburger {
+  color: white;
+  font-size: 3.5vh;
+  margin-right: 2vw;
+}
+
+.hamburger:hover {
+  cursor: pointer;
 }

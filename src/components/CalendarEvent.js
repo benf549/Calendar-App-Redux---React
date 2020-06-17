@@ -10,7 +10,8 @@ function getWindowDimensions() {
     };
 }
 
-export function useWindowDimensions() {
+//Window size functions return the height of the window so that I can convert vh to px. This special function is for this to be responsive.
+  export function useWindowDimensions() {
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
   
     useEffect(() => {
