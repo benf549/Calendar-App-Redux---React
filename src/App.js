@@ -64,21 +64,21 @@ function App() {
     setPopup(!popup)
   };
 
-
-
+  //Hook used to display the Edit event popup when editevent is true. Event for edit selects the event that will populate the edit event form. 
   let [editevent, setEditEvent] = useState(false);
   let [eventforedit, setEventForEdit] = useState(null);
 
+  //Takes in an event id to call the 
   const showEditEventPopup = (id) => {
       setEventForEdit(id);
       setEditEvent(true);
   }
 
+  //hides the hideEditEventPopup
   const hideEditEventPopup = () => {
     setEditEvent(false);
     setEventForEdit(null);
   }
-
 
   //Hook for incrementing the counter to advance pages in the calendar. 
   let [inc, setinc] = useState(0)
@@ -120,7 +120,7 @@ function App() {
 
   // going through each event in the event dictionary and checking if the event date (event.time) is the same date as a day in the week array.
   if (processedevents) {
-  console.log(processedevents)
+  //console.log(processedevents)
   for (let i = 0; i < processedevents.length; i++) {
     let parsedtemp = processedevents[i].eventday; 
     //now that the dates in the week have been determined, for every event as called above, we check if the event falls on any date in the current week. 
@@ -135,79 +135,26 @@ function App() {
   }
 
   //determines the month of the first day in the week event and allows this to be displayed at the top of the calendar. 
-  let month;
-  switch (week[0].getMonth()) {
-    case 0:
-      month = "January"
-      break;
-    case 1:
-      month = "February"
-      break;
-    case 2:
-      month = "March"
-      break;
-    case 3:
-      month = "April"
-      break;
-    case 4:
-      month = "May"
-      break;
-    case 5:
-      month = "June"
-      break;
-    case 6:
-      month = "July"
-      break;
-    case 7:
-      month = "August"
-      break;
-    case 8:
-      month = "September"
-      break;
-    case 9:
-      month = "October"
-      break;
-    case 10:
-      month = "November"
-      break;
-    default:
-      month = "December"
-      break;
-  }
   //This performs the formatting for the month name at the top of the page. 
+  let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  let month = months[week[0].getMonth()];
   let monthyear = `${month} ${week[0].getFullYear()}`;
-
 
   //Listen for right and left arrow key presses to advance or de-advance the calendar pages
   //in the future, if you want to disable the arrowkey functionality when popup and editpopup use negate and AND with event
   useEffect(() => {
     const handleRight = (event) => {
-        if (event.keyCode === 39) {
-          setinc(inc+1)
-          console.log("inc")
-        }
-    };
+      if (!popup && !editevent && event.keyCode === 39) {setinc(inc+1)}};
+    const handleLeft = (event) => {
+      if (!popup && !editevent && event.keyCode === 37) {setinc(inc-1)}};
+    window.addEventListener('keydown', handleLeft);
     window.addEventListener('keydown', handleRight);
-
     return () => {
       window.removeEventListener('keydown', handleRight);
-    };
-  }, [inc]);
-
-  useEffect(() => {
-    const handleLeft = (event) => {
-        if (event.keyCode === 37) {
-          setinc(inc-1)
-          console.log("inc")
-        }
-    };
-    window.addEventListener('keydown', handleLeft);
-
-    return () => {
       window.removeEventListener('keydown', handleLeft);
     };
-  }, [inc]);
-  
+  }, [inc, popup, editevent]);
+
   return (
     <div className="App">
       <div className="topmostwrapper">
