@@ -66,8 +66,8 @@ function App() {
       }
       setDayClicked(day)
     }
-
   }
+
   // defines which dayheaders when clicked summon which todo block.
   let selectForShowTask = (day) => {
     day === "Mon" || day === "Tue" || day === "Wed" || day === "Thu" ? handleHeaderClick(setAreLeftTasksShown, setAreRightTasksShown, areLeftTasksShown, day) : handleHeaderClick(setAreRightTasksShown, setAreLeftTasksShown, areRightTasksShown, day);
@@ -167,7 +167,6 @@ function App() {
   let monthyear = `${month} ${week[0].getFullYear()}`;
 
   //Listen for right and left arrow key presses to advance or de-advance the calendar pages
-  //in the future, if you want to disable the arrowkey functionality when popup and editpopup use negate and AND with event
   useEffect(() => {
     const handleRight = (event) => {
       if (!popup && !editevent && event.keyCode === 39) {setinc(inc+1)}};
@@ -201,11 +200,11 @@ function App() {
             <div className="scrollcontainer">
               <div className={`todoContainers rightTodo ${(areLeftTasksShown) ?  "rightTodoShow" : null}`}>
                 <span onClick={() => setAreLeftTasksShown(false)}><i className="fas fa-times"></i></span>
-                <InWeekTDView dayClicked={dayClicked} />
+                <InWeekTDView dayClicked={dayClicked} week={week}/>
               </div>
               <div className={`todoContainers leftTodo ${(areRightTasksShown) ? "leftTodoShow" : null}`}>
                 <span onClick={() => setAreRightTasksShown(false)}><i className="fas fa-times"></i></span>
-                <InWeekTDView dayClicked={dayClicked} />
+                <InWeekTDView dayClicked={dayClicked} week={week}/>
               </div>
               <div className="scroller">
                 <Calendar />
@@ -239,5 +238,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

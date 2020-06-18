@@ -1,30 +1,41 @@
-import React, {useEffect} from 'react';
-import FetchData from '../api/todo';
+import React from 'react';
+import {ParseFetchData} from '../api/todo';
 
-const ToDoEvent = ({name, time}) => {
+const ToDoEvent = ({name, time, priority, iscomplete}) => {
 
     return (
         <div className="todoitem">
             <p>{name}</p>
-            <p>{time}</p>
+            <p>{time.toLocaleString()}</p>
+            <p>{priority}</p>
+            <p>{iscomplete ? "true" : "false"}</p>
         </div>
     )
 }
 
-const InWeekTDView = ({dayClicked}) => {
-    
-    let data = FetchData(false)
+const InWeekTDView = ({dayClicked, week}) => {
+    let data = ParseFetchData(false)
 
-    useEffect(() => {
-        console.log(dayClicked)
-    }, [dayClicked])
+    let dow = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
+    let weekind;
+    if(dayClicked){
+        for (let day = 0; day < dow.length; day++) {
+            if (dayClicked === dow[day]) {
+                weekind = day;
+            }
+        }
+    }
     
     return(
         <div>
             <p>{dayClicked}</p>
             {data.map(item => {
-                return <ToDoEvent key={item.id} name={item.name} time={item.time}/>
+                if ((dayClicked) && (item.time.getDate() === week[weekind].getDate()) && (item.time.getMonth() === week[weekind].getMonth()) && (item.time.getFullYear() === week[weekind].getFullYear())){
+                    return <ToDoEvent key={item.id} name={item.name} time={item.time} priority={item.priority} iscomplete={item.iscomplete}/>
+                } else {
+                    return null
+                }
             })}
         </div>
     )

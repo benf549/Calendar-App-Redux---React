@@ -203,7 +203,8 @@ body {
   align-items: center;
 }
 .dayheader:hover {
-  background-color: red;
+  background-color: rgb(63, 98, 109);
+  border-radius: 5px;
   cursor: pointer;
 }
 
@@ -625,4 +626,12 @@ input[type=text] {
 
 .todoitem p {
   padding: 15px;
+  font-size: 0.7em;
+}
+
+.todoContainers i:hover {
+  color: var(--red-accent);
+  transform: scale(1.25, 1.25);
+  transition: transform 1s var(--transition-curve);
+  cursor: pointer;
 }
