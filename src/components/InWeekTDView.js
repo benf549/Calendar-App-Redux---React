@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import FetchData from '../api/todo';
 
 const ToDoEvent = ({name, time}) => {
@@ -11,13 +11,18 @@ const ToDoEvent = ({name, time}) => {
     )
 }
 
-const Righttdwindow = () => {
+const InWeekTDView = ({dayClicked}) => {
     
     let data = FetchData(false)
+
+    useEffect(() => {
+        console.log(dayClicked)
+    }, [dayClicked])
+
     
     return(
         <div>
-            <p>To Do Window</p>
+            <p>{dayClicked}</p>
             {data.map(item => {
                 return <ToDoEvent key={item.id} name={item.name} time={item.time}/>
             })}
@@ -26,4 +31,4 @@ const Righttdwindow = () => {
 
 }
 
-export default Righttdwindow;
+export default InWeekTDView;

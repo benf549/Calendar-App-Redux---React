@@ -47,24 +47,30 @@ let updateDays = (newweekdate = null) => {
 }
 
 function App() {
-  let [areLeftTasksShown, setAreLeftTasksShown] = useState(false)
-  let [areRightTasksShown, setAreRightTasksShown] = useState(false)
-
-  // console.log(`Left:${areLeftTasksShown}\nRight:${areRightTasksShown}`)
+  let [areLeftTasksShown, setAreLeftTasksShown] = useState(false);
+  let [areRightTasksShown, setAreRightTasksShown] = useState(false);
+  let [dayClicked, setDayClicked] = useState("");
 
   //This function allows the left box to show when a right header clicked and vice versa. Also allows, when one is already shown, if the opposite header is clicked for the current box to be hidden and that header to be shown.
-  const handleHeaderClick =  (a, b, c) => {
+  const handleHeaderClick =  (a, b, c, day) => {
     if (!areLeftTasksShown && !areRightTasksShown) {
       a(!c)
-    } else if ((areLeftTasksShown && !areRightTasksShown) || (areRightTasksShown && !areLeftTasksShown)) {
-      a(!c)
-      b(false)
+      setDayClicked(day)
+    } else if ((areLeftTasksShown && !areRightTasksShown) || (areRightTasksShown && !areLeftTasksShown))  {
+      if (day !== dayClicked){
+        a(true)      
+        b(false)
+      } else {
+        a(false)
+        b(false)
+      }
+      setDayClicked(day)
     }
 
   }
   // defines which dayheaders when clicked summon which todo block.
   let selectForShowTask = (day) => {
-    day === "Mon" || day === "Tue" || day === "Wed" || day === "Thu" ? handleHeaderClick(setAreLeftTasksShown, setAreRightTasksShown, areLeftTasksShown) : handleHeaderClick(setAreRightTasksShown, setAreLeftTasksShown, areRightTasksShown);
+    day === "Mon" || day === "Tue" || day === "Wed" || day === "Thu" ? handleHeaderClick(setAreLeftTasksShown, setAreRightTasksShown, areLeftTasksShown, day) : handleHeaderClick(setAreRightTasksShown, setAreLeftTasksShown, areRightTasksShown, day);
   }
 
 
@@ -195,11 +201,11 @@ function App() {
             <div className="scrollcontainer">
               <div className={`todoContainers rightTodo ${(areLeftTasksShown) ?  "rightTodoShow" : null}`}>
                 <span onClick={() => setAreLeftTasksShown(false)}><i className="fas fa-times"></i></span>
-                <InWeekTDView />
+                <InWeekTDView dayClicked={dayClicked} />
               </div>
               <div className={`todoContainers leftTodo ${(areRightTasksShown) ? "leftTodoShow" : null}`}>
                 <span onClick={() => setAreRightTasksShown(false)}><i className="fas fa-times"></i></span>
-                <InWeekTDView />
+                <InWeekTDView dayClicked={dayClicked} />
               </div>
               <div className="scroller">
                 <Calendar />
@@ -207,20 +213,19 @@ function App() {
               </div>
             </div>
           </div>
+
           <div className="neweventpopup" style={{display: popup ? "inline-block" : "none"}}>
             <div className="topbar">
               <h3>Add a New Event</h3>
               <span className="closepopup" onClick={showNewEventPopUp}><i className="fas fa-times"></i></span>
             </div>            
-          <NewEventForm setfetchagain={setfetchagain} setPopup={setPopup} showPopup={popup}/>
+            <NewEventForm setfetchagain={setfetchagain} setPopup={setPopup} showPopup={popup}/>
           </div>
-
           <div className="neweventpopup" style = {{display : editevent ? "inline-block" : "none"}}>
             <div className="topbar">
-            <h3>Edit an Event</h3>
-            <span className="closepopup" onClick={hideEditEventPopup}><i className="fas fa-times"></i></span>
+              <h3>Edit an Event</h3>
+              <span className="closepopup" onClick={hideEditEventPopup}><i className="fas fa-times"></i></span>
             </div>
-
             <EditPopup eventforedit = {eventforedit} eventlist = {processedevents} editevent={editevent} hidepopup = {hideEditEventPopup} refresh = {setfetchagain}/>
           </div>
 
