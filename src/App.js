@@ -56,7 +56,7 @@ function App() {
     if (!areLeftTasksShown && !areRightTasksShown) {
       a(!c)
       setDayClicked(day)
-    } else if ((areLeftTasksShown && !areRightTasksShown) || (areRightTasksShown && !areLeftTasksShown))  {
+    } else   {
       if (day !== dayClicked){
         a(true)      
         b(false)
