@@ -626,11 +626,19 @@ input[type=text] {
   width: 100%;
   padding: 1vh 0;
   /* border: 1px solid black; */
+  transition: height 0.5 var(--transition-curve);
+
 }
 
 .todoitem h4 {
   font-weight: bold;
   white-space: nowrap;
+
+}
+
+.todoitem h4:hover {
+  white-space: normal;
+  text-align: left;
 }
 
 .todoContainers i:hover {
@@ -661,10 +669,8 @@ input[type=text] {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  height: 6vh;
-  overflow: hidden;
+  overflow-x: hidden;
   width: 70%;
-
 }
 
 #todotime {
