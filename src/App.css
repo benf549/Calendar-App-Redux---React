@@ -630,6 +630,7 @@ input[type=text] {
 
 .todoitem h4 {
   font-weight: bold;
+  white-space: nowrap;
 }
 
 .todoContainers i:hover {
@@ -660,6 +661,10 @@ input[type=text] {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  height: 6vh;
+  overflow: hidden;
+  width: 70%;
+
 }
 
 #todotime {
