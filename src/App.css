@@ -384,7 +384,9 @@ body {
 }
 
 .topbar span {
-  width: 5%;
+  position: absolute;
+  right: 2vh;
+  top: 2vh;
   border-radius: 5px;
   z-index: 4;
   display: flex;
@@ -400,9 +402,7 @@ body {
 }
 
 .topbar h3 {
-  padding-top:3vh;
-  width: 95%;
-  transform: translate(5%, 0);
+  padding-top: 3vh;
 }
 
 form {
@@ -589,7 +589,7 @@ input[type=text] {
   position: absolute;
   top: 0;
   z-index: 6;
-  border: 2px solid var(--test-accent);
+  box-shadow: 0 0 5px black;
 }
 
 .rightTodo {
@@ -614,8 +614,9 @@ input[type=text] {
 
 .todoContainers span {
   position: absolute;
-  right: 1vw;
-  top: 1vh;
+  right: 1.5vw;
+  top: 1vw;
+
 }
 
 .todoitem {
@@ -625,15 +626,12 @@ input[type=text] {
   align-items: center;
   width: 100%;
   padding: 1vh 0;
-  /* border: 1px solid black; */
   transition: height 0.5 var(--transition-curve);
-
 }
 
 .todoitem h4 {
   font-weight: bold;
   white-space: nowrap;
-
 }
 
 .todoitem h4:hover {
@@ -649,7 +647,7 @@ input[type=text] {
 }
 
 .dayofweek {
-  padding-top: 1vh;
+  padding-top: 4vh;
 }
 
 .markoff {
@@ -673,6 +671,28 @@ input[type=text] {
   width: 70%;
 }
 
-#todotime {
+#todotime, .archive {
   font-size: 10px;
+  width: 50%;
+}
+
+#todotime {
+  text-align: left;
+}
+
+.archive {
+  display: none;
+  text-align: right;
+  color: var(--red-accent);
+  font-weight: bold;
+}
+
+.todoitem:hover .archive {
+  display: inline;
+}
+
+.timeandarchive {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 }

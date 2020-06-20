@@ -7,7 +7,10 @@ const ToDoEvent = ({name, time, priority, iscomplete}) => {
             <div className="markoff" style={priority === 5 ? {backgroundColor:"rgba(255,0,0,0.3)", boxShadow: "inset 0 0 1vw var(--red-accent)"} : {backgroundColor:"rgba(0,0,0,0.3)", boxShadow: "inset 0 0 1vw black"}}></div>
             <div className="belowtodoitem"> 
                 <h4 style={{color : iscomplete ? "grey" : "black"}}>{name}</h4>
-                <p id="todotime">{`${time.getHours() > 12 ? (time.getHours() - 12) : (time.getHours() === 0) ? 12 : time.getHours()}:${time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes() }${time.getHours() > 11 ? "pm" : "am"}`}</p>
+                <div className="timeandarchive">
+                    <p id="todotime">{`${time.getHours() > 12 ? (time.getHours() - 12) : (time.getHours() === 0) ? 12 : time.getHours()}:${time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes() }${time.getHours() > 11 ? "pm" : "am"}`}</p>
+                    <p className="archive">Archive</p>
+                </div>
             </div>            
         </div>
     )
