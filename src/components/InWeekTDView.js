@@ -32,7 +32,7 @@ const InWeekTDView = ({dayClicked, week}) => {
     }
     
     return(
-        <div>
+        <div className="TDview">
             <h3 className="dayofweek">{fulldow[weekind]}</h3>
             {data.map(item => {
                 if ((dayClicked) && (item.time.getDate() === week[weekind].getDate()) && (item.time.getMonth() === week[weekind].getMonth()) && (item.time.getFullYear() === week[weekind].getFullYear())){
@@ -41,6 +41,10 @@ const InWeekTDView = ({dayClicked, week}) => {
                     return null
                 }
             })}
+            <div className="TDbottombar">
+                <p>New To-Do</p>
+                <i className="fas fa-pen"></i>
+            </div>
         </div>
     )
 

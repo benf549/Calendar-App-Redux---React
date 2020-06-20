@@ -74,6 +74,7 @@ body {
 
 .leftbutton i, .rightbutton i {
   width: 100%;
+  transition: transform 0.5s var(--transition-curve);
 }
 
 .leftbutton {
@@ -87,7 +88,6 @@ body {
 
 .leftbutton i:hover, .rightbutton:hover i:hover{
   transform: scale(1.25, 1.25);
-  transition: transform 0.5s var(--transition-curve);
   cursor: pointer;
 }
 
@@ -201,6 +201,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transition: background-color 0.5s var(--transition-curve);
 }
 .dayheader:hover {
   background-color: rgb(63, 98, 109);
@@ -394,10 +395,13 @@ body {
   align-items: center;
 }
 
+.topbar span i {
+  transition: transform 1s var(--transition-curve);
+}
+
 .topbar span:hover i{
   color: var(--red-accent);
   transform: scale(1.25, 1.25);
-  transition: transform 1s var(--transition-curve);
   cursor: pointer;
 }
 
@@ -443,6 +447,7 @@ input[type=text] {
   right: 5px;
   color: white;
   width: 20%;
+  transition: transform 0.5s var(--transition-curve);
 }
 .DEB i {
   font-size: 0.7rem;
@@ -461,7 +466,6 @@ input[type=text] {
   color: #d35d7e;
   transform: scale(1.25, 1.25);
   transform-origin: 50% 50%;
-  transition: transform 0.5s var(--transition-curve);
 }
 
 
@@ -476,11 +480,12 @@ input[type=text] {
   border: white;
   border-radius: 3px;
   cursor: pointer;
+  transition: transform 0.5s var(--transition-curve);
+
 }
 
 .finalsubmit:hover {
   transform: scale(0.95, 0.95);
-  transition: transform 0.5s var(--transition-curve);
 }
 
 .inputlayout {
@@ -554,11 +559,11 @@ input[type=text] {
   position: absolute;
   right: 0;
   z-index: 8;
+  transition: transform 0.5s var(--transition-curve);
 }
 
 .resetbtn:hover {
   transform: scale(1.05, 1.05);
-  transition: transform 0.5s var(--transition-curve);
 }
 
 .topinfo {
@@ -575,12 +580,12 @@ input[type=text] {
   color: white;
   font-size: 3.5vh;
   margin-right: 2vw;
+  transition: transform 0.5s var(--transition-curve);
 }
 
 .hamburger:hover {
   cursor: pointer;
   transform: scale(1.05, 1.05);
-  transition: transform 0.5s var(--transition-curve);
 }
 
 .todoContainers {
@@ -634,12 +639,12 @@ input[type=text] {
   white-space: nowrap;
 }
 
-.todoitem h4:hover {
+.todoitem:hover h4 {
   white-space: normal;
   text-align: left;
 }
 
-.todoContainers i:hover {
+.todoContainers .fa-times:hover {
   color: var(--red-accent);
   transform: scale(1.25, 1.25);
   transition: transform 1s var(--transition-curve);
@@ -689,10 +694,39 @@ input[type=text] {
 
 .todoitem:hover .archive {
   display: inline;
+  cursor: pointer;
 }
 
 .timeandarchive {
   display: flex;
   flex-direction: row;
   width: 100%;
+}
+
+.TDbottombar .fa-pen, .TDbottombar p{
+  padding: 10px;
+  font-size: 2.5vh;
+  transition: transform 0.5s var(--transition-curve);
+}
+
+.TDbottombar:hover {
+  background-color: var(--accent-color-B);
+  cursor: pointer;
+}
+
+.TDbottombar:hover .fa-pen, .TDbottombar:hover p {
+  transform: scale(1.25, 1.25);
+}
+
+.TDbottombar {
+  position: absolute;
+  height: 7vh;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  bottom: 0;
+  color: var(--main-white);
+  background-color: var(--red-accent);
+  transition: background-color 0.5s var(--transition-curve);
 }
