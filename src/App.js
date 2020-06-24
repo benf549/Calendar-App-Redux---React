@@ -11,6 +11,9 @@ import InWeekTDView from "./components/InWeekTDView";
 import { ParseResponse } from "./api";
 import { ParseFetchData } from "./api/todo";
 
+//this value is the number of milliseconds in a week and it is multiplied by the increment value below. An inc value of zero returns current week. Greater than 0 advances by that number of weeks and less than 0 goes back that number of weeks.
+let weekinms = 7 * 24 * 60 * 60 * 1000;
+
 //This function is used to generate an array of the datetimes for the current week being looked at and will take in a date and generate the week associated with that date or null which returns the week based on todays date.
 let updateDays = (newweekdate = null) => {
 	//This function takes in a day or nothing (to get current week) and returns an array of the days of the current week which is later stored into the 'week' array
@@ -126,6 +129,7 @@ function App() {
 
 	//Here we fill the week array with the update days function which is defined above.
 	week = updateDays();
+	let nextweek = updateDays(new Date().getTime + weekinms);
 
 	let tempDate = new Date();
 	let daynum;
@@ -142,9 +146,8 @@ function App() {
 	//daynum just gives the day of the week
 	let dayforadd = week[daynum];
 	week = [];
-	//this value is the number of milliseconds in a week and it is multiplied by the increment value below. An inc value of zero returns current week. Greater than 0 advances by that number of weeks and less than 0 goes back that number of weeks.
-	let weekinms = 7 * 24 * 60 * 60 * 1000;
 	week = updateDays(dayforadd.getTime() + weekinms * inc);
+	nextweek = updateDays(dayforadd.getTime() + weekinms * (inc + 1));
 
 	//these functions are called on click of the FA arrows that allow for the week to be advanced
 	let increment = () => {
@@ -264,6 +267,7 @@ function App() {
 									<InWeekTDView
 										dayClicked={dayClicked}
 										week={week}
+										nextweek={nextweek}
 										data={tododata}
 										setfetchtodo={setfetchtodo}
 										setShowTodo={setShowTodo}
@@ -280,6 +284,7 @@ function App() {
 									<InWeekTDView
 										dayClicked={dayClicked}
 										week={week}
+										nextweek={nextweek}
 										data={tododata}
 										setfetchtodo={setfetchtodo}
 										setShowTodo={setShowTodo}

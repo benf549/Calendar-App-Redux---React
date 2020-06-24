@@ -52,6 +52,7 @@ const ToDoEvent = ({ name, time, priority, iscomplete, id, setfetchtodo }) => {
 const InWeekTDView = ({
 	dayClicked,
 	week,
+	nextweek,
 	data,
 	setfetchtodo,
 	setShowTodo,
@@ -68,6 +69,7 @@ const InWeekTDView = ({
 	];
 
 	let weekind;
+
 	if (dayClicked) {
 		for (let day = 0; day < dow.length; day++) {
 			if (dayClicked === dow[day]) {
@@ -75,37 +77,83 @@ const InWeekTDView = ({
 			}
 		}
 	}
+	let currentDayTodos = [];
+	let nextDayTodos = [];
+	if (data) {
+		for (let todo = 0; todo < data.length; todo++) {
+			if (
+				dayClicked &&
+				data[todo].time.getDate() === week[weekind].getDate() &&
+				data[todo].time.getMonth() === week[weekind].getMonth() &&
+				data[todo].time.getFullYear() === week[weekind].getFullYear()
+			) {
+				currentDayTodos.push(
+					<ToDoEvent
+						key={data[todo].id}
+						name={data[todo].name}
+						time={data[todo].time}
+						priority={data[todo].priority}
+						iscomplete={data[todo].iscomplete}
+						id={data[todo].id}
+						setfetchtodo={setfetchtodo}
+					/>
+				);
+			} else if (
+				dayClicked === "Sun" &&
+				data[todo].time.getDate() === nextweek[0].getDate() &&
+				data[todo].time.getMonth() === nextweek[0].getMonth() &&
+				data[todo].time.getFullYear() === nextweek[0].getFullYear()
+			) {
+				nextDayTodos.push(
+					<ToDoEvent
+						key={data[todo].id}
+						name={data[todo].name}
+						time={data[todo].time}
+						priority={data[todo].priority}
+						iscomplete={data[todo].iscomplete}
+						id={data[todo].id}
+						setfetchtodo={setfetchtodo}
+					/>
+				);
+			} else if (
+				dayClicked &&
+				dayClicked !== "Sun" &&
+				data[todo].time.getDate() === week[weekind + 1].getDate() &&
+				data[todo].time.getMonth() === week[weekind + 1].getMonth() &&
+				data[todo].time.getFullYear() === week[weekind + 1].getFullYear()
+			) {
+				nextDayTodos.push(
+					<ToDoEvent
+						key={data[todo].id}
+						name={data[todo].name}
+						time={data[todo].time}
+						priority={data[todo].priority}
+						iscomplete={data[todo].iscomplete}
+						id={data[todo].id}
+						setfetchtodo={setfetchtodo}
+					/>
+				);
+			}
+		}
+	}
 
 	if (data) {
 		return (
 			<div className="TDview">
-				<h3 className="dayofweek">{fulldow[weekind]}</h3>
-				{data.map((item) => {
-					if (
-						dayClicked &&
-						item.time.getDate() === week[weekind].getDate() &&
-						item.time.getMonth() === week[weekind].getMonth() &&
-						item.time.getFullYear() === week[weekind].getFullYear()
-					) {
-						return (
-							<ToDoEvent
-								key={item.id}
-								name={item.name}
-								time={item.time}
-								priority={item.priority}
-								iscomplete={item.iscomplete}
-								id={item.id}
-								setfetchtodo={setfetchtodo}
-							/>
-						);
-					} else {
-						return null;
-					}
-				})}
 				<div className="TDbottombar" onClick={() => setShowTodo(true)}>
 					<p>New To-Do </p>
 					<i className="fas fa-pen"></i>
 				</div>
+				<h3 className="dayofweek">{fulldow[weekind]}</h3>
+				{currentDayTodos.map((item) => {
+					return item;
+				})}
+				<h3 className="dayofweek">
+					{dayClicked === "Sun" ? fulldow[0] : fulldow[weekind + 1]}
+				</h3>
+				{nextDayTodos.map((item) => {
+					return item;
+				})}
 			</div>
 		);
 	} else {
