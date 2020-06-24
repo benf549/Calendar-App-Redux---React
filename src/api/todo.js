@@ -82,3 +82,31 @@ export function PostToDo({ newName, time, setfetchtodo, priority }) {
 			}
 		});
 }
+
+export function PutToDo(
+	id,
+	setfetchagain,
+	newName,
+	start,
+	priority,
+	iscomplete
+) {
+	setfetchagain(false);
+	const requestOptions = {
+		method: "put",
+		headers: { "content-type": "application/json" },
+		body: JSON.stringify({
+			name: newName,
+			time: start,
+			priority: priority,
+			iscomplete: iscomplete,
+		}),
+	};
+	fetch(URL + "/" + id.toString(), requestOptions)
+		.then((response) => response.json())
+		.then((data) => {
+			if (data) {
+				setfetchagain(true);
+			}
+		});
+}

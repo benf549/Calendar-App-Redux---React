@@ -750,7 +750,6 @@ input[type="text"]:focus {
 }
 
 .TDview {
-	background-color: greenyellow;
 	height: 90%;
 	overflow-y: scroll;
 	scrollbar-width: none; /* Firefox */

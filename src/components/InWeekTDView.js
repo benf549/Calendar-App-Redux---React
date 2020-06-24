@@ -1,11 +1,21 @@
 import React from "react";
-import { DeleteTodo } from "../api/todo";
+import { DeleteTodo, PutToDo } from "../api/todo";
 
 const ToDoEvent = ({ name, time, priority, iscomplete, id, setfetchtodo }) => {
 	return (
 		<div className="todoitem">
 			<div
 				className="markoff"
+				onClick={() =>
+					PutToDo(
+						id,
+						setfetchtodo,
+						name,
+						time.getTime().toString(),
+						priority,
+						!iscomplete
+					)
+				}
 				style={
 					priority === 5
 						? {
@@ -83,74 +93,46 @@ const InWeekTDView = ({
 
 	if (data) {
 		for (let todo = 0; todo < data.length; todo++) {
+			let tdevent = (
+				<ToDoEvent
+					key={data[todo].id}
+					name={data[todo].name}
+					time={data[todo].time}
+					priority={data[todo].priority}
+					iscomplete={data[todo].iscomplete}
+					id={data[todo].id}
+					setfetchtodo={setfetchtodo}
+				/>
+			);
+
 			if (
 				dayClicked &&
 				data[todo].time.getDate() === week[weekind].getDate() &&
 				data[todo].time.getMonth() === week[weekind].getMonth() &&
 				data[todo].time.getFullYear() === week[weekind].getFullYear()
 			) {
-				currentDayTodos.push(
-					<ToDoEvent
-						key={data[todo].id}
-						name={data[todo].name}
-						time={data[todo].time}
-						priority={data[todo].priority}
-						iscomplete={data[todo].iscomplete}
-						id={data[todo].id}
-						setfetchtodo={setfetchtodo}
-					/>
-				);
+				currentDayTodos.push(tdevent);
 			} else if (
 				dayClicked === "Sun" &&
 				data[todo].time.getDate() === nextweek[0].getDate() &&
 				data[todo].time.getMonth() === nextweek[0].getMonth() &&
 				data[todo].time.getFullYear() === nextweek[0].getFullYear()
 			) {
-				nextDayTodos.push(
-					<ToDoEvent
-						key={data[todo].id}
-						name={data[todo].name}
-						time={data[todo].time}
-						priority={data[todo].priority}
-						iscomplete={data[todo].iscomplete}
-						id={data[todo].id}
-						setfetchtodo={setfetchtodo}
-					/>
-				);
+				nextDayTodos.push(tdevent);
 			} else if (
 				dayClicked === "Sun" &&
 				data[todo].time.getDate() === nextweek[1].getDate() &&
 				data[todo].time.getMonth() === nextweek[1].getMonth() &&
 				data[todo].time.getFullYear() === nextweek[1].getFullYear()
 			) {
-				thirdDayTodos.push(
-					<ToDoEvent
-						key={data[todo].id}
-						name={data[todo].name}
-						time={data[todo].time}
-						priority={data[todo].priority}
-						iscomplete={data[todo].iscomplete}
-						id={data[todo].id}
-						setfetchtodo={setfetchtodo}
-					/>
-				);
+				thirdDayTodos.push(tdevent);
 			} else if (
 				dayClicked === "Sat" &&
 				data[todo].time.getDate() === nextweek[0].getDate() &&
 				data[todo].time.getMonth() === nextweek[0].getMonth() &&
 				data[todo].time.getFullYear() === nextweek[0].getFullYear()
 			) {
-				thirdDayTodos.push(
-					<ToDoEvent
-						key={data[todo].id}
-						name={data[todo].name}
-						time={data[todo].time}
-						priority={data[todo].priority}
-						iscomplete={data[todo].iscomplete}
-						id={data[todo].id}
-						setfetchtodo={setfetchtodo}
-					/>
-				);
+				thirdDayTodos.push(tdevent);
 			} else if (
 				dayClicked &&
 				dayClicked !== "Sun" &&
@@ -158,17 +140,7 @@ const InWeekTDView = ({
 				data[todo].time.getMonth() === week[weekind + 1].getMonth() &&
 				data[todo].time.getFullYear() === week[weekind + 1].getFullYear()
 			) {
-				nextDayTodos.push(
-					<ToDoEvent
-						key={data[todo].id}
-						name={data[todo].name}
-						time={data[todo].time}
-						priority={data[todo].priority}
-						iscomplete={data[todo].iscomplete}
-						id={data[todo].id}
-						setfetchtodo={setfetchtodo}
-					/>
-				);
+				nextDayTodos.push(tdevent);
 			} else if (
 				dayClicked &&
 				dayClicked !== "Sun" &&
@@ -177,17 +149,7 @@ const InWeekTDView = ({
 				data[todo].time.getMonth() === week[weekind + 2].getMonth() &&
 				data[todo].time.getFullYear() === week[weekind + 2].getFullYear()
 			) {
-				thirdDayTodos.push(
-					<ToDoEvent
-						key={data[todo].id}
-						name={data[todo].name}
-						time={data[todo].time}
-						priority={data[todo].priority}
-						iscomplete={data[todo].iscomplete}
-						id={data[todo].id}
-						setfetchtodo={setfetchtodo}
-					/>
-				);
+				thirdDayTodos.push(tdevent);
 			}
 		}
 	}
