@@ -195,10 +195,6 @@ const InWeekTDView = ({
 	if (data) {
 		return (
 			<div className="TDview">
-				<div className="TDbottombar" onClick={() => setShowTodo(true)}>
-					<p>New To-Do </p>
-					<i className="fas fa-pen"></i>
-				</div>
 				<h3 className="dayofweek">{fulldow[weekind]}</h3>
 				{currentDayTodos.map((item) => {
 					return item;
@@ -219,6 +215,10 @@ const InWeekTDView = ({
 				{thirdDayTodos.map((item) => {
 					return item;
 				})}
+				<div className="TDbottombar" onClick={() => setShowTodo(true)}>
+					<p>New To-Do </p>
+					<i className="fas fa-pen"></i>{" "}
+				</div>
 			</div>
 		);
 	} else {

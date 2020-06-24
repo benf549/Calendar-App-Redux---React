@@ -734,7 +734,7 @@ input[type="text"]:focus {
 
 .TDbottombar {
 	position: absolute;
-	height: 7vh;
+	height: 10%;
 	width: 100%;
 	display: flex;
 	justify-content: flex-end;
@@ -747,4 +747,16 @@ input[type="text"]:focus {
 
 #addtodo {
 	z-index: 7;
+}
+
+.TDview {
+	background-color: greenyellow;
+	height: 90%;
+	overflow-y: scroll;
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+.TDview::-webkit-scrollbar {
+	width: 0px; /* Remove scrollbar space */
+	background: transparent; /* Optional: just make scrollbar invisible */
 }
