@@ -79,6 +79,8 @@ const InWeekTDView = ({
 	}
 	let currentDayTodos = [];
 	let nextDayTodos = [];
+	let thirdDayTodos = [];
+
 	if (data) {
 		for (let todo = 0; todo < data.length; todo++) {
 			if (
@@ -116,6 +118,40 @@ const InWeekTDView = ({
 					/>
 				);
 			} else if (
+				dayClicked === "Sun" &&
+				data[todo].time.getDate() === nextweek[1].getDate() &&
+				data[todo].time.getMonth() === nextweek[1].getMonth() &&
+				data[todo].time.getFullYear() === nextweek[1].getFullYear()
+			) {
+				thirdDayTodos.push(
+					<ToDoEvent
+						key={data[todo].id}
+						name={data[todo].name}
+						time={data[todo].time}
+						priority={data[todo].priority}
+						iscomplete={data[todo].iscomplete}
+						id={data[todo].id}
+						setfetchtodo={setfetchtodo}
+					/>
+				);
+			} else if (
+				dayClicked === "Sat" &&
+				data[todo].time.getDate() === nextweek[0].getDate() &&
+				data[todo].time.getMonth() === nextweek[0].getMonth() &&
+				data[todo].time.getFullYear() === nextweek[0].getFullYear()
+			) {
+				thirdDayTodos.push(
+					<ToDoEvent
+						key={data[todo].id}
+						name={data[todo].name}
+						time={data[todo].time}
+						priority={data[todo].priority}
+						iscomplete={data[todo].iscomplete}
+						id={data[todo].id}
+						setfetchtodo={setfetchtodo}
+					/>
+				);
+			} else if (
 				dayClicked &&
 				dayClicked !== "Sun" &&
 				data[todo].time.getDate() === week[weekind + 1].getDate() &&
@@ -123,6 +159,25 @@ const InWeekTDView = ({
 				data[todo].time.getFullYear() === week[weekind + 1].getFullYear()
 			) {
 				nextDayTodos.push(
+					<ToDoEvent
+						key={data[todo].id}
+						name={data[todo].name}
+						time={data[todo].time}
+						priority={data[todo].priority}
+						iscomplete={data[todo].iscomplete}
+						id={data[todo].id}
+						setfetchtodo={setfetchtodo}
+					/>
+				);
+			} else if (
+				dayClicked &&
+				dayClicked !== "Sun" &&
+				dayClicked !== "Sat" &&
+				data[todo].time.getDate() === week[weekind + 2].getDate() &&
+				data[todo].time.getMonth() === week[weekind + 2].getMonth() &&
+				data[todo].time.getFullYear() === week[weekind + 2].getFullYear()
+			) {
+				thirdDayTodos.push(
 					<ToDoEvent
 						key={data[todo].id}
 						name={data[todo].name}
@@ -152,6 +207,16 @@ const InWeekTDView = ({
 					{dayClicked === "Sun" ? fulldow[0] : fulldow[weekind + 1]}
 				</h3>
 				{nextDayTodos.map((item) => {
+					return item;
+				})}
+				<h3 className="dayofweek">
+					{dayClicked === "Sun"
+						? fulldow[1]
+						: dayClicked === "Sat"
+						? fulldow[0]
+						: fulldow[weekind + 2]}
+				</h3>
+				{thirdDayTodos.map((item) => {
 					return item;
 				})}
 			</div>
