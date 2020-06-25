@@ -1,560 +1,762 @@
 * {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
-h1, h2, h3, h4 {
-  font-family: 'Nunito', sans-serif;
+h1,
+h2,
+h3,
+h4 {
+	font-family: "Nunito", sans-serif;
 }
 
-p, h5 {
-  font-family: 'Lato', sans-serif;
+p,
+h5 {
+	font-family: "Lato", sans-serif;
 }
 
 html {
-  --hovered-element-height:10px;
+	--hovered-element-height: 10px;
 }
 
 :root {
-  overflow-x: hidden;
-  --main-bg-color : #022B3A;
-  --main-white : #FFFFFF;
-  --accent-color-A: #548E8C;
-  --accent-color-B: #385179;
-  --test-accent: #E1E5F2;
-  --red-accent: #993955;
+	overflow-x: hidden;
+	--main-bg-color: #022b3a;
+	--main-white: #ffffff;
+	--accent-color-A: #548e8c;
+	--accent-color-B: #385179;
+	--test-accent: #e1e5f2;
+	--red-accent: #993955;
 
-  --transition-curve: cubic-bezier(0.33, 1, 0.68, 1);
+	--transition-curve: cubic-bezier(0.33, 1, 0.68, 1);
 }
 
-
-
 #root {
-  padding-top: 3vh;
-  /* height: 200vh; */
-
+	padding-top: 3vh;
+	/* height: 200vh; */
 }
 
 body {
-  background-color: var(--main-bg-color);
+	background-color: var(--main-bg-color);
 }
 
 .App {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 #month {
-  color: var(--main-white);
-  font-size: 4vh;
-  padding-right: 1vw;
+	color: var(--main-white);
+	font-size: 4vh;
+	padding-right: 1vw;
 }
 
 .topmostwrapper {
-  display: flex;
-  flex-direction: row;
+	display: flex;
+	flex-direction: row;
 }
 
-
-.leftbutton, .rightbutton {
-  margin-top: 40vh;
-  height: 10vh;
-  width: 5vw;
-  font-size: 1.7rem;
-  color: var(--main-white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.leftbutton,
+.rightbutton {
+	position: absolute;
+	padding: 43vh 0;
+	height: 10vh;
+	width: 5vw;
+	font-size: 1.7rem;
+	color: var(--main-white);
+	background-color: var(--main-bg-color);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 7;
 }
 
-.leftbutton:hover, .rightbutton:hover {
-  transform: scale(1.25, 1.25);
-  transition: transform 0.5s var(--transition-curve);
-  cursor: pointer;
+.leftbutton i,
+.rightbutton i {
+	width: 100%;
+	transition: transform 0.5s var(--transition-curve);
+}
+
+.leftbutton {
+	left: 0;
+}
+
+.rightbutton {
+	right: 0;
+}
+
+.leftbutton i:hover,
+.rightbutton:hover i:hover {
+	transform: scale(1.25, 1.25);
+	cursor: pointer;
 }
 
 .content {
-  height: 95vh;
-  width: 90vw;
-  border-radius: 5px;
+	height: 95vh;
+	width: 90vw;
+	border-radius: 5px;
+	padding: 0 5vw;
 }
 
 .upper {
-  height: 12%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+	height: 12%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 .lower {
-  height: 88%;
-  background-color: var(--main-white);
-  position: relative;
-  box-shadow: 0 15px 15px black;
+	height: 88%;
+	background-color: var(--main-white);
+	position: relative;
+	/* box-shadow: inset 15px 15px black; */
 }
 
 .neweventcircle {
-  width: 50px;
-  height: 50px;
-  background-color: var(--red-accent);
-  border-radius: 50%;
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  z-index: 5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #ba4b6b;
+	width: 50px;
+	height: 50px;
+	background-color: var(--red-accent);
+	border-radius: 50%;
+	position: absolute;
+	bottom: 1%;
+	z-index: 5;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid #ba4b6b;
+	transition: right 0.5s var(--transition-curve);
 }
 
 .neweventcircle:hover {
-  transform: scale(0.95, 0.95);
-  transition: transform 0.5s var(--transition-curve);
+	transform: scale(0.95, 0.95);
+	transition: transform 0.5s var(--transition-curve);
+	cursor: pointer;
 }
 
 .neweventcircle i {
-  color: var(--main-white);
-  font-size: 2rem;
+	color: var(--main-white);
+	font-size: 2rem;
 }
 
 .scrollcontainercontainer {
-  height: 100%;
-  overflow: hidden;
+	height: 100%;
+	overflow: hidden;
 }
 
 .scrollcontainer {
-  background-color: var(--main-white);
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 100%;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+	background-color: var(--main-white);
+	overflow-y: scroll;
+	overflow-x: hidden;
+	height: 100%;
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none; /* Internet Explorer 10+ */
 }
 
 .scrollcontainer::-webkit-scrollbar {
-  width: 0px;               /* Remove scrollbar space */
-  background: transparent;  /* Optional: just make scrollbar invisible */
+	width: 0px; /* Remove scrollbar space */
+	background: transparent; /* Optional: just make scrollbar invisible */
 }
 
 .scroller {
-  height: 150vh;
-  position: relative;
+	height: 150vh;
+	position: relative;
 }
 
 .calbody {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  height: 100%;
-  position: relative;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
+	height: 100%;
+	position: relative;
 }
 
 .daycolumn {
-  width: 13.571%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid rgba( 119, 141, 169, 0.3);
+	width: 13.571%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	border-right: 1px solid rgba(119, 141, 169, 0.3);
 }
 
 .dayheadercontainer {
-  display: flex;
-  padding-top: 5vh;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 60%;
-  color: var(--main-white);
+	display: flex;
+	padding-top: 5vh;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 60%;
+	color: var(--main-white);
 }
 
 .dayheader {
-  text-align: center;
-  height: 100%;
-  width: 13.571%;
-  border-right: 1px solid rgba( 119, 141, 169, 0.2);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+	text-align: center;
+	height: 100%;
+	width: 13.571%;
+	border-right: 1px solid rgba(119, 141, 169, 0.2);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	transition: background-color 0.5s var(--transition-curve);
+}
+.dayheader:hover {
+	background-color: rgb(63, 98, 109);
+	border-radius: 5px;
+	cursor: pointer;
 }
 
 .dayheader:nth-child(8) {
-  border-right: 1px solid rgba( 119, 141, 169, 0);
+	border-right: 1px solid rgba(119, 141, 169, 0);
 }
 
 .spacer {
-  width: 5%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+	width: 5%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 .grid {
-  position: relative;
-  width: 100%;
-  height: 6.25vh;
-  border-right:1px solid rgba( 119, 141, 169, 0.2);
-
+	position: relative;
+	width: 100%;
+	height: 6.25vh;
+	border-right: 1px solid rgba(119, 141, 169, 0.2);
 }
 
-.grid:nth-child(24){
-  border-bottom: none;
+.grid:nth-child(24) {
+	border-bottom: none;
 }
 
 .suffering {
-  width: 100%;
-  height: 100% ;
-  display: flex;
-  flex-direction: row;
-
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
 }
 
 .calbody hr {
-  border: 1px solid rgba(110, 126, 133, 0.15);
+	border: 1px solid rgba(110, 126, 133, 0.15);
 }
 
 .spacer p {
-  font-size: 0.75rem;
+	font-size: 0.75rem;
 }
 
 .eventspace {
-  height: 100%;
-  width: 100%;
-  /**background-color: rgba(0,255,0,0.1);**/
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 2;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 2;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
 }
 
 .spacergrid {
-  position: relative;
-  width: 100%;
-  height: 6.25vh;
+	position: relative;
+	width: 100%;
+	height: 6.25vh;
 }
 
 .spacergrid hr {
-  display: none;
+	display: none;
 }
 
 .spacergrid p {
-  white-space: nowrap;
-  position: absolute;
-  line-height: 1;
-  top: -0.5em;
-  right: 0.25vw;
-  font-size: 1vw;
-  padding-right: 0.5vw;
+	white-space: nowrap;
+	position: absolute;
+	line-height: 1;
+	top: -0.5em;
+	right: 0.25vw;
+	font-size: 1vw;
+	padding-right: 0.5vw;
 }
 
-.spacergrid:first-child p{
-  top: 0;
+.spacergrid:first-child p {
+	top: 0;
 }
 
 .eventgrid {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 98%;
-  position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 98%;
+	position: relative;
 }
 
 .eventunit {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 13.571%
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 13.571%;
 }
 
 .displayspacer {
-  width: 2%;
-  height: 100%;
+	width: 2%;
+	height: 100%;
 }
 
 .Event {
-  position: absolute;
-  width: 100%;
-  background-color: var(--accent-color-A);
-  left: 0;
-  margin-top: 2px;
-  border-radius: 3px 3px 0 0;
-  box-shadow: 0 0 3px var(--accent-color-B);
-  overflow: hidden;
-  transition: all 0.5s  var(--transition-curve);
+	position: absolute;
+	width: 100%;
+	background-color: var(--accent-color-A);
+	left: 0;
+	margin-top: 2px;
+	border-radius: 3px 3px 0 0;
+	box-shadow: 0 0 3px var(--accent-color-B);
+	overflow: hidden;
+	transition: all 0.5s var(--transition-curve);
 }
 
 .hoverexpand:hover {
-  background-color: var(--accent-color-B);
-  height: var(--hovered-element-height) !important;
-  padding-bottom: 1vh;
-  width: 102%;
+	background-color: var(--accent-color-B);
+	height: var(--hovered-element-height) !important;
+	padding-bottom: 1vh;
+	width: 102%;
 }
 
 .Event:hover {
-  background-color: var(--accent-color-B);
+	background-color: var(--accent-color-B);
 }
 
 .nameandtimewrapper {
-  padding-top: 1vh;
-  padding-left: 5px;
-  cursor: pointer;
+	padding-top: 1vh;
+	padding-left: 5px;
+	cursor: pointer;
 }
 
 .eventtitle {
-  color: var(--main-white);
-  text-align: left;
-  width: 80%;
-  font-size: 2vh;
+	color: var(--main-white);
+	text-align: left;
+	width: 80%;
+	font-size: 2vh;
 }
 
 .timerange {
-  color: white;
-  text-align: left;
-  font-size: 1.5vh;
-  margin-top: 0.5em;
+	color: white;
+	text-align: left;
+	font-size: 1.5vh;
+	margin-top: 0.5em;
 }
 
-.dayheader h5{
-  font-size: 1.936vh;
-  line-height: 0.9;
-  padding: 0.25vh 0;
+.dayheader h5 {
+	font-size: 1.936vh;
+	line-height: 0.9;
+	padding: 0.25vh 0;
 }
 
 .dayheader h1 {
-  font-size: 2.904vh;
-  padding-bottom: 0.5vh;
-  line-height: 0.9;
-} 
+	font-size: 2.904vh;
+	padding-bottom: 0.5vh;
+	line-height: 0.9;
+}
 
 .neweventpopup {
-  background-color: var(--main-white);
-  border: 1px solid rgba( 119, 141, 169, 0.5);
-  box-shadow: 5px 10px rgba( 119, 141, 169, 0.2);
-  border-radius: 5px;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  width: 60vw;
-  top: 50%;
-  left: 50%;
-  z-index: 5;
+	background-color: var(--main-white);
+	border: 1px solid rgba(119, 141, 169, 0.5);
+	box-shadow: 5px 10px rgba(119, 141, 169, 0.2);
+	border-radius: 5px;
+	position: absolute;
+	transform: translate(-50%, -50%);
+	width: 60vw;
+	top: 50%;
+	left: 50%;
+	z-index: 5;
 }
 
 .topbar {
-  display: flex;
-  justify-content: center;
+	display: flex;
+	justify-content: center;
 }
 
 .topbar span {
-  width: 5%;
-  border-radius: 5px;
-  z-index: 4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	position: absolute;
+	right: 2vh;
+	top: 2vh;
+	border-radius: 5px;
+	z-index: 4;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
-.topbar span:hover i{
-  color: var(--red-accent);
-  transform: scale(1.25, 1.25);
-  transition: transform 1s var(--transition-curve);
-  cursor: pointer;
+.topbar span i {
+	transition: transform 1s var(--transition-curve);
+}
+
+.topbar span:hover i {
+	color: var(--red-accent);
+	transform: scale(1.25, 1.25);
+	cursor: pointer;
 }
 
 .topbar h3 {
-  padding-top:3vh;
-  width: 95%;
-  transform: translate(5%, 0);
+	padding-top: 3vh;
 }
 
 form {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 label {
-  width: 30%;
-  text-align: left;
-  padding-left: 2vw;
+	width: 30%;
+	text-align: left;
+	padding-left: 2vw;
 }
 
-input[type=text] {
-  width: 95%;
+input[type="text"] {
+	width: 95%;
 }
 
 #name {
-  padding: 0;
-  border: 0;
+	padding: 0;
+	border: 0;
 }
 
 .testtt h5 {
-  width: 30%;
+	width: 30%;
 }
 
 .testtt {
-  display: flex;
-  flex-direction: row;
+	display: flex;
+	flex-direction: row;
 }
 
 .DEB {
-  display: none;
-  position: absolute;
-  border-radius: 3px;
-  top: 0;
-  right: 5px;
-  color: white;
-  width: 20%;
+	display: none;
+	position: absolute;
+	border-radius: 3px;
+	top: 0;
+	right: 5px;
+	color: white;
+	width: 20%;
+	transition: transform 0.5s var(--transition-curve);
 }
 .DEB i {
-  font-size: 0.7rem;
-  position: absolute;
-  top:1vh;
-  right: 0.3vw;
+	font-size: 0.7rem;
+	position: absolute;
+	top: 1vh;
+	right: 0.3vw;
 }
 
-
 .Event:hover .DEB {
-  display: inline;
-  cursor: pointer;
+	display: inline;
+	cursor: pointer;
 }
 
 .DEB:hover {
-  color: #d35d7e;
-  transform: scale(1.25, 1.25);
-  transform-origin: 50% 50%;
-  transition: transform 0.5s var(--transition-curve);
+	color: #d35d7e;
+	transform: scale(1.25, 1.25);
+	transform-origin: 50% 50%;
 }
 
-
 .finalsubmit {
-  margin-left: 2vw;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
-  color: white;
-  height: 5vh;
-  width: 10vw;
-  background-color: var(--accent-color-A);
-  border: white;
-  border-radius: 3px;
-  cursor: pointer;
+	margin-left: 2vw;
+	margin-top: 5vh;
+	margin-bottom: 5vh;
+	color: white;
+	height: 5vh;
+	width: 10vw;
+	background-color: var(--accent-color-A);
+	border: white;
+	border-radius: 3px;
+	cursor: pointer;
+	transition: transform 0.5s var(--transition-curve);
 }
 
 .finalsubmit:hover {
-  transform: scale(0.95, 0.95);
-  transition: transform 0.5s var(--transition-curve);
+	transform: scale(0.95, 0.95);
 }
 
 .inputlayout {
-  display: flex;
-  flex-direction: row;
-  margin-top: 3vh;
+	display: flex;
+	flex-direction: row;
+	margin-top: 3vh;
 }
 
-input[type=text] {
-  width: 35vw;
-  border: 1px solid rgba( 119, 141, 169, 0.2) !important;
-  border-radius: 3px;
-  padding: 4px 8px !important; 
+input[type="text"] {
+	width: 35vw;
+	border: 1px solid rgba(119, 141, 169, 0.2) !important;
+	border-radius: 3px;
+	padding: 4px 8px !important;
 }
 
- input[type=text]:focus {
-  outline: none;
-  box-shadow: 0 0 0 1px var(--accent-color-A);
+input[type="text"]:focus {
+	outline: none;
+	box-shadow: 0 0 0 1px var(--accent-color-A);
 }
 
-.react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--selected, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__quarter-text--in-range, .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected {
-  background-color: var(--accent-color-A) !important;
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range,
+.react-datepicker__month-text--selected,
+.react-datepicker__month-text--in-selecting-range,
+.react-datepicker__month-text--in-range,
+.react-datepicker__quarter-text--selected,
+.react-datepicker__quarter-text--in-selecting-range,
+.react-datepicker__quarter-text--in-range,
+.react-datepicker__time-container
+	.react-datepicker__time
+	.react-datepicker__time-box
+	ul.react-datepicker__time-list
+	li.react-datepicker__time-list-item--selected {
+	background-color: var(--accent-color-A) !important;
 }
 
 .finalsubmit:focus {
-  outline: none;
-  border: 1px solid var(--main-white);
+	outline: none;
+	border: 1px solid var(--main-white);
 }
 
 .react-datepicker-popper {
-  z-index: 6 !important;
+	z-index: 6 !important;
 }
 
 .react-datepicker__header {
-  background-color: var(--accent-color-B) !important;
-  border-bottom: 1px solid rgba( 119, 141, 169, 0.2) !important;
+	background-color: var(--accent-color-B) !important;
+	border-bottom: 1px solid rgba(119, 141, 169, 0.2) !important;
 }
 
-.react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header, .react-datepicker__day-name {
-  color: var(--main-white) !important;
+.react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker-year-header,
+.react-datepicker__day-name {
+	color: var(--main-white) !important;
 }
 
 .react-datepicker__navigation--next--with-time:not(.react-datepicker__navigation--next--with-today-button) {
-  right: 100px !important;
+	right: 100px !important;
 }
 .react-datepicker {
-  border: 1px solid rgba( 119, 141, 169, 0.2) !important;
+	border: 1px solid rgba(119, 141, 169, 0.2) !important;
 }
 .react-datepicker__time-container {
-  border-left: 1px solid rgba( 119, 141, 169, 0.2) !important;
+	border-left: 1px solid rgba(119, 141, 169, 0.2) !important;
 }
 
 .currenttime {
-  height: 0.5vh;
-  background-color: var(--red-accent);
-  width: 13.571%;
-  position: absolute;
-  z-index: 4;
+	height: 0.5vh;
+	background-color: var(--red-accent);
+	width: 13.571%;
+	position: absolute;
+	z-index: 4;
 }
 
 .resetbtn {
-  background-color: var(--red-accent);
-  border: 1px solid #ba4b6b;
-  border-radius: 5px;
-  color: white;
-  height: 2vh;
-  line-height: 1.5vh;
-  font-size: 2vh;
-  padding: 5px;
-  cursor: pointer;
-  position: absolute;
-  right: 0;
+	background-color: var(--red-accent);
+	border: 1px solid #ba4b6b;
+	border-radius: 5px;
+	color: white;
+	height: 2vh;
+	line-height: 1.5vh;
+	font-size: 2vh;
+	padding: 5px;
+	cursor: pointer;
+	position: absolute;
+	right: 0;
+	z-index: 8;
+	transition: transform 0.5s var(--transition-curve);
 }
 
 .resetbtn:hover {
-  transform: scale(0.95, 0.95);
-  transition: transform 0.5s var(--transition-curve);
+	transform: scale(1.05, 1.05);
 }
 
 .topinfo {
-  display: flex;
-  flex-direction: row;
-  position: absolute;
-  top: 2vh;
-  align-items: center;
-  width: 90%;
+	display: flex;
+	flex-direction: row;
+	position: absolute;
+	top: 2vh;
+	align-items: center;
+	width: 90%;
 }
 
 .hamburger {
-  color: white;
-  font-size: 3.5vh;
-  margin-right: 2vw;
+	color: white;
+	font-size: 3.5vh;
+	margin-right: 2vw;
+	transition: transform 0.5s var(--transition-curve);
 }
 
 .hamburger:hover {
-  cursor: pointer;
-  transform: scale(0.95, 0.95);
-  transition: transform 0.5s var(--transition-curve);
+	cursor: pointer;
+	transform: scale(1.05, 1.05);
+}
+
+.todoContainers {
+	background-color: var(--main-white);
+	height: 100%;
+	position: absolute;
+	top: 0;
+	z-index: 6;
+	box-shadow: 0 0 5px black;
+}
+
+.rightTodo {
+	width: 27.142%;
+	right: -100%;
+	transition: right 0.5s var(--transition-curve);
+}
+
+.rightTodoShow {
+	right: 0 !important;
+}
+
+.leftTodo {
+	width: 32.142%;
+	left: -100%;
+	transition: left 0.5s var(--transition-curve);
+}
+
+.leftTodoShow {
+	left: 0 !important;
+}
+
+.todoContainers span {
+	position: absolute;
+	right: 1.5vw;
+	top: 1vw;
+}
+
+.todoitem {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	width: 100%;
+	padding: 1vh 0;
+	transition: height 0.5 var(--transition-curve);
+}
+
+.todoitem h4 {
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+.todoitem:hover h4 {
+	white-space: normal;
+	text-align: left;
+}
+
+.todoContainers .fa-times:hover {
+	color: var(--red-accent);
+	transform: scale(1.25, 1.25);
+	transition: transform 1s var(--transition-curve);
+	cursor: pointer;
+}
+
+.dayofweek {
+	padding-top: 4vh;
+}
+
+.markoff {
+	border-radius: 50%;
+	width: 2vw;
+	height: 2vw;
+	margin: 0 1vw;
+}
+
+.markoff:hover {
+	filter: contrast(50%);
+	transition: filter 0.5s var(--transition-curve);
+	cursor: pointer;
+}
+
+.belowtodoitem {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	overflow-x: hidden;
+	width: 70%;
+}
+
+#todotime,
+.archive {
+	font-size: 10px;
+	width: 50%;
+}
+
+#todotime {
+	text-align: left;
+}
+
+.archive {
+	display: none;
+	text-align: right;
+	color: var(--red-accent);
+	font-weight: bold;
+}
+
+.todoitem:hover .archive {
+	display: inline;
+	cursor: pointer;
+}
+
+.timeandarchive {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+}
+
+.TDbottombar .fa-pen,
+.TDbottombar p {
+	padding: 10px;
+	font-size: 2.5vh;
+	transition: transform 0.5s var(--transition-curve);
+}
+
+.TDbottombar:hover {
+	background-color: var(--accent-color-B);
+	cursor: pointer;
+}
+
+.TDbottombar:hover .fa-pen,
+.TDbottombar:hover p {
+	transform: scale(1.25, 1.25);
+}
+
+.TDbottombar {
+	position: absolute;
+	height: 10%;
+	width: 100%;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	bottom: 0;
+	color: var(--main-white);
+	background-color: var(--red-accent);
+	transition: background-color 0.5s var(--transition-curve);
+}
+
+#addtodo,
+#edittodo {
+	z-index: 7;
+}
+
+.TDview {
+	height: 90%;
+	overflow-y: scroll;
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+.TDview::-webkit-scrollbar {
+	width: 0px; /* Remove scrollbar space */
+	background: transparent; /* Optional: just make scrollbar invisible */
 }

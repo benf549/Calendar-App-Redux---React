@@ -2,33 +2,30 @@ import React, { useState, useEffect } from "react";
 import "../App.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { PutRequest } from "../api";
+import { PutToDo } from "../api/todo";
 
-let EditPopup = ({
-	eventforedit,
-	eventlist,
-	hidepopup,
-	refresh,
-	editevent,
-}) => {
+let ToDoEdit = ({ todoforedit, tododata, hidepopup, refresh, editevent }) => {
 	const [newName, setNewName] = useState("");
 	const [startDate, setStartDate] = useState(new Date());
-	const [endDate, setEndDate] = useState(new Date());
+	const [priority, setPriority] = useState(0);
+	const [iscomplete, setIsComplete] = useState(false);
 
 	useEffect(() => {
-		var test = eventlist
-			? eventlist.find((obj) => {
-					return obj.id === eventforedit;
+		var test = tododata
+			? tododata.find((obj) => {
+					return obj.id === todoforedit;
 			  })
 			: "";
-		var titleforedit = test ? test.title : "";
-		var startforedit = test ? new Date(parseInt(test.ostarted)) : new Date();
-		var endforedit = test ? new Date(parseInt(test.oended)) : new Date();
+		var titleforedit = test ? test.name : "";
+		var startforedit = test ? test.time : new Date();
+		var priorityforedit = test ? test.priority : 0;
+		var completeforedit = test ? test.iscomplete : false;
 
 		setNewName(titleforedit);
 		setStartDate(startforedit);
-		setEndDate(endforedit);
-	}, [eventforedit, eventlist]);
+		setPriority(priorityforedit);
+		setIsComplete(completeforedit);
+	}, [todoforedit, tododata]);
 
 	useEffect(() => {
 		const handleEsc = (event) => {
@@ -48,17 +45,14 @@ let EditPopup = ({
 		e.preventDefault();
 		if (newName === "") {
 			alert("Hey! Name can't be blank!");
-		} else if (endDate.getTime() - startDate.getTime() <= 0) {
-			alert("Hey! End date can't be before start date");
+		} else if (priority === 0) {
+			alert("Priority can't be blank!");
 		} else {
 			let start = startDate.getTime();
-			let end = endDate.getTime();
-
-			PutRequest(eventforedit, newName, start, end, refresh);
-
+			PutToDo(todoforedit, refresh, newName, start, priority, iscomplete);
 			setNewName("");
 			setStartDate(new Date());
-			setEndDate(new Date());
+			setPriority(0);
 			hidepopup();
 		}
 	};
@@ -91,19 +85,14 @@ let EditPopup = ({
 					/>
 				</div>
 			</div>
-
 			<div className="inputlayout">
-				<label htmlFor="date">End Date</label>
-				<div className="testwrap">
-					<DatePicker
-						selected={endDate}
-						minDate={startDate}
-						onChange={(date) => setEndDate(date)}
-						showTimeSelect
-						timeFormat="h:mm aa"
-						timeIntervals={15}
-						timeCaption="End Time"
-						dateFormat="MMMM d, yyyy h:mm aa"
+				<label htmlFor="priority">Priority</label>
+				<div className="NameContainer">
+					<input
+						type="text"
+						id="priority"
+						value={priority}
+						onChange={(e) => setPriority(e.target.value)}
 					/>
 				</div>
 			</div>
@@ -115,4 +104,4 @@ let EditPopup = ({
 	);
 };
 
-export default EditPopup;
+export default ToDoEdit;
