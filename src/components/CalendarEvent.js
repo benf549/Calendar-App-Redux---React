@@ -55,9 +55,17 @@ let CalendarEvent = ({
 	//Calculate start time for Event
 	var starthour;
 	if (starttime.getHours() >= 12) {
-		starthour = `${starttime.getHours() - 12}:${
-			starttime.getMinutes() === 0 ? "00" : starttime.getMinutes()
-		}pm`;
+		starttime.getHours() === 12
+			? (starthour = `12:${
+					starttime.getMinutes() < 10
+						? `0${starttime.getMinutes()}`
+						: starttime.getMinutes()
+			  }pm`)
+			: (starthour = `${starttime.getHours() - 12}:${
+					starttime.getMinutes() < 10
+						? `0${starttime.getMinutes()}`
+						: starttime.getMinutes()
+			  }pm`);
 	} else {
 		starthour = `${starttime.getHours() === 0 ? "12" : starttime.getHours()}:${
 			starttime.getMinutes() === 0 ? "00" : starttime.getMinutes()
@@ -67,9 +75,17 @@ let CalendarEvent = ({
 	//Calculate the end time for the Event
 	var endhour;
 	if (stoptime.getHours() >= 12) {
-		endhour = `${stoptime.getHours() - 12}:${
-			stoptime.getMinutes() === 0 ? "00" : stoptime.getMinutes()
-		}pm`;
+		stoptime.getHours() === 12
+			? (endhour = `12:${
+					stoptime.getMinutes() < 10
+						? `0${stoptime.getMinutes()}`
+						: stoptime.getMinutes()
+			  }pm`)
+			: (endhour = `${stoptime.getHours() - 12}:${
+					stoptime.getMinutes() < 10
+						? `0${starttime.getMinutes()}`
+						: stoptime.getMinutes()
+			  }pm`);
 	} else {
 		endhour = `${stoptime.getHours() === 0 ? "12" : stoptime.getHours()}:${
 			stoptime.getMinutes() === 0 ? "00" : stoptime.getMinutes()
