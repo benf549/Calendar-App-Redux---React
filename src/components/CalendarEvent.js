@@ -66,7 +66,7 @@ let CalendarEvent = ({
 
 	//Calculate the end time for the Event
 	var endhour;
-	if (stoptime.getHours() > 12) {
+	if (stoptime.getHours() >= 12) {
 		endhour = `${stoptime.getHours() - 12}:${
 			stoptime.getMinutes() === 0 ? "00" : stoptime.getMinutes()
 		}pm`;
