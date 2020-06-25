@@ -10,6 +10,7 @@ import EditPopup from "./components/EditPopup";
 import InWeekTDView from "./components/InWeekTDView";
 import { ParseResponse } from "./api";
 import { ParseFetchData } from "./api/todo";
+import ToDoEdit from "./components/ToDoEdit";
 
 //this value is the number of milliseconds in a week and it is multiplied by the increment value below. An inc value of zero returns current week. Greater than 0 advances by that number of weeks and less than 0 goes back that number of weeks.
 let weekinms = 7 * 24 * 60 * 60 * 1000;
@@ -111,6 +112,8 @@ function App() {
 	//Hook used to display the Edit event popup when editevent is true. Event for edit selects the event that will populate the edit event form.
 	let [editevent, setEditEvent] = useState(false);
 	let [eventforedit, setEventForEdit] = useState(null);
+	let [editTodo, setEditTodo] = useState(false);
+	let [todoforedit, setTodoForEdit] = useState(null);
 
 	//Takes in an event id to call the
 	const showEditEventPopup = (id) => {
@@ -118,10 +121,20 @@ function App() {
 		setEditEvent(true);
 	};
 
+	const showTodoForEdit = (id) => {
+		setTodoForEdit(id);
+		setEditTodo(true);
+	};
+
 	//hides the hideEditEventPopup
 	const hideEditEventPopup = () => {
 		setEditEvent(false);
 		setEventForEdit(null);
+	};
+
+	const hideEditToDoPopup = () => {
+		setEditTodo(false);
+		setTodoForEdit(null);
 	};
 
 	//Hook for incrementing the counter to advance pages in the calendar.
@@ -216,12 +229,24 @@ function App() {
 	//Listen for right and left arrow key presses to advance or de-advance the calendar pages
 	useEffect(() => {
 		const handleRight = (event) => {
-			if (!popup && !editevent && event.keyCode === 39) {
+			if (
+				!popup &&
+				!editevent &&
+				!editTodo &&
+				!showTodo &&
+				event.keyCode === 39
+			) {
 				setinc(inc + 1);
 			}
 		};
 		const handleLeft = (event) => {
-			if (!popup && !editevent && event.keyCode === 37) {
+			if (
+				!popup &&
+				!editevent &&
+				!editTodo &&
+				!showTodo &&
+				event.keyCode === 37
+			) {
 				setinc(inc - 1);
 			}
 		};
@@ -231,7 +256,7 @@ function App() {
 			window.removeEventListener("keydown", handleRight);
 			window.removeEventListener("keydown", handleLeft);
 		};
-	}, [inc, popup, editevent]);
+	}, [inc, popup, editevent, editTodo, showTodo]);
 
 	return (
 		<div className="App">
@@ -271,6 +296,7 @@ function App() {
 										data={tododata}
 										setfetchtodo={setfetchtodo}
 										setShowTodo={setShowTodo}
+										showTodoForEdit={showTodoForEdit}
 									/>
 								</div>
 								<div
@@ -288,6 +314,7 @@ function App() {
 										data={tododata}
 										setfetchtodo={setfetchtodo}
 										setShowTodo={setShowTodo}
+										showTodoForEdit={showTodoForEdit}
 									/>
 								</div>
 								<div className="scroller">
@@ -348,7 +375,30 @@ function App() {
 								showPopup={showTodo}
 							/>
 						</div>
-						<div className="neweventcircle" onClick={showNewEventPopUp}>
+						<div
+							className="neweventpopup"
+							id="edittodo"
+							style={{ display: editTodo ? "inline-block" : "none" }}
+						>
+							<div className="topbar">
+								<h3>Edit To-Do</h3>
+								<span className="closepopup" onClick={hideEditToDoPopup}>
+									<i className="fas fa-times"></i>
+								</span>
+							</div>
+							<ToDoEdit
+								todoforedit={todoforedit}
+								tododata={tododata}
+								editTodo={editTodo}
+								hidepopup={hideEditToDoPopup}
+								refresh={setfetchtodo}
+							/>
+						</div>
+						<div
+							className="neweventcircle"
+							onClick={showNewEventPopUp}
+							style={areLeftTasksShown ? { right: "28%" } : { right: "1%" }}
+						>
 							<i className="fas fa-plus"></i>
 						</div>
 					</div>

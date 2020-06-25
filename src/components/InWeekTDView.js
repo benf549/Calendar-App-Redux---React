@@ -1,7 +1,15 @@
 import React from "react";
 import { DeleteTodo, PutToDo } from "../api/todo";
 
-const ToDoEvent = ({ name, time, priority, iscomplete, id, setfetchtodo }) => {
+const ToDoEvent = ({
+	name,
+	time,
+	priority,
+	iscomplete,
+	id,
+	setfetchtodo,
+	showTodoForEdit,
+}) => {
 	return (
 		<div className="todoitem">
 			<div
@@ -28,7 +36,7 @@ const ToDoEvent = ({ name, time, priority, iscomplete, id, setfetchtodo }) => {
 						  }
 				}
 			></div>
-			<div className="belowtodoitem">
+			<div className="belowtodoitem" onClick={() => showTodoForEdit(id)}>
 				<h4
 					style={{
 						color: iscomplete
@@ -66,6 +74,7 @@ const InWeekTDView = ({
 	data,
 	setfetchtodo,
 	setShowTodo,
+	showTodoForEdit,
 }) => {
 	let dow = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 	let fulldow = [
@@ -102,6 +111,7 @@ const InWeekTDView = ({
 					iscomplete={data[todo].iscomplete}
 					id={data[todo].id}
 					setfetchtodo={setfetchtodo}
+					showTodoForEdit={showTodoForEdit}
 				/>
 			);
 
