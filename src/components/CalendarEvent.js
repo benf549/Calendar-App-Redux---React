@@ -54,7 +54,7 @@ let CalendarEvent = ({
 
 	//Calculate start time for Event
 	var starthour;
-	if (starttime.getHours() > 12) {
+	if (starttime.getHours() >= 12) {
 		starthour = `${starttime.getHours() - 12}:${
 			starttime.getMinutes() === 0 ? "00" : starttime.getMinutes()
 		}pm`;
