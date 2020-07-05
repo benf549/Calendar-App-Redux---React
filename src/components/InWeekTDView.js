@@ -75,6 +75,8 @@ const InWeekTDView = ({
 	setfetchtodo,
 	setShowTodo,
 	showTodoForEdit,
+	areRightTasksShown,
+	areLeftTasksShown,
 }) => {
 	let dow = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 	let fulldow = [
@@ -166,7 +168,14 @@ const InWeekTDView = ({
 
 	if (data) {
 		return (
-			<div className="TDview">
+			<div
+				className="TDview"
+				// style={
+				// 	areLeftTasksShown || areRightTasksShown
+				// 		? { display: "inline" }
+				// 		: { display: "none" }
+				// }
+			>
 				<h3 className="dayofweek">{fulldow[weekind]}</h3>
 				{currentDayTodos.map((item) => {
 					return item;

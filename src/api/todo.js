@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
+import { urlpart } from "../api";
 
-const URL = "https://1c96443c.ngrok.io/todo_database";
-// const URL = "http://localhost:5000/todo_database";
+const URL = `${urlpart}/todo_database`;
 let firstRender = true;
 
 export default function FetchData(fetchagain) {

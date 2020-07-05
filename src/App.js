@@ -11,6 +11,7 @@ import InWeekTDView from "./components/InWeekTDView";
 import { ParseResponse } from "./api";
 import { ParseFetchData } from "./api/todo";
 import ToDoEdit from "./components/ToDoEdit";
+import VisualTodo from "./components/VisualTodo";
 
 //this value is the number of milliseconds in a week and it is multiplied by the increment value below. An inc value of zero returns current week. Greater than 0 advances by that number of weeks and less than 0 goes back that number of weeks.
 let weekinms = 7 * 24 * 60 * 60 * 1000;
@@ -100,6 +101,7 @@ function App() {
 	//initialize the week array to be empty and then fill it below
 	let week = [];
 	let weekofevents = [[], [], [], [], [], [], []];
+	let weekoftodos = [[], [], [], [], [], [], []];
 
 	//Hook used to display the NewEventPopup when popup is true.
 	let [popup, setPopup] = useState(false);
@@ -206,6 +208,33 @@ function App() {
 			}
 		}
 	}
+	// repeat the procedure used above for todos
+	if (tododata) {
+		for (let x = 0; x < tododata.length; x++) {
+			let itemtime = tododata[x].time;
+
+			for (let d = 0; d < week.length; d++) {
+				let day = week[d];
+				if (
+					itemtime.getDate() === day.getDate() &&
+					itemtime.getMonth() === day.getMonth() &&
+					itemtime.getFullYear() === day.getFullYear()
+				) {
+					weekoftodos[day.getDay()].push(
+						<VisualTodo
+							key={tododata[x].id}
+							time={tododata[x].time}
+							name={tododata[x].name}
+							priority={tododata[x].priority}
+							iscomplete={tododata[x].iscomplete}
+							day={day}
+							selectForShowTask={selectForShowTask}
+						/>
+					);
+				}
+			}
+		}
+	}
 
 	//determines the month of the first day in the week event and allows this to be displayed at the top of the calendar.
 	//This performs the formatting for the month name at the top of the page.
@@ -296,6 +325,8 @@ function App() {
 										data={tododata}
 										setfetchtodo={setfetchtodo}
 										setShowTodo={setShowTodo}
+										areLeftTasksShown={areLeftTasksShown}
+										areRightTasksShown={areRightTasksShown}
 										showTodoForEdit={showTodoForEdit}
 									/>
 								</div>
@@ -319,7 +350,11 @@ function App() {
 								</div>
 								<div className="scroller">
 									<Calendar />
-									<EventSpace weekofevents={weekofevents} week={week} />
+									<EventSpace
+										weekofevents={weekofevents}
+										weekoftodos={weekoftodos}
+										week={week}
+									/>
 								</div>
 							</div>
 						</div>
