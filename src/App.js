@@ -225,6 +225,10 @@ function App() {
 							key={tododata[x].id}
 							time={tododata[x].time}
 							name={tododata[x].name}
+							priority={tododata[x].priority}
+							iscomplete={tododata[x].iscomplete}
+							day={day}
+							selectForShowTask={selectForShowTask}
 						/>
 					);
 				}

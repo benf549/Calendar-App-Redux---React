@@ -327,7 +327,7 @@ body {
 	background-color: var(--accent-color-B);
 	height: var(--hovered-element-height) !important;
 	padding-bottom: 1vh;
-	width: 102%;
+	/* width: 102%; */
 }
 
 .Event:hover {
@@ -759,4 +759,28 @@ input[type="text"]:focus {
 .TDview::-webkit-scrollbar {
 	width: 0px; /* Remove scrollbar space */
 	background: transparent; /* Optional: just make scrollbar invisible */
+}
+
+.visualtodo {
+	white-space: nowrap;
+	position: absolute;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	left: 0;
+	margin-top: 2px;
+	border-radius: 3px;
+	box-shadow: 0 0 3px var(--accent-color-B);
+	overflow: hidden;
+	transition: all 0.5s var(--transition-curve);
+}
+
+.visualtodo:hover {
+	cursor: pointer;
+	background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.visualtodo p {
+	padding-left: 5px;
+	padding-top: 2px;
 }
