@@ -83,7 +83,7 @@ let CalendarEvent = ({
 			  }pm`)
 			: (endhour = `${stoptime.getHours() - 12}:${
 					stoptime.getMinutes() < 10
-						? `0${starttime.getMinutes()}`
+						? `0${stoptime.getMinutes()}`
 						: stoptime.getMinutes()
 			  }pm`);
 	} else {
