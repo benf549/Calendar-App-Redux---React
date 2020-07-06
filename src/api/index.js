@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export const urlpart = "https://1c96443c.ngrok.io";
+export const urlpart = "https://dc0be4a6acec.ngrok.io";
 //export const urlpart = "http://localhost:5000";
 
 const URL = `${urlpart}/task_database`;
