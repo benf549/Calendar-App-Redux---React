@@ -20,33 +20,16 @@ let weekinms = 7 * 24 * 60 * 60 * 1000;
 let updateDays = (newweekdate = null) => {
 	//This function takes in a day or nothing (to get current week) and returns an array of the days of the current week which is later stored into the 'week' array
 	let curr;
-	if (newweekdate === null) {
-		curr = new Date();
-	} else {
-		curr = new Date(newweekdate);
-	}
+	newweekdate ? (curr = new Date(newweekdate)) : (curr = new Date());
 	let temp = [];
 	let daynum;
-	switch (curr.getDay()) {
-		case 0:
-			daynum = 6;
-			break;
-		default:
-			daynum = curr.getDay() - 1;
-			break;
-	}
+	curr.getDay() === 0 ? (daynum = 6) : (daynum = curr.getDay() - 1);
 	let first = curr.getDate() - daynum;
 	let firstday = new Date(curr.setDate(first));
 	for (let i = 0; i <= 6; i++) {
-		switch (i) {
-			case 0:
-				temp.push(firstday);
-				break;
-			default:
-				let lastday = new Date(curr.setDate(curr.getDate() + 1));
-				temp.push(lastday);
-				break;
-		}
+		i === 0
+			? temp.push(firstday)
+			: temp.push(new Date(curr.setDate(curr.getDate() + 1)));
 	}
 	return temp;
 };
