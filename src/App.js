@@ -199,21 +199,31 @@ function App() {
 
 			// Parse the event's repetition code.
 			let eventcode = repeatevents[y].repeatstruct.split(";");
-			let number_to_skip = parseInt(eventcode[1]) - 1;
+			let number_to_skip = parseInt(eventcode[1]);
 			let skip_frequency = eventcode[2];
 			let daycodes = eventcode[0].split("");
+
+			let thistime = repeatevents[y].ostarted;
+			let initial_repeat_week = updateDays(parseInt(thistime));
+
+			// These are used to allow for events that repeat any number of weeks.
+			let calc1 = week[6].setHours(0, 0, 0, 0);
+			let calc2 = initial_repeat_week[6].setHours(0, 0, 0, 0);
 
 			//loop throught the given week and if the day of the week is after the repeat event check each day in the daycodes.
 			//If a day in daycodes matches a given day in the week which is after the event, we will push it into the week of events array.
 			//When an event should not repeat every week take the frequency and multiply it by weekinms and check to see if that frequency of weeks has passed since the first event before pushing.
 			for (let z = 0; z < week.length; z++) {
 				let day = week[z];
-				let thistime = repeatevents[y].ostarted;
 				for (let d = 0; d < daycodes.length; d++) {
-					if (day.getTime() > thistime && truecodes[z] === daycodes[d]) {
+					if (
+						day.getTime() > thistime &&
+						truecodes[z] === daycodes[d] &&
+						((calc1 - calc2) / weekinms) % number_to_skip === 0
+					) {
 						weekofevents[day.getDay()].push(
 							<CalendarEvent
-								key={repeatevents[y].key}
+								key={`${repeatevents[y].key}.${daycodes[d]}`}
 								totaltop={repeatevents[y].totaltop}
 								totalheight={repeatevents[y].totalheight}
 								title={repeatevents[y].title}
