@@ -31,6 +31,7 @@ export function FetchData(fetchagain) {
 export function ParseResponse(fetchagain) {
 	const response = FetchData(fetchagain);
 	let processedevents = [];
+	let repeatevents = [];
 
 	if (response.length) {
 		if (firstRender) {
@@ -47,6 +48,20 @@ export function ParseResponse(fetchagain) {
 			let parsed2 = new Date(parseInt(response[t].ends));
 			let msbetween = Math.abs(parsed2 - parsed);
 			let minbetweenheight = (msbetween / 60000) * 0.104167;
+
+			if (response[t].repetition) {
+				repeatevents.push({
+					key: response[t].id,
+					totaltop: totaltop,
+					totalheight: minbetweenheight,
+					title: response[t].name,
+					eventday: parsed,
+					id: response[t].id,
+					ostarted: response[t].time,
+					oended: response[t].ends,
+					repeatstruct: response[t].repetition,
+				});
+			}
 
 			let overflow = minbetweenheight + totaltop - 150;
 			//calculate the overflow of the event
@@ -95,7 +110,7 @@ export function ParseResponse(fetchagain) {
 			}
 		}
 
-		return processedevents;
+		return { processedevents, repeatevents };
 	}
 }
 

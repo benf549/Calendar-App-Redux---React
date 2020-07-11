@@ -78,7 +78,10 @@ function App() {
 	let [fetchtodo, setfetchtodo] = useState(false);
 
 	//Sents the above initialized processed events array equal to a processed response from the API functions. The fetchagain parameter ensures it only runs when we want it to.
-	let processedevents = ParseResponse(fetchagain);
+	let todoresponse = ParseResponse(fetchagain);
+	let processedevents = todoresponse ? todoresponse.processedevents : null;
+	let repeatevents = todoresponse ? todoresponse.repeatevents : null;
+	// console.log(repeatevents);
 	let tododata = ParseFetchData(fetchtodo);
 
 	//initialize the week array to be empty and then fill it below
@@ -187,6 +190,42 @@ function App() {
 							stopDT={processedevents[i].oended}
 						/>
 					);
+				}
+			}
+		}
+
+		for (let y = 0; y < repeatevents.length; y++) {
+			let truecodes = ["M", "T", "W", "R", "F", "S", "D"];
+
+			// Parse the event's repetition code.
+			let eventcode = repeatevents[y].repeatstruct.split(";");
+			let number_to_skip = parseInt(eventcode[1]) - 1;
+			let skip_frequency = eventcode[2];
+			let daycodes = eventcode[0].split("");
+
+			//loop throught the given week and if the day of the week is after the repeat event check each day in the daycodes.
+			//If a day in daycodes matches a given day in the week which is after the event, we will push it into the week of events array.
+			//When an event should not repeat every week take the frequency and multiply it by weekinms and check to see if that frequency of weeks has passed since the first event before pushing.
+			for (let z = 0; z < week.length; z++) {
+				let day = week[z];
+				let thistime = repeatevents[y].ostarted;
+				for (let d = 0; d < daycodes.length; d++) {
+					if (day.getTime() > thistime && truecodes[z] === daycodes[d]) {
+						weekofevents[day.getDay()].push(
+							<CalendarEvent
+								key={repeatevents[y].key}
+								totaltop={repeatevents[y].totaltop}
+								totalheight={repeatevents[y].totalheight}
+								title={repeatevents[y].title}
+								repeator={repeatevents[y].repeator}
+								number={repeatevents[y].id}
+								deletefun={setfetchagain}
+								showEditEventPopup={showEditEventPopup}
+								startDT={repeatevents[y].ostarted}
+								stopDT={repeatevents[y].oended}
+							/>
+						);
+					}
 				}
 			}
 		}
