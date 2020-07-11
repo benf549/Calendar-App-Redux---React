@@ -141,7 +141,12 @@ export function PutRequest(eventforedit, newName, start, end, setfetchagain) {
 	const requestOptions = {
 		method: "put",
 		headers: { "content-type": "application/json" },
-		body: JSON.stringify({ name: newName, time: start, ends: end }),
+		body: JSON.stringify({
+			name: newName,
+			time: start,
+			ends: end,
+			repetition: "",
+		}),
 	};
 	fetch(URL + "/" + eventforedit.toString(), requestOptions)
 		.then((response) => response.json())
