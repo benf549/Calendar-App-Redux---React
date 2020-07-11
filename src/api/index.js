@@ -104,7 +104,12 @@ export function PostData({ newName, start, end, setfetchagain }) {
 	const requestOptions = {
 		method: "post",
 		headers: { "content-type": "application/json" },
-		body: JSON.stringify({ name: newName, time: start, ends: end }),
+		body: JSON.stringify({
+			name: newName,
+			time: start,
+			ends: end,
+			repetition: "",
+		}),
 	};
 
 	fetch(URL, requestOptions)
