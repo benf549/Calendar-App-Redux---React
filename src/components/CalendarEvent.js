@@ -68,7 +68,9 @@ let CalendarEvent = ({
 			  }pm`);
 	} else {
 		starthour = `${starttime.getHours() === 0 ? "12" : starttime.getHours()}:${
-			starttime.getMinutes() === 0 ? "00" : starttime.getMinutes()
+			starttime.getMinutes() < 10
+				? `0${starttime.getMinutes()}`
+				: starttime.getMinutes()
 		}am`;
 	}
 
@@ -88,7 +90,9 @@ let CalendarEvent = ({
 			  }pm`);
 	} else {
 		endhour = `${stoptime.getHours() === 0 ? "12" : stoptime.getHours()}:${
-			stoptime.getMinutes() === 0 ? "00" : stoptime.getMinutes()
+			stoptime.getMinutes() < 10
+				? `0${stoptime.getMinutes()}`
+				: stoptime.getMinutes()
 		}am`;
 	}
 

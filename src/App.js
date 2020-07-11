@@ -200,7 +200,7 @@ function App() {
 			// Parse the event's repetition code.
 			let eventcode = repeatevents[y].repeatstruct.split(";");
 			let number_to_skip = parseInt(eventcode[1]);
-			let skip_frequency = eventcode[2];
+			// let skip_frequency = eventcode[2];
 			let daycodes = eventcode[0].split("");
 
 			let thistime = repeatevents[y].ostarted;
