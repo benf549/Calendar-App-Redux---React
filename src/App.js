@@ -134,15 +134,9 @@ function App() {
 
 	let tempDate = new Date();
 	let daynum;
+
 	//this allows sunday to be the last index in the array rather than the first.
-	switch (tempDate.getDay()) {
-		case 0:
-			daynum = 6;
-			break;
-		default:
-			daynum = tempDate.getDay() - 1;
-			break;
-	}
+	tempDate.getDay() === 0 ? (daynum = 6) : (daynum = tempDate.getDay() - 1);
 
 	//daynum just gives the day of the week
 	let dayforadd = week[daynum];
@@ -200,6 +194,9 @@ function App() {
 			// Parse the event's repetition code.
 			let eventcode = repeatevents[y].repeatstruct.split(";");
 			let number_to_skip = parseInt(eventcode[1]);
+
+			//parse the event's blacklist code.
+			let blacklist = repeatevents[y].blacklist.split(";");
 			// let skip_frequency = eventcode[2];
 			let endtime = new Date(parseInt(eventcode[3]));
 			let daycodes = eventcode[0].split("");
@@ -211,20 +208,36 @@ function App() {
 			let calc1 = week[6].setHours(0, 0, 0, 0);
 			let calc2 = initial_repeat_week[6].setHours(0, 0, 0, 0);
 
+			let checkblacklist = (d) => {
+				let return_val = false;
+				if (blacklist.length) {
+					for (let b = 0; b < blacklist.length; b++) {
+						let blacklist_day = new Date(parseInt(blacklist[b]));
+						if (d.setHours(0, 0, 0, 0) === blacklist_day.setHours(0, 0, 0, 0)) {
+							return_val = true;
+						}
+					}
+				}
+				return return_val;
+			};
+
 			//loop throught the given week and if the day of the week is after the repeat event check each day in the daycodes.
 			//If a day in daycodes matches a given day in the week which is after the event, we will push it into the week of events array.
 			//When an event should not repeat every week take the frequency and multiply it by weekinms and check to see if that frequency of weeks has passed since the first event before pushing.
 			//The last component of the code checks to see if the day being looked at for a potential event push is after the end date parsed from the end and if it is, the event is not pushed into the array.
+			//Checks if the day of the week being looked at is on the blacklist and only pushes to week of event array if it isnt. Subsequently checks if the day is equal to the first occurance of the event and wont push it into the array if it is becuase this is handled by processedevents.
 			for (let z = 0; z < week.length; z++) {
-				let day = week[z];
+				let day = week[z].setHours(0, 0, 0, 0);
 				for (let d = 0; d < daycodes.length; d++) {
 					if (
-						day.getTime() > thistime &&
+						week[z].getTime() > thistime &&
 						truecodes[z] === daycodes[d] &&
 						((calc1 - calc2) / weekinms) % number_to_skip === 0 &&
-						!(week[z].setHours(0, 0, 0, 0) > endtime.setHours(0, 0, 0, 0))
+						!(day > endtime.setHours(0, 0, 0, 0)) &&
+						!checkblacklist(week[z]) &&
+						day !== new Date(parseInt(thistime)).setHours(0, 0, 0, 0)
 					) {
-						weekofevents[day.getDay()].push(
+						weekofevents[week[z].getDay()].push(
 							<CalendarEvent
 								key={`${repeatevents[y].key}.${daycodes[d]}`}
 								totaltop={repeatevents[y].totaltop}
@@ -233,6 +246,7 @@ function App() {
 								repeator={repeatevents[y].repeator}
 								number={repeatevents[y].id}
 								deletefun={setfetchagain}
+								repeatday={week[z]}
 								showEditEventPopup={showEditEventPopup}
 								startDT={repeatevents[y].ostarted}
 								stopDT={repeatevents[y].oended}

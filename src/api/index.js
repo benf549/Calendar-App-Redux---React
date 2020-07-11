@@ -60,6 +60,7 @@ export function ParseResponse(fetchagain) {
 					ostarted: response[t].time,
 					oended: response[t].ends,
 					repeatstruct: response[t].repetition,
+					blacklist: response[t].rep_blacklist,
 				});
 			}
 
@@ -124,6 +125,7 @@ export function PostData({ newName, start, end, setfetchagain }) {
 			time: start,
 			ends: end,
 			repetition: "",
+			rep_blacklist: "",
 		}),
 	};
 
@@ -161,6 +163,7 @@ export function PutRequest(eventforedit, newName, start, end, setfetchagain) {
 			time: start,
 			ends: end,
 			repetition: "",
+			rep_blacklist: "",
 		}),
 	};
 	fetch(URL + "/" + eventforedit.toString(), requestOptions)
