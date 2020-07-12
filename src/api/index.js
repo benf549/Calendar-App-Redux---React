@@ -115,7 +115,13 @@ export function ParseResponse(fetchagain) {
 	}
 }
 
-export function PostData({ newName, start, end, setfetchagain }) {
+export function PostData({
+	newName,
+	start,
+	end,
+	setfetchagain,
+	repetition_code,
+}) {
 	setfetchagain(false);
 	const requestOptions = {
 		method: "post",
@@ -124,7 +130,7 @@ export function PostData({ newName, start, end, setfetchagain }) {
 			name: newName,
 			time: start,
 			ends: end,
-			repetition: "",
+			repetition: repetition_code,
 			rep_blacklist: "",
 		}),
 	};

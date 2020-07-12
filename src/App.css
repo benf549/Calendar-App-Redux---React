@@ -418,6 +418,26 @@ body {
 	color: var(--main-bg-color);
 	font-weight: bold;
 }
+.bottomrows {
+	display: flex;
+	flex-direction: row;
+}
+.endrepeatdatetime {
+	position: absolute;
+	left: 30%;
+	bottom: 0.5vh;
+	margin-left: 2vw;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+.endrepeatdatetime p {
+	margin-right: 1vw;
+}
+.endrepeatdatetime input {
+	width: 10vw !important;
+}
 .frequencylabelborder {
 	display: flex;
 	align-items: center;
@@ -427,6 +447,7 @@ body {
 	height: 10px;
 	padding: 6.5px 1vw;
 	width: 2vw;
+	margin-right: 1vw;
 }
 .topbar {
 	display: flex;

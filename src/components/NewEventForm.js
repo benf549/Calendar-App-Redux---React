@@ -11,7 +11,8 @@ function NewEventForm({ setfetchagain, setPopup, showPopup }) {
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
 	const [week_freq, setWeek_Freq] = useState(1);
-	const [selecteddays, setSelectedDays] = useState("");
+	const [selecteddays, setSelectedDays] = useState([]);
+	const [endRepeatDate, setEndRepeatDate] = useState();
 
 	let handleClick = (e) => {
 		e.preventDefault();
@@ -22,11 +23,19 @@ function NewEventForm({ setfetchagain, setPopup, showPopup }) {
 		} else {
 			let start = startDate.getTime();
 			let end = endDate.getTime();
-			PostData({ newName, start, end, setfetchagain });
+			let repetition_code;
+			selecteddays.length
+				? (repetition_code = `${selecteddays.join("")};${week_freq};W;${
+						endRepeatDate ? endRepeatDate.getTime() : null
+				  }`)
+				: (repetition_code = "");
+			PostData({ newName, start, end, setfetchagain, repetition_code });
 			setNewName("");
 			setStartDate(new Date());
 			setEndDate(new Date());
 			setPopup(false);
+			setEndRepeatDate();
+			setSelectedDays([]);
 		}
 	};
 
@@ -39,7 +48,7 @@ function NewEventForm({ setfetchagain, setPopup, showPopup }) {
 	};
 
 	let handleEmphasize = (item) => {
-		console.log(selecteddays);
+		//console.log(selecteddays);
 		let response = false;
 		for (let i = 0; i < selecteddays.length; i++) {
 			if (item === selecteddays[i]) {
@@ -48,14 +57,13 @@ function NewEventForm({ setfetchagain, setPopup, showPopup }) {
 		}
 		return response;
 	};
-	// useEffect(() => {
-	// 	console.log(selecteddays);
-
-	// 	let response = handleEmphasize();
-	// }, [selecteddays]);
 
 	// Allows you to close the new event form by pressing esc key
 	useEffect(() => {
+		if (showPopup === false) {
+			setSelectedDays([]);
+			setEndRepeatDate();
+		}
 		const handleEsc = (event) => {
 			if (showPopup && event.keyCode === 27) {
 				setPopup(false);
@@ -120,32 +128,46 @@ function NewEventForm({ setfetchagain, setPopup, showPopup }) {
 			<button className="finalsubmit" type="submit" onClick={handleClick}>
 				Submit
 			</button>
-			<div className="bottombarwrap">
-				{weekcodes.map((item) => {
-					return (
-						<div
-							className={`repeatcircle ${
-								handleEmphasize(item) ? "selected" : null
-							}`}
-							key={item}
-							onClick={() => handleselect(item)}
-						>
-							<p className="repeatday" key={item}>
-								{item === "R" ? "T" : item === "D" ? "S" : item}
-							</p>
-						</div>
-					);
-				})}
-				<input
-					type="text"
-					id="rep_frequency"
-					value={week_freq}
-					onChange={(e) =>
-						setWeek_Freq(e.target.value >= 0 ? e.target.value : 1)
-					}
-				></input>
-				<div className="frequencylabelborder">
-					<p className="frequencylabel">{week_freq <= 1 ? "Week" : "Weeks"}</p>
+			<div className="bottomrows">
+				<div className="bottombarwrap">
+					{weekcodes.map((item) => {
+						return (
+							<div
+								className={`repeatcircle ${
+									handleEmphasize(item) ? "selected" : null
+								}`}
+								key={item}
+								onClick={() => handleselect(item)}
+							>
+								<p className="repeatday" key={item}>
+									{item === "R" ? "T" : item === "D" ? "S" : item}
+								</p>
+							</div>
+						);
+					})}
+					<input
+						type="text"
+						id="rep_frequency"
+						value={week_freq}
+						onChange={(e) =>
+							setWeek_Freq(e.target.value >= 0 ? e.target.value : 1)
+						}
+					></input>
+					<div className="frequencylabelborder">
+						<p className="frequencylabel">
+							{week_freq <= 1 ? "Week" : "Weeks"}
+						</p>
+					</div>
+				</div>
+				<div className="endrepeatdatetime">
+					<p>End Repeat:</p>
+					<DatePicker
+						selected={endRepeatDate}
+						minDate={startDate}
+						onChange={(date) => setEndRepeatDate(date)}
+						timeCaption="End Repeat"
+						dateFormat="MMMM d, yyyy"
+					/>
 				</div>
 			</div>
 		</form>
