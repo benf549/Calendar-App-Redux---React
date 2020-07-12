@@ -78,6 +78,8 @@ export function ParseResponse(fetchagain) {
 					id: response[t].id,
 					ostarted: response[t].time,
 					oended: response[t].ends,
+					repeatstruct: response[t].repetition,
+					blacklist: response[t].rep_blacklist,
 				});
 				let cnt = 1;
 				//while the overflow is > 0, push the event into an array, if its >150vh, trim it and set its day to be 24hrs after the original event. the number of times through the while loop sets number of days to add to event.
@@ -92,6 +94,8 @@ export function ParseResponse(fetchagain) {
 						id: response[t].id,
 						ostarted: response[t].time,
 						oended: response[t].ends,
+						repeatstruct: response[t].repetition,
+						blacklist: response[t].rep_blacklist,
 					});
 					cnt += 1;
 					overflow -= 150;
@@ -107,6 +111,8 @@ export function ParseResponse(fetchagain) {
 					id: response[t].id,
 					ostarted: response[t].time,
 					oended: response[t].ends,
+					repeatstruct: response[t].repetition,
+					blacklist: response[t].rep_blacklist,
 				});
 			}
 		}
@@ -158,7 +164,14 @@ export function DeleteRequest(key, setfetchagain) {
 		});
 }
 
-export function PutRequest(eventforedit, newName, start, end, setfetchagain) {
+export function PutRequest(
+	eventforedit,
+	newName,
+	start,
+	end,
+	setfetchagain,
+	repetition_code
+) {
 	// console.log(`Sending a put request for ${eventforedit} with title ${newName} which starts at ${new Date(start)}, and ends at ${new Date(end)}`)
 	setfetchagain(false);
 	const requestOptions = {
@@ -168,7 +181,7 @@ export function PutRequest(eventforedit, newName, start, end, setfetchagain) {
 			name: newName,
 			time: start,
 			ends: end,
-			repetition: "",
+			repetition: repetition_code,
 			rep_blacklist: "",
 		}),
 	};

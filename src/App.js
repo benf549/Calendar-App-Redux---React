@@ -187,6 +187,7 @@ function App() {
 				}
 			}
 		}
+
 		//This block reads all the repeatevents and if they fit the criteria for the week being looked at are added to the weekofevents array.
 		for (let y = 0; y < repeatevents.length; y++) {
 			let truecodes = ["M", "T", "W", "R", "F", "S", "D"];
@@ -198,8 +199,7 @@ function App() {
 			//parse the event's blacklist code.
 			let blacklist = repeatevents[y].blacklist.split(";");
 			// let skip_frequency = eventcode[2];
-			let endtime = new Date(parseInt(eventcode[3]));
-			console.log(endtime);
+			let endtime = eventcode[3] ? new Date(parseInt(eventcode[3])) : null;
 			let daycodes = eventcode[0].split("");
 
 			let thistime = repeatevents[y].ostarted;
@@ -208,6 +208,14 @@ function App() {
 			// These are used to allow for events that repeat any number of weeks.
 			let calc1 = week[6].setHours(0, 0, 0, 0);
 			let calc2 = initial_repeat_week[6].setHours(0, 0, 0, 0);
+
+			let isenddate = (endtime, day) => {
+				let response = true;
+				if (endtime && day > endtime.setHours(0, 0, 0, 0)) {
+					response = false;
+				}
+				return response;
+			};
 
 			let checkblacklist = (d) => {
 				let return_val = false;
@@ -227,7 +235,7 @@ function App() {
 			//When an event should not repeat every week take the frequency and multiply it by weekinms and check to see if that frequency of weeks has passed since the first event before pushing.
 			//The last component of the code checks to see if the day being looked at for a potential event push is after the end date parsed from the end and if it is, the event is not pushed into the array.
 			//Checks if the day of the week being looked at is on the blacklist and only pushes to week of event array if it isnt. Subsequently checks if the day is equal to the first occurance of the event and wont push it into the array if it is becuase this is handled by processedevents.
-			//Added Math.floor to fix weird bug with when events were supposed to end. If there is any strange behavior here in the future, may want to check this out.
+			//!Added Math.floor to fix weird bug with when events were supposed to end. If there is any strange behavior here in the future, may want to check this out.
 			for (let z = 0; z < week.length; z++) {
 				let day = week[z].setHours(0, 0, 0, 0);
 				for (let d = 0; d < daycodes.length; d++) {
@@ -235,10 +243,11 @@ function App() {
 						week[z].getTime() > thistime &&
 						truecodes[z] === daycodes[d] &&
 						Math.floor(((calc1 - calc2) / weekinms) % number_to_skip) === 0 &&
-						day < endtime.setHours(0, 0, 0, 0) &&
+						isenddate(endtime, day) &&
 						!checkblacklist(week[z]) &&
 						day !== new Date(parseInt(thistime)).setHours(0, 0, 0, 0)
 					) {
+						console.log(eventcode);
 						weekofevents[week[z].getDay()].push(
 							<CalendarEvent
 								key={`${repeatevents[y].key}.${daycodes[d]}`}
@@ -259,8 +268,6 @@ function App() {
 			}
 		}
 	}
-	console.log(weekofevents);
-
 	// repeat the procedure used above for todos
 	if (tododata) {
 		for (let x = 0; x < tododata.length; x++) {

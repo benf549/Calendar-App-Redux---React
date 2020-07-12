@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { PostData } from "../api";
 
-let weekcodes = ["M", "T", "W", "R", "F", "S", "D"];
+export let weekcodes = ["M", "T", "W", "R", "F", "S", "D"];
 
 function NewEventForm({ setfetchagain, setPopup, showPopup }) {
 	const [newName, setNewName] = useState("");
@@ -26,7 +26,7 @@ function NewEventForm({ setfetchagain, setPopup, showPopup }) {
 			let repetition_code;
 			selecteddays.length
 				? (repetition_code = `${selecteddays.join("")};${week_freq};W;${
-						endRepeatDate ? endRepeatDate.getTime() : null
+						endRepeatDate ? endRepeatDate.getTime() : ""
 				  }`)
 				: (repetition_code = "");
 			PostData({ newName, start, end, setfetchagain, repetition_code });
@@ -48,7 +48,6 @@ function NewEventForm({ setfetchagain, setPopup, showPopup }) {
 	};
 
 	let handleEmphasize = (item) => {
-		//console.log(selecteddays);
 		let response = false;
 		for (let i = 0; i < selecteddays.length; i++) {
 			if (item === selecteddays[i]) {
