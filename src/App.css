@@ -332,6 +332,7 @@ body {
 
 .Event:hover {
 	background-color: var(--accent-color-B);
+	z-index: 7 !important;
 }
 
 .nameandtimewrapper {

@@ -6,10 +6,10 @@ import { PostData } from "../api";
 
 export let weekcodes = ["M", "T", "W", "R", "F", "S", "D"];
 
-function NewEventForm({ setfetchagain, setPopup, showPopup }) {
+function NewEventForm({ setfetchagain, setPopup, showPopup, week }) {
 	const [newName, setNewName] = useState("");
-	const [startDate, setStartDate] = useState(new Date());
-	const [endDate, setEndDate] = useState(new Date());
+	const [startDate, setStartDate] = useState(week[0]);
+	const [endDate, setEndDate] = useState(week[0]);
 	const [week_freq, setWeek_Freq] = useState(1);
 	const [selecteddays, setSelectedDays] = useState([]);
 	const [endRepeatDate, setEndRepeatDate] = useState();
@@ -79,6 +79,11 @@ function NewEventForm({ setfetchagain, setPopup, showPopup }) {
 	useEffect(() => {
 		setEndDate(startDate);
 	}, [startDate]);
+
+	useEffect(() => {
+		setStartDate(week[0]);
+		setEndDate(week[0]);
+	}, [week]);
 
 	return (
 		<form>

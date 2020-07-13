@@ -4,7 +4,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { PostToDo } from "../api/todo";
 
-function NewToDoForm({ setfetchtodo, setPopup, showPopup }) {
+let indices = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+function NewToDoForm({ setfetchtodo, setPopup, showPopup, dayClicked, week }) {
 	const [newName, setNewName] = useState("");
 	const [priority, setPriority] = useState(1);
 	const [startDate, setStartDate] = useState(new Date());
@@ -21,6 +23,10 @@ function NewToDoForm({ setfetchtodo, setPopup, showPopup }) {
 			setPopup(false);
 		}
 	};
+
+	useEffect(() => {
+		setStartDate(week[indices.indexOf(dayClicked)]);
+	}, [dayClicked]);
 
 	// Allows you to close the new event form by pressing esc key
 	useEffect(() => {

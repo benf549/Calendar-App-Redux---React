@@ -432,6 +432,7 @@ function App() {
 								setfetchagain={setfetchagain}
 								setPopup={setPopup}
 								showPopup={popup}
+								week={week}
 							/>
 						</div>
 						<div
@@ -467,6 +468,8 @@ function App() {
 								setfetchtodo={setfetchtodo}
 								setPopup={setShowTodo}
 								showPopup={showTodo}
+								dayClicked={dayClicked}
+								week={week}
 							/>
 						</div>
 						<div

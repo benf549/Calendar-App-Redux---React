@@ -29,7 +29,11 @@ let EditPopup = ({
 		var startforedit = test ? new Date(parseInt(test.ostarted)) : new Date();
 		var endforedit = test ? new Date(parseInt(test.oended)) : new Date();
 		var repeatbehavior = test ? test.repeatstruct.split(";")[0].split("") : "";
-		var repeatfreq = test ? parseInt(test.repeatstruct.split(";")[1]) : 1;
+		var repeatfreq = test
+			? test.repeatstruct
+				? parseInt(test.repeatstruct.split(";")[1])
+				: 1
+			: 1;
 		var repeatend = test
 			? test.repeatstruct.split(";")[3]
 				? new Date(parseInt(test.repeatstruct.split(";")[3]))
