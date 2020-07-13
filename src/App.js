@@ -247,7 +247,6 @@ function App() {
 						!checkblacklist(week[z]) &&
 						day !== new Date(parseInt(thistime)).setHours(0, 0, 0, 0)
 					) {
-						console.log(eventcode);
 						weekofevents[week[z].getDay()].push(
 							<CalendarEvent
 								key={`${repeatevents[y].key}.${daycodes[d]}`}

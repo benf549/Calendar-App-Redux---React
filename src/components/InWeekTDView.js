@@ -101,6 +101,7 @@ const InWeekTDView = ({
 	let currentDayTodos = [];
 	let nextDayTodos = [];
 	let thirdDayTodos = [];
+	let incompleteTodos = [];
 
 	if (data) {
 		for (let todo = 0; todo < data.length; todo++) {
@@ -116,6 +117,13 @@ const InWeekTDView = ({
 					showTodoForEdit={showTodoForEdit}
 				/>
 			);
+			if (
+				dayClicked &&
+				!data[todo].iscomplete &&
+				data[todo].time.getTime() < new Date().getTime()
+			) {
+				incompleteTodos.push(tdevent);
+			}
 
 			if (
 				dayClicked &&
@@ -168,14 +176,17 @@ const InWeekTDView = ({
 
 	if (data) {
 		return (
-			<div
-				className="TDview"
-				// style={
-				// 	areLeftTasksShown || areRightTasksShown
-				// 		? { display: "inline" }
-				// 		: { display: "none" }
-				// }
-			>
+			<div className="TDview">
+				<h3
+					className="dayofweek"
+					style={{ display: incompleteTodos.length ? "inline-block" : "none" }}
+				>
+					Incomplete Tasks
+				</h3>
+				{incompleteTodos.map((item) => {
+					return item;
+				})}
+
 				<h3 className="dayofweek">{fulldow[weekind]}</h3>
 				{currentDayTodos.map((item) => {
 					return item;
