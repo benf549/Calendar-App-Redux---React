@@ -36,8 +36,9 @@ const ToDoEvent = ({
 						  }
 				}
 			></div>
-			<div className="belowtodoitem" onClick={() => showTodoForEdit(id)}>
+			<div className="belowtodoitem">
 				<h4
+					onClick={() => showTodoForEdit(id)}
 					style={{
 						color: iscomplete
 							? "grey"
@@ -49,7 +50,7 @@ const ToDoEvent = ({
 					{name}
 				</h4>
 				<div className="timeandarchive">
-					<p id="todotime">{`${
+					<p onClick={() => showTodoForEdit(id)} id="todotime">{`${
 						time.getHours() > 12
 							? time.getHours() - 12
 							: time.getHours() === 0

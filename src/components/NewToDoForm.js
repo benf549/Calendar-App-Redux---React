@@ -26,7 +26,7 @@ function NewToDoForm({ setfetchtodo, setPopup, showPopup, dayClicked, week }) {
 
 	useEffect(() => {
 		setStartDate(week[indices.indexOf(dayClicked)]);
-	}, [dayClicked]);
+	}, [dayClicked, week]);
 
 	// Allows you to close the new event form by pressing esc key
 	useEffect(() => {

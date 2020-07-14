@@ -12,6 +12,7 @@ import { ParseResponse } from "./api";
 import { ParseFetchData } from "./api/todo";
 import ToDoEdit from "./components/ToDoEdit";
 import VisualTodo from "./components/VisualTodo";
+import DeletePopup from "./components/DeletePopup";
 
 //this value is the number of milliseconds in a week and it is multiplied by the increment value below. An inc value of zero returns current week. Greater than 0 advances by that number of weeks and less than 0 goes back that number of weeks.
 let weekinms = 7 * 24 * 60 * 60 * 1000;
@@ -38,6 +39,8 @@ function App() {
 	let [areLeftTasksShown, setAreLeftTasksShown] = useState(false);
 	let [areRightTasksShown, setAreRightTasksShown] = useState(false);
 	let [dayClicked, setDayClicked] = useState("");
+	let [showDeletePopup, setShowDeletePopup] = useState(false);
+	let [eventfordelete, setEventForDelete] = useState(null);
 
 	//This function allows the left box to show when a right header clicked and vice versa. Also allows, when one is already shown, if the opposite header is clicked for the current box to be hidden and that header to be shown.
 	const handleHeaderClick = (a, b, c, day) => {
@@ -178,10 +181,11 @@ function App() {
 							title={processedevents[i].title}
 							repeator={processedevents[i].repeator}
 							number={processedevents[i].id}
-							deletefun={setfetchagain}
+							deletefun={setEventForDelete}
 							showEditEventPopup={showEditEventPopup}
 							startDT={processedevents[i].ostarted}
 							stopDT={processedevents[i].oended}
+							showDelete={setShowDeletePopup}
 						/>
 					);
 				}
@@ -255,11 +259,14 @@ function App() {
 								title={repeatevents[y].title}
 								repeator={repeatevents[y].repeator}
 								number={repeatevents[y].id}
-								deletefun={setfetchagain}
+								deletefun={setEventForDelete}
 								repeatday={week[z]}
 								showEditEventPopup={showEditEventPopup}
 								startDT={repeatevents[y].ostarted}
 								stopDT={repeatevents[y].oended}
+								showDelete={setShowDeletePopup}
+								repeatstruct={repeatevents[y].repeatstruct}
+								blacklist={repeatevents[y].blacklist}
 							/>
 						);
 					}
@@ -491,6 +498,14 @@ function App() {
 								refresh={setfetchtodo}
 							/>
 						</div>
+						<DeletePopup
+							showDeletePopup={showDeletePopup}
+							setDP={setShowDeletePopup}
+							selectedevent={eventfordelete}
+							setfetchagain={setfetchagain}
+							repeatevents={repeatevents}
+							weekofevents={weekofevents}
+						/>
 						<div
 							className="neweventcircle"
 							onClick={showNewEventPopUp}

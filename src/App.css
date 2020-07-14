@@ -683,7 +683,7 @@ input[type="text"]:focus {
 .rightTodo {
 	width: 27.142%;
 	right: -100%;
-	transition: right 0.5s var(--transition-curve);
+	transition: all 0.5s var(--transition-curve);
 }
 
 .rightTodoShow {
@@ -693,7 +693,7 @@ input[type="text"]:focus {
 .leftTodo {
 	width: 32.142%;
 	left: -100%;
-	transition: left 0.5s var(--transition-curve);
+	transition: all 0.5s var(--transition-curve);
 }
 
 .leftTodoShow {
@@ -724,6 +724,7 @@ input[type="text"]:focus {
 .todoitem:hover h4 {
 	white-space: normal;
 	text-align: left;
+	cursor: pointer;
 }
 
 .todoContainers .fa-times:hover {
@@ -761,7 +762,7 @@ input[type="text"]:focus {
 #todotime,
 .archive {
 	font-size: 10px;
-	width: 50%;
+	cursor: pointer;
 }
 
 #todotime {
@@ -770,14 +771,14 @@ input[type="text"]:focus {
 
 .archive {
 	display: none;
-	text-align: right;
+	position: absolute;
+	right: 2vw;
 	color: var(--red-accent);
 	font-weight: bold;
 }
 
 .todoitem:hover .archive {
 	display: inline;
-	cursor: pointer;
 }
 
 .timeandarchive {
@@ -831,7 +832,6 @@ input[type="text"]:focus {
 	width: 0px; /* Remove scrollbar space */
 	background: transparent; /* Optional: just make scrollbar invisible */
 }
-
 .visualtodo {
 	white-space: nowrap;
 	position: absolute;
@@ -845,13 +845,98 @@ input[type="text"]:focus {
 	overflow: hidden;
 	transition: all 0.5s var(--transition-curve);
 }
-
 .visualtodo:hover {
 	cursor: pointer;
 	background-color: rgba(0, 0, 0, 0.7) !important;
 }
-
 .visualtodo p {
 	padding-left: 5px;
 	padding-top: 2px;
+}
+.deletepopupwrapper {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 20vw;
+	height: 15vw;
+	z-index: 7;
+	background-color: var(--main-white);
+	border: 1px solid rgba(119, 141, 169, 0.5);
+	box-shadow: 5px 10px rgba(119, 141, 169, 0.2);
+	border-radius: 5px;
+}
+
+.deleteheader {
+	margin: 2vh 0;
+	font-size: 1.5vw !important;
+}
+.deleteheader i {
+	font-size: 1.5vw !important;
+}
+.deletecontent {
+	position: absolute;
+	top: 0;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+}
+.deleteselect {
+	width: 1.5vw;
+	height: 1.5vw;
+	border-radius: 50%;
+	border: 1px solid var(--accent-color-A);
+	margin: 0 1vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.innerdeleteselect {
+	width: 1vw;
+	height: 1vw;
+	border-radius: 50%;
+	background-color: var(--accent-color-A);
+}
+.deleterow {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 1vh;
+	font-size: 1.25vw;
+	cursor: pointer;
+}
+.deletebottombuttons {
+	display: flex;
+	flex-direction: row;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+.deletebottombuttons h5 {
+	margin: 1vw;
+	font-size: 1vw;
+}
+#deleteokay {
+	border: 1px solid var(--accent-color-A);
+	color: var(--accent-color-A);
+	border-radius: 10%;
+	padding: 0.5vw;
+	cursor: pointer;
+}
+#deleteokay:hover {
+	background-color: var(--accent-color-A);
+	color: white;
+}
+#nonrepeatordelete {
+	height: 10vw;
+}
+#nonrepeatordelete #deleteokay {
+	width: 17vw;
+	border-radius: 0;
+}
+#nonrepeatordelete .deletebottombuttons {
+	left: 0;
+	right: 0;
 }

@@ -18,23 +18,26 @@ let EditPopup = ({
 	const [week_freq, setWeek_Freq] = useState(1);
 	const [selecteddays, setSelectedDays] = useState([]);
 	const [endRepeatDate, setEndRepeatDate] = useState();
+	const [blacklist, setBlacklist] = useState("");
 
 	useEffect(() => {
-		var test = eventlist
+		let test = eventlist
 			? eventlist.find((obj) => {
 					return obj.id === eventforedit;
 			  })
 			: "";
-		var titleforedit = test ? test.title : "";
-		var startforedit = test ? new Date(parseInt(test.ostarted)) : new Date();
-		var endforedit = test ? new Date(parseInt(test.oended)) : new Date();
-		var repeatbehavior = test ? test.repeatstruct.split(";")[0].split("") : "";
-		var repeatfreq = test
+		let titleforedit = test ? test.title : "";
+		let startforedit = test ? new Date(parseInt(test.ostarted)) : new Date();
+		let endforedit = test ? new Date(parseInt(test.oended)) : new Date();
+		let repeatbehavior = test ? test.repeatstruct.split(";")[0].split("") : "";
+		let blacklistforset = test ? test.blacklist : "";
+		test ? console.log(test) : console.log("");
+		let repeatfreq = test
 			? test.repeatstruct
 				? parseInt(test.repeatstruct.split(";")[1])
 				: 1
 			: 1;
-		var repeatend = test
+		let repeatend = test
 			? test.repeatstruct.split(";")[3]
 				? new Date(parseInt(test.repeatstruct.split(";")[3]))
 				: ""
@@ -46,6 +49,7 @@ let EditPopup = ({
 		setSelectedDays(repeatbehavior);
 		setWeek_Freq(repeatfreq);
 		setEndRepeatDate(repeatend);
+		setBlacklist(blacklistforset);
 	}, [eventforedit, eventlist]);
 
 	useEffect(() => {
@@ -78,11 +82,20 @@ let EditPopup = ({
 				  }`)
 				: (repetition_code = "");
 
-			PutRequest(eventforedit, newName, start, end, refresh, repetition_code);
+			PutRequest(
+				eventforedit,
+				newName,
+				start,
+				end,
+				refresh,
+				repetition_code,
+				blacklist
+			);
 
 			setNewName("");
 			setStartDate(new Date());
 			setEndDate(new Date());
+			setBlacklist("");
 			hidepopup();
 		}
 	};

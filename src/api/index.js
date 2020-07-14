@@ -170,7 +170,8 @@ export function PutRequest(
 	start,
 	end,
 	setfetchagain,
-	repetition_code
+	repetition_code,
+	blacklistday
 ) {
 	// console.log(`Sending a put request for ${eventforedit} with title ${newName} which starts at ${new Date(start)}, and ends at ${new Date(end)}`)
 	setfetchagain(false);
@@ -182,7 +183,7 @@ export function PutRequest(
 			time: start,
 			ends: end,
 			repetition: repetition_code,
-			rep_blacklist: "",
+			rep_blacklist: blacklistday,
 		}),
 	};
 	fetch(URL + "/" + eventforedit.toString(), requestOptions)

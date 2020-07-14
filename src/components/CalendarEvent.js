@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../App.css";
-import { DeleteRequest } from "../api";
 
 function getWindowDimensions() {
 	const { innerWidth: width, innerHeight: height } = window;
@@ -33,11 +32,15 @@ let CalendarEvent = ({
 	totalheight,
 	title,
 	repeator,
+	repeatday,
 	number,
 	deletefun,
 	showEditEventPopup,
 	startDT,
 	stopDT,
+	showDelete,
+	repeatstruct,
+	blacklist,
 }) => {
 	const { height } = useWindowDimensions();
 	const [height2, setHeight2] = useState(0);
@@ -105,6 +108,27 @@ let CalendarEvent = ({
 		setHeight2(0);
 	};
 
+	const handledeletepress = (
+		number,
+		repeatday,
+		title,
+		start,
+		stop,
+		repeatstruct,
+		blacklist
+	) => {
+		showDelete(true);
+		deletefun({
+			number: number,
+			day: repeatday,
+			name: title,
+			start: start,
+			stop: stop,
+			repeatstruct: repeatstruct,
+			blacklist: blacklist,
+		});
+	};
+
 	useEffect(() => {
 		const Testt = {
 			"--hovered-element-height": `${
@@ -163,9 +187,17 @@ let CalendarEvent = ({
 				</div>
 				<span
 					className="DEB t2"
-					onClick={() => {
-						DeleteRequest(number, deletefun);
-					}}
+					onClick={() =>
+						handledeletepress(
+							number,
+							repeatday,
+							title,
+							startDT,
+							stopDT,
+							repeatstruct,
+							blacklist
+						)
+					}
 				>
 					<i className="fas fa-times"></i>
 				</span>
@@ -198,9 +230,17 @@ let CalendarEvent = ({
 				</div>
 				<span
 					className="DEB t3"
-					onClick={() => {
-						DeleteRequest(number, deletefun);
-					}}
+					onClick={() =>
+						handledeletepress(
+							number,
+							repeatday,
+							title,
+							startDT,
+							stopDT,
+							repeatstruct,
+							blacklist
+						)
+					}
 				>
 					<i className="fas fa-times"></i>
 				</span>
