@@ -159,18 +159,33 @@ function App() {
 		setinc(0);
 	};
 
+	let checkblacklist = (d, blacklist) => {
+		let return_val = true;
+		if (blacklist.length) {
+			for (let b = 0; b < blacklist.length; b++) {
+				let blacklist_day = new Date(parseInt(blacklist[b]));
+				if (d.setHours(0, 0, 0, 0) === blacklist_day.setHours(0, 0, 0, 0)) {
+					return_val = false;
+				}
+			}
+		}
+		return return_val;
+	};
+
 	// going through each event in the event dictionary and checking if the event date (event.time) is the same date as a day in the week array.
 	if (processedevents) {
 		//console.log(processedevents)
 		for (let i = 0; i < processedevents.length; i++) {
 			let parsedtemp = processedevents[i].eventday;
+			let blacklist = processedevents[i].blacklist.split(";");
 			//now that the dates in the week have been determined, for every event as called above, we check if the event falls on any date in the current week.
 			for (let z = 0; z < week.length; z++) {
 				let day = week[z];
 				if (
 					parsedtemp.getDate() === day.getDate() &&
 					parsedtemp.getMonth() === day.getMonth() &&
-					parsedtemp.getFullYear() === day.getFullYear()
+					parsedtemp.getFullYear() === day.getFullYear() &&
+					checkblacklist(day, blacklist)
 				) {
 					//checks if the event its looking at is in the week, on the month, of the year and if it is, checks the overflow array for the same event
 					weekofevents[day.getDay()].push(
@@ -181,11 +196,14 @@ function App() {
 							title={processedevents[i].title}
 							repeator={processedevents[i].repeator}
 							number={processedevents[i].id}
-							deletefun={setEventForDelete}
+							setEventForDelete={setEventForDelete}
 							showEditEventPopup={showEditEventPopup}
+							repeatday={week[z]}
 							startDT={processedevents[i].ostarted}
 							stopDT={processedevents[i].oended}
 							showDelete={setShowDeletePopup}
+							repeatstruct={processedevents[i].repeatstruct}
+							blacklist={processedevents[i].blacklist}
 						/>
 					);
 				}
@@ -221,19 +239,6 @@ function App() {
 				return response;
 			};
 
-			let checkblacklist = (d) => {
-				let return_val = false;
-				if (blacklist.length) {
-					for (let b = 0; b < blacklist.length; b++) {
-						let blacklist_day = new Date(parseInt(blacklist[b]));
-						if (d.setHours(0, 0, 0, 0) === blacklist_day.setHours(0, 0, 0, 0)) {
-							return_val = true;
-						}
-					}
-				}
-				return return_val;
-			};
-
 			//loop throught the given week and if the day of the week is after the repeat event check each day in the daycodes.
 			//If a day in daycodes matches a given day in the week which is after the event, we will push it into the week of events array.
 			//When an event should not repeat every week take the frequency and multiply it by weekinms and check to see if that frequency of weeks has passed since the first event before pushing.
@@ -248,7 +253,7 @@ function App() {
 						truecodes[z] === daycodes[d] &&
 						Math.floor(((calc1 - calc2) / weekinms) % number_to_skip) === 0 &&
 						isenddate(endtime, day) &&
-						!checkblacklist(week[z]) &&
+						checkblacklist(week[z], blacklist) &&
 						day !== new Date(parseInt(thistime)).setHours(0, 0, 0, 0)
 					) {
 						weekofevents[week[z].getDay()].push(
@@ -259,7 +264,7 @@ function App() {
 								title={repeatevents[y].title}
 								repeator={repeatevents[y].repeator}
 								number={repeatevents[y].id}
-								deletefun={setEventForDelete}
+								setEventForDelete={setEventForDelete}
 								repeatday={week[z]}
 								showEditEventPopup={showEditEventPopup}
 								startDT={repeatevents[y].ostarted}

@@ -34,7 +34,7 @@ let CalendarEvent = ({
 	repeator,
 	repeatday,
 	number,
-	deletefun,
+	setEventForDelete,
 	showEditEventPopup,
 	startDT,
 	stopDT,
@@ -118,7 +118,7 @@ let CalendarEvent = ({
 		blacklist
 	) => {
 		showDelete(true);
-		deletefun({
+		setEventForDelete({
 			number: number,
 			day: repeatday,
 			name: title,

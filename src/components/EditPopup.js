@@ -31,7 +31,6 @@ let EditPopup = ({
 		let endforedit = test ? new Date(parseInt(test.oended)) : new Date();
 		let repeatbehavior = test ? test.repeatstruct.split(";")[0].split("") : "";
 		let blacklistforset = test ? test.blacklist : "";
-		test ? console.log(test) : console.log("");
 		let repeatfreq = test
 			? test.repeatstruct
 				? parseInt(test.repeatstruct.split(";")[1])
