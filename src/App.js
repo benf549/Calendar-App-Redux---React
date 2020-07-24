@@ -159,12 +159,14 @@ function App() {
 		setinc(0);
 	};
 
-	let checkblacklist = (d, blacklist) => {
+	let checkblacklist = (daytocheck, blacklist) => {
 		let return_val = true;
 		if (blacklist.length) {
 			for (let b = 0; b < blacklist.length; b++) {
 				let blacklist_day = new Date(parseInt(blacklist[b]));
-				if (d.setHours(0, 0, 0, 0) === blacklist_day.setHours(0, 0, 0, 0)) {
+				if (
+					daytocheck.setHours(0, 0, 0, 0) === blacklist_day.setHours(0, 0, 0, 0)
+				) {
 					return_val = false;
 				}
 			}
@@ -224,8 +226,8 @@ function App() {
 			let endtime = eventcode[3] ? new Date(parseInt(eventcode[3])) : null;
 			let daycodes = eventcode[0].split("");
 
-			let thistime = repeatevents[y].ostarted;
-			let initial_repeat_week = updateDays(parseInt(thistime));
+			let thistime = repeatevents[y].eventday;
+			let initial_repeat_week = updateDays(thistime);
 
 			// These are used to allow for events that repeat any number of weeks.
 			let calc1 = week[6].setHours(0, 0, 0, 0);
@@ -256,7 +258,14 @@ function App() {
 						checkblacklist(week[z], blacklist) &&
 						day !== new Date(parseInt(thistime)).setHours(0, 0, 0, 0)
 					) {
-						weekofevents[week[z].getDay()].push(
+						//!!!!!!!! Added this since last commit. Wraps array back to first day of week.
+						//!!!!!!!! Need to find a way to check that the wrap is only being shown after the actual event and not before.
+						//!!!!!!!! Need to find a way to blacklist an event in such a way that the repeated events are also removed.
+						weekofevents[
+							repeatevents[y].daystoadd
+								? week[(z + repeatevents[y].daystoadd) % week.length].getDay()
+								: week[z].getDay()
+						].push(
 							<CalendarEvent
 								key={`${repeatevents[y].key}.${daycodes[d]}`}
 								totaltop={repeatevents[y].totaltop}
@@ -277,6 +286,7 @@ function App() {
 					}
 				}
 			}
+			console.log(weekofevents);
 		}
 	}
 	// repeat the procedure used above for todos

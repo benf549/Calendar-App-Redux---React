@@ -406,7 +406,7 @@ body {
 	justify-content: center;
 	align-items: center;
 }
-.repeatcircle:hover,
+/* .repeatcircle:hover, */
 .selected {
 	background-color: var(--accent-color-A);
 }
