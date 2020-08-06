@@ -12,9 +12,11 @@ import { ParseResponse } from "./api";
 import { ParseFetchData } from "./api/todo";
 import ToDoEdit from "./components/ToDoEdit";
 import VisualTodo from "./components/VisualTodo";
+import DeletePopup from "./components/DeletePopup";
 
 //this value is the number of milliseconds in a week and it is multiplied by the increment value below. An inc value of zero returns current week. Greater than 0 advances by that number of weeks and less than 0 goes back that number of weeks.
 let weekinms = 7 * 24 * 60 * 60 * 1000;
+let dayinms = weekinms / 7;
 
 //This function is used to generate an array of the datetimes for the current week being looked at and will take in a date and generate the week associated with that date or null which returns the week based on todays date.
 let updateDays = (newweekdate = null) => {
@@ -38,6 +40,8 @@ function App() {
 	let [areLeftTasksShown, setAreLeftTasksShown] = useState(false);
 	let [areRightTasksShown, setAreRightTasksShown] = useState(false);
 	let [dayClicked, setDayClicked] = useState("");
+	let [showDeletePopup, setShowDeletePopup] = useState(false);
+	let [eventfordelete, setEventForDelete] = useState(null);
 
 	//This function allows the left box to show when a right header clicked and vice versa. Also allows, when one is already shown, if the opposite header is clicked for the current box to be hidden and that header to be shown.
 	const handleHeaderClick = (a, b, c, day) => {
@@ -78,7 +82,10 @@ function App() {
 	let [fetchtodo, setfetchtodo] = useState(false);
 
 	//Sents the above initialized processed events array equal to a processed response from the API functions. The fetchagain parameter ensures it only runs when we want it to.
-	let processedevents = ParseResponse(fetchagain);
+	let todoresponse = ParseResponse(fetchagain);
+	let processedevents = todoresponse ? todoresponse.processedevents : null;
+	let repeatevents = todoresponse ? todoresponse.repeatevents : null;
+	// console.log(repeatevents);
 	let tododata = ParseFetchData(fetchtodo);
 
 	//initialize the week array to be empty and then fill it below
@@ -131,15 +138,9 @@ function App() {
 
 	let tempDate = new Date();
 	let daynum;
+
 	//this allows sunday to be the last index in the array rather than the first.
-	switch (tempDate.getDay()) {
-		case 0:
-			daynum = 6;
-			break;
-		default:
-			daynum = tempDate.getDay() - 1;
-			break;
-	}
+	tempDate.getDay() === 0 ? (daynum = 6) : (daynum = tempDate.getDay() - 1);
 
 	//daynum just gives the day of the week
 	let dayforadd = week[daynum];
@@ -159,18 +160,36 @@ function App() {
 		setinc(0);
 	};
 
+	let checkblacklist = (daytocheck, blacklist, repeatevent) => {
+		let return_val = true;
+		if (blacklist.length && repeatevent) {
+			for (let b = 0; b < blacklist.length; b++) {
+				let blacklist_day = new Date(parseInt(blacklist[b]));
+				if (
+					daytocheck.setHours(0, 0, 0, 0) - dayinms * repeatevent.daystoadd ===
+					blacklist_day.setHours(0, 0, 0, 0)
+				) {
+					return_val = false;
+				}
+			}
+		}
+		return return_val;
+	};
+
 	// going through each event in the event dictionary and checking if the event date (event.time) is the same date as a day in the week array.
 	if (processedevents) {
 		//console.log(processedevents)
 		for (let i = 0; i < processedevents.length; i++) {
 			let parsedtemp = processedevents[i].eventday;
+			let blacklist = processedevents[i].blacklist.split(";");
 			//now that the dates in the week have been determined, for every event as called above, we check if the event falls on any date in the current week.
 			for (let z = 0; z < week.length; z++) {
 				let day = week[z];
 				if (
 					parsedtemp.getDate() === day.getDate() &&
 					parsedtemp.getMonth() === day.getMonth() &&
-					parsedtemp.getFullYear() === day.getFullYear()
+					parsedtemp.getFullYear() === day.getFullYear() &&
+					checkblacklist(day, blacklist, processedevents[i])
 				) {
 					//checks if the event its looking at is in the week, on the month, of the year and if it is, checks the overflow array for the same event
 					weekofevents[day.getDay()].push(
@@ -181,14 +200,93 @@ function App() {
 							title={processedevents[i].title}
 							repeator={processedevents[i].repeator}
 							number={processedevents[i].id}
-							deletefun={setfetchagain}
+							setEventForDelete={setEventForDelete}
 							showEditEventPopup={showEditEventPopup}
+							repeatday={week[z]}
 							startDT={processedevents[i].ostarted}
 							stopDT={processedevents[i].oended}
+							showDelete={setShowDeletePopup}
+							repeatstruct={processedevents[i].repeatstruct}
+							blacklist={processedevents[i].blacklist}
 						/>
 					);
 				}
 			}
+		}
+
+		//This block reads all the repeatevents and if they fit the criteria for the week being looked at are added to the weekofevents array.
+		for (let y = 0; y < repeatevents.length; y++) {
+			let truecodes = ["M", "T", "W", "R", "F", "S", "D"];
+
+			// Parse the event's repetition code.
+			let eventcode = repeatevents[y].repeatstruct.split(";");
+			let number_to_skip = parseInt(eventcode[1]);
+
+			//parse the event's blacklist code.
+			let blacklist = repeatevents[y].blacklist.split(";");
+			// let skip_frequency = eventcode[2];
+			let endtime = eventcode[3] ? new Date(parseInt(eventcode[3])) : null;
+			let daycodes = eventcode[0].split("");
+
+			let thistime = repeatevents[y].eventday;
+			let initial_repeat_week = updateDays(thistime);
+
+			// These are used to allow for events that repeat any number of weeks.
+			let calc1 = week[6].setHours(0, 0, 0, 0);
+			let calc2 = initial_repeat_week[6].setHours(0, 0, 0, 0);
+
+			let isenddate = (endtime, day) => {
+				let response = true;
+				if (endtime && day > endtime.setHours(0, 0, 0, 0)) {
+					response = false;
+				}
+				return response;
+			};
+			//loop throught the given week and if the day of the week is after the repeat event check each day in the daycodes.
+			//If a day in daycodes matches a given day in the week which is after the event, we will push it into the week of events array.
+			//When an event should not repeat every week take the frequency and multiply it by weekinms and check to see if that frequency of weeks has passed since the first event before pushing.
+			//The last component of the code checks to see if the day being looked at for a potential event push is after the end date parsed from the end and if it is, the event is not pushed into the array.
+			//Checks if the day of the week being looked at is on the blacklist and only pushes to week of event array if it isnt. Subsequently checks if the day is equal to the first occurance of the event and wont push it into the array if it is becuase this is handled by processedevents.
+			//!Added Math.floor to fix weird bug with when events were supposed to end. If there is any strange behavior here in the future, may want to check this out.
+
+			for (let z = 0; z < week.length; z++) {
+				let day = week[z].setHours(0, 0, 0, 0);
+				for (let d = 0; d < daycodes.length; d++) {
+					if (
+						truecodes[z] ===
+							truecodes[
+								(truecodes.indexOf(daycodes[d]) +
+									parseInt(repeatevents[y].daystoadd)) %
+									truecodes.length
+							] &&
+						day > thistime.getTime() &&
+						Math.floor(((calc1 - calc2) / weekinms) % number_to_skip) === 0 &&
+						isenddate(endtime, day) &&
+						checkblacklist(week[z], blacklist, repeatevents[y]) &&
+						day !== new Date(parseInt(thistime)).setHours(0, 0, 0, 0)
+					) {
+						weekofevents[new Date(day).getDay()].push(
+							<CalendarEvent
+								key={`${repeatevents[y].key}.${daycodes[d]}`}
+								totaltop={repeatevents[y].totaltop}
+								totalheight={repeatevents[y].totalheight}
+								title={repeatevents[y].title}
+								repeator={repeatevents[y].repeator}
+								number={repeatevents[y].id}
+								setEventForDelete={setEventForDelete}
+								repeatday={week[z]}
+								showEditEventPopup={showEditEventPopup}
+								startDT={repeatevents[y].ostarted}
+								stopDT={repeatevents[y].oended}
+								showDelete={setShowDeletePopup}
+								repeatstruct={repeatevents[y].repeatstruct}
+								blacklist={repeatevents[y].blacklist}
+							/>
+						);
+					}
+				}
+			}
+			console.log(weekofevents);
 		}
 	}
 	// repeat the procedure used above for todos
@@ -356,6 +454,7 @@ function App() {
 								setfetchagain={setfetchagain}
 								setPopup={setPopup}
 								showPopup={popup}
+								week={week}
 							/>
 						</div>
 						<div
@@ -391,6 +490,8 @@ function App() {
 								setfetchtodo={setfetchtodo}
 								setPopup={setShowTodo}
 								showPopup={showTodo}
+								dayClicked={dayClicked}
+								week={week}
 							/>
 						</div>
 						<div
@@ -412,6 +513,14 @@ function App() {
 								refresh={setfetchtodo}
 							/>
 						</div>
+						<DeletePopup
+							showDeletePopup={showDeletePopup}
+							setDP={setShowDeletePopup}
+							selectedevent={eventfordelete}
+							setfetchagain={setfetchagain}
+							repeatevents={repeatevents}
+							weekofevents={weekofevents}
+						/>
 						<div
 							className="neweventcircle"
 							onClick={showNewEventPopUp}

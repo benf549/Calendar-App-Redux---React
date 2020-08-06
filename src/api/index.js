@@ -31,6 +31,63 @@ export function FetchData(fetchagain) {
 export function ParseResponse(fetchagain) {
 	const response = FetchData(fetchagain);
 	let processedevents = [];
+	let repeatevents = [];
+
+	let processoverflow = (t, parsed, minbetweenheight, totaltop, pusharray) => {
+		let overflow = minbetweenheight + totaltop - 150;
+		if (overflow > 0) {
+			//if there is an overflow trim the original event and push it into the array
+			pusharray.push({
+				daystoadd: 0,
+				key: response[t].id,
+				totaltop: totaltop,
+				totalheight: 150 - totaltop,
+				title: response[t].name,
+				eventday: parsed,
+				repeator: 1,
+				id: response[t].id,
+				ostarted: response[t].time,
+				oended: response[t].ends,
+				repeatstruct: response[t].repetition,
+				blacklist: response[t].rep_blacklist,
+			});
+			let count = 1;
+			//while the overflow is > 0, push the event into an array, if its >150vh, trim it and set its day to be 24hrs after the original event. the number of times through the while loop sets number of days to add to event.
+			while (overflow > 0) {
+				pusharray.push({
+					key: `${response[t].id}:${count}`,
+					totaltop: 0,
+					totalheight: overflow > 150 ? 150 : overflow,
+					title: response[t].name,
+					eventday: new Date(parsed.getTime() + 864e5 * count),
+					repeator: 0,
+					daystoadd: count,
+					id: response[t].id,
+					ostarted: response[t].time,
+					oended: response[t].ends,
+					repeatstruct: response[t].repetition,
+					blacklist: response[t].rep_blacklist,
+				});
+				count += 1;
+				overflow -= 150;
+			}
+		} else {
+			//if there is no overflow, just push the event into the array wuthout changing it and add calculated top and height distances.
+			pusharray.push({
+				daystoadd: 0,
+				key: response[t].id,
+				totaltop: totaltop,
+				totalheight: minbetweenheight,
+				title: response[t].name,
+				eventday: parsed,
+				id: response[t].id,
+				ostarted: response[t].time,
+				oended: response[t].ends,
+				repeatstruct: response[t].repetition,
+				blacklist: response[t].rep_blacklist,
+			});
+		}
+	};
 
 	if (response.length) {
 		if (firstRender) {
@@ -48,63 +105,34 @@ export function ParseResponse(fetchagain) {
 			let msbetween = Math.abs(parsed2 - parsed);
 			let minbetweenheight = (msbetween / 60000) * 0.104167;
 
-			let overflow = minbetweenheight + totaltop - 150;
-			//calculate the overflow of the event
-			if (overflow > 0) {
-				//if there is an overflow trim the original event and push it into the array
-				processedevents.push({
-					key: response[t].id,
-					totaltop: totaltop,
-					totalheight: 150 - totaltop,
-					title: response[t].name,
-					eventday: parsed,
-					repeator: 1,
-					id: response[t].id,
-					ostarted: response[t].time,
-					oended: response[t].ends,
-				});
-				let cnt = 1;
-				//while the overflow is > 0, push the event into an array, if its >150vh, trim it and set its day to be 24hrs after the original event. the number of times through the while loop sets number of days to add to event.
-				while (overflow > 0) {
-					processedevents.push({
-						key: response[t].id * overflow,
-						totaltop: 0,
-						totalheight: overflow > 150 ? 150 : overflow,
-						title: response[t].name,
-						eventday: new Date(parsed.getTime() + 864e5 * cnt),
-						repeator: 0,
-						id: response[t].id,
-						ostarted: response[t].time,
-						oended: response[t].ends,
-					});
-					cnt += 1;
-					overflow -= 150;
-				}
-			} else {
-				//if there is no overflow, just push the event into the array wuthout changing it and add calculated top and height distances.
-				processedevents.push({
-					key: response[t].id,
-					totaltop: totaltop,
-					totalheight: minbetweenheight,
-					title: response[t].name,
-					eventday: parsed,
-					id: response[t].id,
-					ostarted: response[t].time,
-					oended: response[t].ends,
-				});
+			if (response[t].repetition) {
+				processoverflow(t, parsed, minbetweenheight, totaltop, repeatevents);
 			}
+			processoverflow(t, parsed, minbetweenheight, totaltop, processedevents);
 		}
-
-		return processedevents;
+		console.log({ processedevents, repeatevents });
+		return { processedevents, repeatevents };
 	}
 }
 
-export function PostData({ newName, start, end, setfetchagain }) {
+export function PostData({
+	newName,
+	start,
+	end,
+	setfetchagain,
+	repetition_code,
+}) {
 	setfetchagain(false);
 	const requestOptions = {
 		method: "post",
 		headers: { "content-type": "application/json" },
-		body: JSON.stringify({ name: newName, time: start, ends: end }),
+		body: JSON.stringify({
+			name: newName,
+			time: start,
+			ends: end,
+			repetition: repetition_code,
+			rep_blacklist: "",
+		}),
 	};
 
 	fetch(URL, requestOptions)
@@ -130,13 +158,27 @@ export function DeleteRequest(key, setfetchagain) {
 		});
 }
 
-export function PutRequest(eventforedit, newName, start, end, setfetchagain) {
+export function PutRequest(
+	eventforedit,
+	newName,
+	start,
+	end,
+	setfetchagain,
+	repetition_code,
+	blacklistday
+) {
 	// console.log(`Sending a put request for ${eventforedit} with title ${newName} which starts at ${new Date(start)}, and ends at ${new Date(end)}`)
 	setfetchagain(false);
 	const requestOptions = {
 		method: "put",
 		headers: { "content-type": "application/json" },
-		body: JSON.stringify({ name: newName, time: start, ends: end }),
+		body: JSON.stringify({
+			name: newName,
+			time: start,
+			ends: end,
+			repetition: repetition_code,
+			rep_blacklist: blacklistday,
+		}),
 	};
 	fetch(URL + "/" + eventforedit.toString(), requestOptions)
 		.then((response) => response.json())
