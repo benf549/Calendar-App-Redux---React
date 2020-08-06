@@ -16,6 +16,7 @@ import DeletePopup from "./components/DeletePopup";
 
 //this value is the number of milliseconds in a week and it is multiplied by the increment value below. An inc value of zero returns current week. Greater than 0 advances by that number of weeks and less than 0 goes back that number of weeks.
 let weekinms = 7 * 24 * 60 * 60 * 1000;
+let dayinms = weekinms / 7;
 
 //This function is used to generate an array of the datetimes for the current week being looked at and will take in a date and generate the week associated with that date or null which returns the week based on todays date.
 let updateDays = (newweekdate = null) => {
@@ -159,13 +160,14 @@ function App() {
 		setinc(0);
 	};
 
-	let checkblacklist = (daytocheck, blacklist) => {
+	let checkblacklist = (daytocheck, blacklist, repeatevent) => {
 		let return_val = true;
-		if (blacklist.length) {
+		if (blacklist.length && repeatevent) {
 			for (let b = 0; b < blacklist.length; b++) {
 				let blacklist_day = new Date(parseInt(blacklist[b]));
 				if (
-					daytocheck.setHours(0, 0, 0, 0) === blacklist_day.setHours(0, 0, 0, 0)
+					daytocheck.setHours(0, 0, 0, 0) - dayinms * repeatevent.daystoadd ===
+					blacklist_day.setHours(0, 0, 0, 0)
 				) {
 					return_val = false;
 				}
@@ -187,7 +189,7 @@ function App() {
 					parsedtemp.getDate() === day.getDate() &&
 					parsedtemp.getMonth() === day.getMonth() &&
 					parsedtemp.getFullYear() === day.getFullYear() &&
-					checkblacklist(day, blacklist)
+					checkblacklist(day, blacklist, processedevents[i])
 				) {
 					//checks if the event its looking at is in the week, on the month, of the year and if it is, checks the overflow array for the same event
 					weekofevents[day.getDay()].push(
@@ -240,32 +242,30 @@ function App() {
 				}
 				return response;
 			};
-
 			//loop throught the given week and if the day of the week is after the repeat event check each day in the daycodes.
 			//If a day in daycodes matches a given day in the week which is after the event, we will push it into the week of events array.
 			//When an event should not repeat every week take the frequency and multiply it by weekinms and check to see if that frequency of weeks has passed since the first event before pushing.
 			//The last component of the code checks to see if the day being looked at for a potential event push is after the end date parsed from the end and if it is, the event is not pushed into the array.
 			//Checks if the day of the week being looked at is on the blacklist and only pushes to week of event array if it isnt. Subsequently checks if the day is equal to the first occurance of the event and wont push it into the array if it is becuase this is handled by processedevents.
 			//!Added Math.floor to fix weird bug with when events were supposed to end. If there is any strange behavior here in the future, may want to check this out.
+
 			for (let z = 0; z < week.length; z++) {
 				let day = week[z].setHours(0, 0, 0, 0);
 				for (let d = 0; d < daycodes.length; d++) {
 					if (
-						week[z].getTime() > thistime &&
-						truecodes[z] === daycodes[d] &&
+						truecodes[z] ===
+							truecodes[
+								(truecodes.indexOf(daycodes[d]) +
+									parseInt(repeatevents[y].daystoadd)) %
+									truecodes.length
+							] &&
+						day > thistime.getTime() &&
 						Math.floor(((calc1 - calc2) / weekinms) % number_to_skip) === 0 &&
 						isenddate(endtime, day) &&
-						checkblacklist(week[z], blacklist) &&
+						checkblacklist(week[z], blacklist, repeatevents[y]) &&
 						day !== new Date(parseInt(thistime)).setHours(0, 0, 0, 0)
 					) {
-						//!!!!!!!! Added this since last commit. Wraps array back to first day of week.
-						//!!!!!!!! Need to find a way to check that the wrap is only being shown after the actual event and not before.
-						//!!!!!!!! Need to find a way to blacklist an event in such a way that the repeated events are also removed.
-						weekofevents[
-							repeatevents[y].daystoadd
-								? week[(z + repeatevents[y].daystoadd) % week.length].getDay()
-								: week[z].getDay()
-						].push(
+						weekofevents[new Date(day).getDay()].push(
 							<CalendarEvent
 								key={`${repeatevents[y].key}.${daycodes[d]}`}
 								totaltop={repeatevents[y].totaltop}

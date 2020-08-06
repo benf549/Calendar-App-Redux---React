@@ -38,6 +38,7 @@ export function ParseResponse(fetchagain) {
 		if (overflow > 0) {
 			//if there is an overflow trim the original event and push it into the array
 			pusharray.push({
+				daystoadd: 0,
 				key: response[t].id,
 				totaltop: totaltop,
 				totalheight: 150 - totaltop,
@@ -73,6 +74,7 @@ export function ParseResponse(fetchagain) {
 		} else {
 			//if there is no overflow, just push the event into the array wuthout changing it and add calculated top and height distances.
 			pusharray.push({
+				daystoadd: 0,
 				key: response[t].id,
 				totaltop: totaltop,
 				totalheight: minbetweenheight,
@@ -107,75 +109,6 @@ export function ParseResponse(fetchagain) {
 				processoverflow(t, parsed, minbetweenheight, totaltop, repeatevents);
 			}
 			processoverflow(t, parsed, minbetweenheight, totaltop, processedevents);
-
-			//remove:
-			{
-				// if (response[t].repetition) {
-				// 	repeatevents.push({
-				// 		key: response[t].id,
-				// 		totaltop: totaltop,
-				// 		totalheight: minbetweenheight,
-				// 		title: response[t].name,
-				// 		eventday: parsed,
-				// 		id: response[t].id,
-				// 		ostarted: response[t].time,
-				// 		oended: response[t].ends,
-				// 		repeatstruct: response[t].repetition,
-				// 		blacklist: response[t].rep_blacklist,
-				// 	});
-				// }
-				// let overflow = minbetweenheight + totaltop - 150;
-				// //calculate the overflow of the event
-				// if (overflow > 0) {
-				// 	//if there is an overflow trim the original event and push it into the array
-				// 	processedevents.push({
-				// 		key: response[t].id,
-				// 		totaltop: totaltop,
-				// 		totalheight: 150 - totaltop,
-				// 		title: response[t].name,
-				// 		eventday: parsed,
-				// 		repeator: 1,
-				// 		id: response[t].id,
-				// 		ostarted: response[t].time,
-				// 		oended: response[t].ends,
-				// 		repeatstruct: response[t].repetition,
-				// 		blacklist: response[t].rep_blacklist,
-				// 	});
-				// 	let cnt = 1;
-				// 	//while the overflow is > 0, push the event into an array, if its >150vh, trim it and set its day to be 24hrs after the original event. the number of times through the while loop sets number of days to add to event.
-				// 	while (overflow > 0) {
-				// 		processedevents.push({
-				// 			key: response[t].id * overflow,
-				// 			totaltop: 0,
-				// 			totalheight: overflow > 150 ? 150 : overflow,
-				// 			title: response[t].name,
-				// 			eventday: new Date(parsed.getTime() + 864e5 * cnt),
-				// 			repeator: 0,
-				// 			id: response[t].id,
-				// 			ostarted: response[t].time,
-				// 			oended: response[t].ends,
-				// 			repeatstruct: response[t].repetition,
-				// 			blacklist: response[t].rep_blacklist,
-				// 		});
-				// 		cnt += 1;
-				// 		overflow -= 150;
-				// 	}
-				// } else {
-				// 	//if there is no overflow, just push the event into the array wuthout changing it and add calculated top and height distances.
-				// 	processedevents.push({
-				// 		key: response[t].id,
-				// 		totaltop: totaltop,
-				// 		totalheight: minbetweenheight,
-				// 		title: response[t].name,
-				// 		eventday: parsed,
-				// 		id: response[t].id,
-				// 		ostarted: response[t].time,
-				// 		oended: response[t].ends,
-				// 		repeatstruct: response[t].repetition,
-				// 		blacklist: response[t].rep_blacklist,
-				// 	});
-				// }
-			}
 		}
 		console.log({ processedevents, repeatevents });
 		return { processedevents, repeatevents };
