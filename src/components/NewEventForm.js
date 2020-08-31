@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../App.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { PostData } from "../api";
+import { PostEventData } from "../database";
 
 export let weekcodes = ["M", "T", "W", "R", "F", "S", "D"];
 
@@ -29,7 +29,7 @@ function NewEventForm({ uid, setPopup, showPopup, week }) {
 						endRepeatDate ? endRepeatDate.getTime() : ""
 				  }`)
 				: (repetition_code = "");
-			PostData({ uid, newName, start, end, repetition_code });
+			PostEventData({ uid, newName, start, end, repetition_code });
 			setNewName("");
 			setStartDate(new Date());
 			setEndDate(new Date());

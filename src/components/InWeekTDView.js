@@ -1,5 +1,5 @@
 import React from "react";
-import { DeleteTodo, PutToDo } from "../api/todo";
+import { DeleteToDoRequest, PutToDoRequest } from "../database";
 
 const ToDoEvent = ({
 	name,
@@ -7,7 +7,6 @@ const ToDoEvent = ({
 	priority,
 	iscomplete,
 	id,
-	setfetchtodo,
 	showTodoForEdit,
 }) => {
 	return (
@@ -15,9 +14,8 @@ const ToDoEvent = ({
 			<div
 				className="markoff"
 				onClick={() =>
-					PutToDo(
+					PutToDoRequest(
 						id,
-						setfetchtodo,
 						name,
 						time.getTime().toString(),
 						priority,
@@ -59,7 +57,7 @@ const ToDoEvent = ({
 					}:${
 						time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes()
 					}${time.getHours() > 11 ? "pm" : "am"}`}</p>
-					<p className="archive" onClick={() => DeleteTodo(id, setfetchtodo)}>
+					<p className="archive" onClick={() => DeleteToDoRequest(id)}>
 						Archive
 					</p>
 				</div>

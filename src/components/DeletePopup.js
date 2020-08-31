@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DeleteRequest, PutRequest } from "../api";
+import { DeleteEventRequest, PutEventRequest } from "../database";
 
 let DeletePopup = ({ showDeletePopup, setDP, selectedevent }) => {
 	let [isAselected, setIsASelected] = useState(true);
@@ -9,7 +9,7 @@ let DeletePopup = ({ showDeletePopup, setDP, selectedevent }) => {
 		if (selectedevent.repeatstruct) {
 			if (isAselected) {
 				let blacklistday = selectedevent.day.getTime();
-				PutRequest(
+				PutEventRequest(
 					selectedevent.number,
 					selectedevent.name,
 					selectedevent.start,
@@ -20,10 +20,10 @@ let DeletePopup = ({ showDeletePopup, setDP, selectedevent }) => {
 					}${blacklistday}`
 				);
 			} else {
-				DeleteRequest(selectedevent.number);
+				DeleteEventRequest(selectedevent.number);
 			}
 		} else {
-			DeleteRequest(selectedevent.number);
+			DeleteEventRequest(selectedevent.number);
 		}
 	};
 	if (selectedevent && selectedevent.repeatstruct) {

@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import "../App.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { PostToDo } from "../api/todo";
+import { PostToDoData } from "../database";
 
 let indices = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-function NewToDoForm({ setfetchtodo, setPopup, showPopup, dayClicked, week }) {
+function NewToDoForm({ uid, setPopup, showPopup, dayClicked, week }) {
 	const [newName, setNewName] = useState("");
 	const [priority, setPriority] = useState(1);
 	const [startDate, setStartDate] = useState(new Date());
@@ -17,7 +17,7 @@ function NewToDoForm({ setfetchtodo, setPopup, showPopup, dayClicked, week }) {
 			alert("Hey! Fields can't be blank!");
 		} else {
 			let time = startDate.getTime();
-			PostToDo({ newName, time, priority, setfetchtodo });
+			PostToDoData({ uid, newName, time, priority });
 			setNewName("");
 			setStartDate(new Date());
 			setPopup(false);

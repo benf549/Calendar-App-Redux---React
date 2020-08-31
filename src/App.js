@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import firebase from "./firebase";
 import "firebase/auth";
@@ -8,9 +8,6 @@ import LoginForm from "./components/LoginForm";
 function App() {
 	const [userState, setUserState] = useState(false);
 	const [uid, setUid] = useState("");
-
-	// let db = firebase.firestore();
-	// let userDataRef = db.collection("userdata");
 
 	firebase.auth().onAuthStateChanged((user) => {
 		if (user) {

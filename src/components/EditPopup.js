@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../App.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { PutRequest } from "../api";
+import { PutEventRequest } from "../database";
 import { weekcodes } from "./NewEventForm";
 
 let EditPopup = ({ eventforedit, eventlist, hidepopup, editevent }) => {
@@ -75,7 +75,14 @@ let EditPopup = ({ eventforedit, eventlist, hidepopup, editevent }) => {
 				  }`)
 				: (repetition_code = "");
 
-			PutRequest(eventforedit, newName, start, end, repetition_code, blacklist);
+			PutEventRequest(
+				eventforedit,
+				newName,
+				start,
+				end,
+				repetition_code,
+				blacklist
+			);
 
 			setNewName("");
 			setStartDate(new Date());
