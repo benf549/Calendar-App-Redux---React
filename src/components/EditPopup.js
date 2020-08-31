@@ -5,13 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { PutRequest } from "../api";
 import { weekcodes } from "./NewEventForm";
 
-let EditPopup = ({
-	eventforedit,
-	eventlist,
-	hidepopup,
-	refresh,
-	editevent,
-}) => {
+let EditPopup = ({ eventforedit, eventlist, hidepopup, editevent }) => {
 	const [newName, setNewName] = useState("");
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
@@ -81,15 +75,7 @@ let EditPopup = ({
 				  }`)
 				: (repetition_code = "");
 
-			PutRequest(
-				eventforedit,
-				newName,
-				start,
-				end,
-				refresh,
-				repetition_code,
-				blacklist
-			);
+			PutRequest(eventforedit, newName, start, end, repetition_code, blacklist);
 
 			setNewName("");
 			setStartDate(new Date());

@@ -6,7 +6,7 @@ import { PostData } from "../api";
 
 export let weekcodes = ["M", "T", "W", "R", "F", "S", "D"];
 
-function NewEventForm({ uid, setfetchagain, setPopup, showPopup, week }) {
+function NewEventForm({ uid, setPopup, showPopup, week }) {
 	const [newName, setNewName] = useState("");
 	const [startDate, setStartDate] = useState(week[0]);
 	const [endDate, setEndDate] = useState(week[0]);
@@ -29,7 +29,7 @@ function NewEventForm({ uid, setfetchagain, setPopup, showPopup, week }) {
 						endRepeatDate ? endRepeatDate.getTime() : ""
 				  }`)
 				: (repetition_code = "");
-			PostData({ uid, newName, start, end, setfetchagain, repetition_code });
+			PostData({ uid, newName, start, end, repetition_code });
 			setNewName("");
 			setStartDate(new Date());
 			setEndDate(new Date());

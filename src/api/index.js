@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import firebase from "../firebase";
 
-let firstRender = true;
+let userDataRef = firebase.firestore().collection("userdata");
 
 export function FetchData(uid) {
 	const [userData, setUserData] = useState([]);
@@ -22,7 +22,6 @@ export function FetchData(uid) {
 							let data = doc.data();
 							return { id, ...data };
 						});
-						//console.log(querySnapshot.docs.map((doc) => doc.id));
 						setUserData(data);
 					}
 				});
@@ -31,14 +30,9 @@ export function FetchData(uid) {
 		}
 	}, [uid]);
 
-	// useEffect(() => {
-	// 	console.log(userData);
-	// }, [userData]);
-
 	userData.forEach((item) =>
 		item.type === "EVENT" ? userEvents.push(item) : userTodos.push(item)
 	);
-	// console.log({ userEvents, userTodos });
 	return { userEvents, userTodos };
 }
 
@@ -47,18 +41,8 @@ export function ParseResponse(uid) {
 	console.log(response);
 
 	if (response.length) {
-		console.log("Captain, We Have Data!");
-		// console.log(response);
-		firstRender = false;
-	}
-
-	if (response.length) {
 		let processedevents = [];
 		let repeatevents = [];
-		if (firstRender) {
-			//remove this?
-			firstRender = false;
-		}
 
 		let processoverflow = (
 			t,
@@ -142,16 +126,7 @@ export function ParseResponse(uid) {
 	}
 }
 
-export function PostData({
-	uid,
-	newName,
-	start,
-	end,
-	setfetchagain,
-	repetition_code,
-}) {
-	let userDataRef = firebase.firestore().collection("userdata");
-
+export function PostData({ uid, newName, start, end, repetition_code }) {
 	const { serverTimestamp } = firebase.firestore.FieldValue;
 	userDataRef.add({
 		uid: uid,
@@ -163,41 +138,19 @@ export function PostData({
 		repetition: repetition_code,
 		rep_blacklist: "",
 	});
-
-	// setfetchagain(false);
-
-	// const requestOptions = {
-	// 	method: "post",
-	// 	headers: { "content-type": "application/json" },
-	// 	body: JSON.stringify({
-	// 		name: newName,
-	// 		time: start,
-	// 		ends: end,
-	// 		repetition: repetition_code,
-	// 		rep_blacklist: "",
-	// 	}),
-	// };
-
-	// fetch(URL, requestOptions)
-	// 	.then((response) => response.json())
-	// 	.then((data) => {
-	// 		if (data) {
-	// 			setfetchagain(true);
-	// 		}
-	// 	});
 }
 
 export function DeleteRequest(key, setfetchagain) {
-	setfetchagain(false);
-	const requestOptions = {
-		method: "delete",
-	};
-	fetch(URL + "/" + key, requestOptions)
-		.then((response) => response.json())
-		.then((data) => {
-			if (data) {
-				setfetchagain(true);
-			}
+	console.log(key);
+	let user = firebase.auth().currentUser;
+	userDataRef
+		.doc(key)
+		.delete()
+		.then(() => {
+			console.log("success");
+		})
+		.catch((e) => {
+			console.log("Event could not be deleted: \n", e);
 		});
 }
 
@@ -206,28 +159,14 @@ export function PutRequest(
 	newName,
 	start,
 	end,
-	setfetchagain,
 	repetition_code,
 	blacklistday
 ) {
-	// console.log(`Sending a put request for ${eventforedit} with title ${newName} which starts at ${new Date(start)}, and ends at ${new Date(end)}`)
-	setfetchagain(false);
-	const requestOptions = {
-		method: "put",
-		headers: { "content-type": "application/json" },
-		body: JSON.stringify({
-			name: newName,
-			time: start,
-			ends: end,
-			repetition: repetition_code,
-			rep_blacklist: blacklistday,
-		}),
-	};
-	fetch(URL + "/" + eventforedit.toString(), requestOptions)
-		.then((response) => response.json())
-		.then((data) => {
-			if (data) {
-				setfetchagain(true);
-			}
-		});
+	userDataRef.doc(eventforedit).update({
+		name: newName,
+		time: start,
+		ends: end,
+		repetition: repetition_code,
+		rep_blacklist: blacklistday,
+	});
 }

@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import { DeleteRequest, PutRequest } from "../api";
 
-let DeletePopup = ({
-	showDeletePopup,
-	setDP,
-	selectedevent,
-	setfetchagain,
-}) => {
+let DeletePopup = ({ showDeletePopup, setDP, selectedevent }) => {
 	let [isAselected, setIsASelected] = useState(true);
 
 	let handleclick = () => {
@@ -19,17 +14,16 @@ let DeletePopup = ({
 					selectedevent.name,
 					selectedevent.start,
 					selectedevent.stop,
-					setfetchagain,
 					selectedevent.repeatstruct,
 					`${
 						selectedevent.blacklist ? selectedevent.blacklist + ";" : ""
 					}${blacklistday}`
 				);
 			} else {
-				DeleteRequest(selectedevent.number, setfetchagain);
+				DeleteRequest(selectedevent.number);
 			}
 		} else {
-			DeleteRequest(selectedevent.number, setfetchagain);
+			DeleteRequest(selectedevent.number);
 		}
 	};
 	if (selectedevent && selectedevent.repeatstruct) {
