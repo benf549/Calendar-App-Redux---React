@@ -1,5 +1,5 @@
 import React from "react";
-import { DeleteTodo, PutToDo } from "../api/todo";
+import { DeleteToDoRequest, PutToDoRequest } from "../database";
 
 const ToDoEvent = ({
 	name,
@@ -7,7 +7,6 @@ const ToDoEvent = ({
 	priority,
 	iscomplete,
 	id,
-	setfetchtodo,
 	showTodoForEdit,
 }) => {
 	return (
@@ -15,9 +14,8 @@ const ToDoEvent = ({
 			<div
 				className="markoff"
 				onClick={() =>
-					PutToDo(
+					PutToDoRequest(
 						id,
-						setfetchtodo,
 						name,
 						time.getTime().toString(),
 						priority,
@@ -36,8 +34,9 @@ const ToDoEvent = ({
 						  }
 				}
 			></div>
-			<div className="belowtodoitem" onClick={() => showTodoForEdit(id)}>
+			<div className="belowtodoitem">
 				<h4
+					onClick={() => showTodoForEdit(id)}
 					style={{
 						color: iscomplete
 							? "grey"
@@ -49,7 +48,7 @@ const ToDoEvent = ({
 					{name}
 				</h4>
 				<div className="timeandarchive">
-					<p id="todotime">{`${
+					<p onClick={() => showTodoForEdit(id)} id="todotime">{`${
 						time.getHours() > 12
 							? time.getHours() - 12
 							: time.getHours() === 0
@@ -58,7 +57,7 @@ const ToDoEvent = ({
 					}:${
 						time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes()
 					}${time.getHours() > 11 ? "pm" : "am"}`}</p>
-					<p className="archive" onClick={() => DeleteTodo(id, setfetchtodo)}>
+					<p className="archive" onClick={() => DeleteToDoRequest(id)}>
 						Archive
 					</p>
 				</div>
@@ -101,6 +100,7 @@ const InWeekTDView = ({
 	let currentDayTodos = [];
 	let nextDayTodos = [];
 	let thirdDayTodos = [];
+	let incompleteTodos = [];
 
 	if (data) {
 		for (let todo = 0; todo < data.length; todo++) {
@@ -116,6 +116,13 @@ const InWeekTDView = ({
 					showTodoForEdit={showTodoForEdit}
 				/>
 			);
+			if (
+				dayClicked &&
+				!data[todo].iscomplete &&
+				data[todo].time.getTime() < new Date().getTime()
+			) {
+				incompleteTodos.push(tdevent);
+			}
 
 			if (
 				dayClicked &&
@@ -168,14 +175,17 @@ const InWeekTDView = ({
 
 	if (data) {
 		return (
-			<div
-				className="TDview"
-				// style={
-				// 	areLeftTasksShown || areRightTasksShown
-				// 		? { display: "inline" }
-				// 		: { display: "none" }
-				// }
-			>
+			<div className="TDview">
+				<h3
+					className="dayofweek"
+					style={{ display: incompleteTodos.length ? "inline-block" : "none" }}
+				>
+					Incomplete Tasks
+				</h3>
+				{incompleteTodos.map((item) => {
+					return item;
+				})}
+
 				<h3 className="dayofweek">{fulldow[weekind]}</h3>
 				{currentDayTodos.map((item) => {
 					return item;

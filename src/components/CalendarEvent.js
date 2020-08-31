@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../App.css";
-import { DeleteRequest } from "../api";
 
 function getWindowDimensions() {
 	const { innerWidth: width, innerHeight: height } = window;
@@ -33,11 +32,15 @@ let CalendarEvent = ({
 	totalheight,
 	title,
 	repeator,
+	repeatday,
 	number,
-	deletefun,
+	setEventForDelete,
 	showEditEventPopup,
 	startDT,
 	stopDT,
+	showDelete,
+	repeatstruct,
+	blacklist,
 }) => {
 	const { height } = useWindowDimensions();
 	const [height2, setHeight2] = useState(0);
@@ -68,7 +71,9 @@ let CalendarEvent = ({
 			  }pm`);
 	} else {
 		starthour = `${starttime.getHours() === 0 ? "12" : starttime.getHours()}:${
-			starttime.getMinutes() === 0 ? "00" : starttime.getMinutes()
+			starttime.getMinutes() < 10
+				? `0${starttime.getMinutes()}`
+				: starttime.getMinutes()
 		}am`;
 	}
 
@@ -88,7 +93,9 @@ let CalendarEvent = ({
 			  }pm`);
 	} else {
 		endhour = `${stoptime.getHours() === 0 ? "12" : stoptime.getHours()}:${
-			stoptime.getMinutes() === 0 ? "00" : stoptime.getMinutes()
+			stoptime.getMinutes() < 10
+				? `0${stoptime.getMinutes()}`
+				: stoptime.getMinutes()
 		}am`;
 	}
 
@@ -99,6 +106,27 @@ let CalendarEvent = ({
 	//runs when the mouse leaves an event on the screen. Resets height2 to zero.
 	const handleexit = () => {
 		setHeight2(0);
+	};
+
+	const handledeletepress = (
+		number,
+		repeatday,
+		title,
+		start,
+		stop,
+		repeatstruct,
+		blacklist
+	) => {
+		showDelete(true);
+		setEventForDelete({
+			number: number,
+			day: repeatday,
+			name: title,
+			start: start,
+			stop: stop,
+			repeatstruct: repeatstruct,
+			blacklist: blacklist,
+		});
 	};
 
 	useEffect(() => {
@@ -159,9 +187,17 @@ let CalendarEvent = ({
 				</div>
 				<span
 					className="DEB t2"
-					onClick={() => {
-						DeleteRequest(number, deletefun);
-					}}
+					onClick={() =>
+						handledeletepress(
+							number,
+							repeatday,
+							title,
+							startDT,
+							stopDT,
+							repeatstruct,
+							blacklist
+						)
+					}
 				>
 					<i className="fas fa-times"></i>
 				</span>
@@ -194,9 +230,17 @@ let CalendarEvent = ({
 				</div>
 				<span
 					className="DEB t3"
-					onClick={() => {
-						DeleteRequest(number, deletefun);
-					}}
+					onClick={() =>
+						handledeletepress(
+							number,
+							repeatday,
+							title,
+							startDT,
+							stopDT,
+							repeatstruct,
+							blacklist
+						)
+					}
 				>
 					<i className="fas fa-times"></i>
 				</span>

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import "../App.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { PutToDo } from "../api/todo";
+import { PutToDoRequest } from "../database";
 
-let ToDoEdit = ({ todoforedit, tododata, hidepopup, refresh, editevent }) => {
+let ToDoEdit = ({ todoforedit, tododata, hidepopup, editevent }) => {
 	const [newName, setNewName] = useState("");
 	const [startDate, setStartDate] = useState(new Date());
 	const [priority, setPriority] = useState(0);
@@ -49,7 +49,7 @@ let ToDoEdit = ({ todoforedit, tododata, hidepopup, refresh, editevent }) => {
 			alert("Priority can't be blank!");
 		} else {
 			let start = startDate.getTime();
-			PutToDo(todoforedit, refresh, newName, start, priority, iscomplete);
+			PutToDoRequest(todoforedit, newName, start, priority, iscomplete);
 			setNewName("");
 			setStartDate(new Date());
 			setPriority(0);
