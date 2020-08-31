@@ -6,98 +6,89 @@ import MainApplication from "./components/MainApplication";
 import LoginForm from "./components/LoginForm";
 
 function App() {
-	const [userstate, setuserstate] = useState(false);
-	const provider = new firebase.auth.GoogleAuthProvider();
-	let db = firebase.firestore();
+	const [userState, setUserState] = useState(false);
+	const [uid, setUid] = useState("");
+
+	// let db = firebase.firestore();
+	// let userDataRef = db.collection("userdata");
 
 	firebase.auth().onAuthStateChanged((user) => {
-		//If user is logged in the userstate is set to true when logged out its set to false.
 		if (user) {
-			setuserstate(true);
-			//console.log(user.uid);
-			// thingsRef = db.collection("Users");
+			setUserState(true);
+			setUid(user.uid);
 		} else {
-			setuserstate(false);
+			setUserState(false);
+			setUid("");
 		}
 	});
 
-	useEffect(() => {
-		firebase.auth().onAuthStateChanged((user) => {
-			if (user) {
-				const unsubscribe = db
-					.collection("users")
-					.where("uid", "==", user.uid)
-					.onSnapshot((querySnapshot) => {
-						const newTimes = querySnapshot.docs.map((doc) => ({
-							id: doc.id,
-							...doc.data(),
-						}));
-						console.log(newTimes);
-						// if (!querySnapshot.exists) {
-						// 	// something here is looping and making a crazy number of calls
-						// 	// db.collection("users").add({
-						// 	// 	uid: user.uid,
-						// 	// 	displayName: user.displayName,
-						// 	// 	email: user.email,
-						// 	// });
-						// 	console.log("nothing in users");
-						// } else {
-						// 	// querySnapshot.docs.map((doc) => {
-						// 	// 	console.log(doc.data());
-						// 	// });
-						// 	console.log("fart");
-						// }
-					});
-			}
-		});
-	}, []);
-
 	// useEffect(() => {
-	// 	const unsubscribe = firebase
-	// 		.firestore()
-	// 		.collection("Users")
-	// 		.doc("6tQ2dCnNsPY3RDlw0o9l") //this is where the users individual id is entered to get the events associated with their account.
-	// 		.collection("Events")
-	// 		.onSnapshot((snapshot) => {
-	// 			//snapshot opens a websocket to firestore which allows constant listening for updates to the database.
-	// 			const newTimes = snapshot.docs.map((doc) => ({
-	// 				id: doc.id,
-	// 				...doc.data(),
-	// 			}));
-	// 			setfartData(newTimes);
-	// 		});
+	// 	console.log(uid);
+	// }, [uid]);
 
-	// 	return () => unsubscribe(); //closes open socket when the component is unmounted.
-	// }, []);
+	// let addtesttodo = () => {
+	// 	const { serverTimestamp } = firebase.firestore.FieldValue;
+	// 	userDataRef.add({
+	// 		uid: uid,
+	// 		type: "TODO",
+	// 		createdAt: serverTimestamp(),
+	// 		name: "Name of todo",
+	// 		priority: 5,
+	// 		iscomplete: false,
+	// 		repetition: "",
+	// 		rep_blacklist: "",
+	// 	});
+	// };
 
-	// let test_log = () => {
-	// 	console.log(fart_data);
+	// let addtestevent = () => {
+	// 	const { serverTimestamp } = firebase.firestore.FieldValue;
+	// 	userDataRef.add({
+	// 		uid: uid,
+	// 		type: "EVENT",
+	// 		createdAt: serverTimestamp(),
+	// 		time: "",
+	// 		ends: "",
+	// 		repetition: "",
+	// 		rep_blacklist: "",
+	// 	});
 	// };
 
 	return (
 		<div>
-			{/* <button onClick={() => test_log()} style={{ zIndex: 20 }}>
-				log
-			</button> */}
-			{userstate ? (
-				<div>
-					<button
-						onClick={() => firebase.auth().signOut()}
-						style={{ zIndex: 20 }}
-					>
-						Log Out
-					</button>
-					<MainApplication />
-				</div>
+			{/* <p
+				onClick={() => addtesttodo()}
+				style={{
+					backgroundColor: "red",
+					width: "5vw",
+					position: "absolute",
+					left: "10vw",
+					cursor: "pointer",
+					zIndex: "20",
+					color: "white",
+				}}
+			>
+				{`Create Todo`}
+			</p>
+			<p
+				onClick={() => addtestevent()}
+				style={{
+					backgroundColor: "red",
+					width: "5vw",
+					position: "absolute",
+					left: "20vw",
+					cursor: "pointer",
+					zIndex: "20",
+					color: "white",
+				}}
+			>
+				{`Create Event`}
+			</p> */}
+
+			{userState ? (
+				<MainApplication firebase={firebase} uid={uid} />
 			) : (
-				<button
-					onClick={() => firebase.auth().signInWithPopup(provider)}
-					style={{ color: "white", backgroundColor: "blue" }}
-				>
-					Google Log In
-				</button>
+				<LoginForm firebase={firebase} />
 			)}
-			;{/* <LoginForm auth={auth} provider={provider} /> */}
 		</div>
 	);
 }
