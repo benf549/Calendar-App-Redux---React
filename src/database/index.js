@@ -195,7 +195,7 @@ export function PostToDoData({ uid, newName, time, priority }) {
 		type: "TODO",
 		name: newName,
 		time: time,
-		priority: priority,
+		priority: parseInt(priority),
 		iscomplete: false,
 	});
 }
@@ -204,7 +204,7 @@ export function PutToDoRequest(id, newName, start, priority, iscomplete) {
 	userDataRef.doc(id).update({
 		name: newName,
 		time: start,
-		priority: priority,
+		priority: parseInt(priority),
 		iscomplete: iscomplete,
 	});
 }
