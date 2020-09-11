@@ -11,7 +11,7 @@ export function FetchData(uid) {
 
 	useEffect(() => {
 		if (uid) {
-			console.log("rendering");
+			console.log("Fetch and querySnapshot generated");
 			const unsubscribe = firebase
 				.firestore()
 				.collection("userdata")
@@ -39,7 +39,7 @@ export function FetchData(uid) {
 
 export function ParseEventResponse(uid) {
 	const response = FetchData(uid).userEvents;
-	console.log(response);
+	//console.log(response);
 
 	if (response.length) {
 		let processedevents = [];
