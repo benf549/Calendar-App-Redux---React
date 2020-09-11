@@ -9,7 +9,7 @@ let indices = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 function NewToDoForm({ uid, setPopup, showPopup, dayClicked, week }) {
 	const [newName, setNewName] = useState("");
-	const [priority, setPriority] = useState(1);
+	const [priority, setPriority] = useState("1");
 	const [startDate, setStartDate] = useState(new Date());
 
 	const [week_freq, setWeek_Freq] = useState(1);
@@ -21,9 +21,10 @@ function NewToDoForm({ uid, setPopup, showPopup, dayClicked, week }) {
 		if (!newName || !priority) {
 			alert("Hey! Fields can't be blank!");
 		} else if (
-			parseInt(priority) ||
-			parseInt(priority) < 1 ||
-			parseInt(priority) > 5
+			!priority ||
+			isNaN(parseInt(priority)) ||
+			parseInt(priority) <= 0 ||
+			parseInt(priority) >= 6
 		) {
 			alert("Priority must be an integer between 1 (low) and 5 (high)");
 		} else {
@@ -38,10 +39,6 @@ function NewToDoForm({ uid, setPopup, showPopup, dayClicked, week }) {
 	useEffect(() => {
 		setStartDate(week[indices.indexOf(dayClicked)]);
 	}, [dayClicked, week]);
-
-	useEffect(() => {
-		console.log(priority);
-	}, [priority]);
 
 	// Allows you to close the new event form by pressing esc key
 	useEffect(() => {
@@ -124,9 +121,8 @@ function NewToDoForm({ uid, setPopup, showPopup, dayClicked, week }) {
 					{weekcodes.map((item) => {
 						return (
 							<div
-								className={`repeatcircle ${
-									handleEmphasize(item) ? "selected" : null
-								}`}
+								className={`repeatcircle ${handleEmphasize(item) ? "selected" : null
+									}`}
 								key={item}
 								onClick={() => handleselect(item)}
 							>
