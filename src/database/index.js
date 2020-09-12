@@ -172,6 +172,7 @@ export function PutEventRequest(
 export function ParseTodoResponse(uid) {
 	const response = FetchData(uid).userTodos;
 	let processedtodos = [];
+	let repeattodos = [];
 	if (response.length) {
 		for (let t = 0; t < response.length; t++) {
 			let parsedtime = new Date(parseInt(response[t].time));
@@ -181,14 +182,31 @@ export function ParseTodoResponse(uid) {
 				name: response[t].name,
 				priority: response[t].priority,
 				iscomplete: response[t].iscomplete,
+				repetition: response[t].repetition_code
 			});
 		}
+
+		for (let j = 0; j < response.length; j++) {
+			let parsedtime = new Date(parseInt(response[j].time));
+			if (response[j].repetition) {
+				repeattodos.push({
+					id: response[j].id,
+					time: parsedtime,
+					name: response[j].name,
+					priority: response[j].priority,
+					iscomplete: response[j].iscomplete,
+					repetition: response[j].repetition_code
+				})
+			}
+		}
 	}
-	//console.log(processedtodos);
-	return processedtodos;
+
+
+
+	return { processedtodos, repeattodos };
 }
 
-export function PostToDoData({ uid, newName, time, priority }) {
+export function PostToDoData({ uid, newName, time, priority, repetition_code }) {
 	userDataRef.add({
 		createdAt: serverTimestamp(),
 		uid: uid,
@@ -197,15 +215,17 @@ export function PostToDoData({ uid, newName, time, priority }) {
 		time: time,
 		priority: parseInt(priority),
 		iscomplete: false,
+		repetition_code: repetition_code,
 	});
 }
 
-export function PutToDoRequest(id, newName, start, priority, iscomplete) {
+export function PutToDoRequest(id, newName, start, priority, iscomplete, repetition_code) {
 	userDataRef.doc(id).update({
 		name: newName,
 		time: start,
 		priority: parseInt(priority),
 		iscomplete: iscomplete,
+		repetition_code: repetition_code,
 	});
 }
 

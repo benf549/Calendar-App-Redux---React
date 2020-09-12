@@ -8,6 +8,7 @@ const ToDoEvent = ({
 	iscomplete,
 	id,
 	showTodoForEdit,
+	repetition_code
 }) => {
 	return (
 		<div className="todoitem">
@@ -19,19 +20,20 @@ const ToDoEvent = ({
 						name,
 						time.getTime().toString(),
 						priority,
-						!iscomplete
+						!iscomplete,
+						repetition_code
 					)
 				}
 				style={
 					priority === 5
 						? {
-								backgroundColor: "rgba(255,0,0,0.3)",
-								boxShadow: "inset 0 0 1vw var(--red-accent)",
-						  }
+							backgroundColor: "rgba(255,0,0,0.3)",
+							boxShadow: "inset 0 0 1vw var(--red-accent)",
+						}
 						: {
-								backgroundColor: "rgba(0,0,0,0.3)",
-								boxShadow: "inset 0 0 1vw black",
-						  }
+							backgroundColor: "rgba(0,0,0,0.3)",
+							boxShadow: "inset 0 0 1vw black",
+						}
 				}
 			></div>
 			<div className="belowtodoitem">
@@ -41,22 +43,20 @@ const ToDoEvent = ({
 						color: iscomplete
 							? "grey"
 							: priority === 5
-							? "var(--red-accent)"
-							: "black",
+								? "var(--red-accent)"
+								: "black",
 					}}
 				>
 					{name}
 				</h4>
 				<div className="timeandarchive">
-					<p onClick={() => showTodoForEdit(id)} id="todotime">{`${
-						time.getHours() > 12
-							? time.getHours() - 12
-							: time.getHours() === 0
+					<p onClick={() => showTodoForEdit(id)} id="todotime">{`${time.getHours() > 12
+						? time.getHours() - 12
+						: time.getHours() === 0
 							? 12
 							: time.getHours()
-					}:${
-						time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes()
-					}${time.getHours() > 11 ? "pm" : "am"}`}</p>
+						}:${time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes()
+						}${time.getHours() > 11 ? "pm" : "am"}`}</p>
 					<p className="archive" onClick={() => DeleteToDoRequest(id)}>
 						Archive
 					</p>
@@ -114,6 +114,7 @@ const InWeekTDView = ({
 					id={data[todo].id}
 					setfetchtodo={setfetchtodo}
 					showTodoForEdit={showTodoForEdit}
+					repetition_code={data[todo].repetition}
 				/>
 			);
 			if (
@@ -200,8 +201,8 @@ const InWeekTDView = ({
 					{dayClicked === "Sun"
 						? fulldow[1]
 						: dayClicked === "Sat"
-						? fulldow[0]
-						: fulldow[weekind + 2]}
+							? fulldow[0]
+							: fulldow[weekind + 2]}
 				</h3>
 				{thirdDayTodos.map((item) => {
 					return item;

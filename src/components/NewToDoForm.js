@@ -18,7 +18,7 @@ function NewToDoForm({ uid, setPopup, showPopup, dayClicked, week }) {
 
 	let handleClick = (e) => {
 		e.preventDefault();
-		if (!newName || !priority) {
+		if (!newName) {
 			alert("Hey! Fields can't be blank!");
 		} else if (
 			!priority ||
@@ -28,8 +28,13 @@ function NewToDoForm({ uid, setPopup, showPopup, dayClicked, week }) {
 		) {
 			alert("Priority must be an integer between 1 (low) and 5 (high)");
 		} else {
+			let repetition_code;
+			selecteddays.length
+				? (repetition_code = `${selecteddays.join("")};${week_freq};W;${endRepeatDate ? endRepeatDate.getTime() : ""
+					}`)
+				: (repetition_code = "");
 			let time = startDate.getTime();
-			PostToDoData({ uid, newName, time, priority });
+			PostToDoData({ uid, newName, time, priority, repetition_code });
 			setNewName("");
 			setStartDate(new Date());
 			setPopup(false);

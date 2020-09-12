@@ -63,17 +63,17 @@ function MainApplication({ firebase, uid }) {
 	let selectForShowTask = (day) => {
 		day === "Mon" || day === "Tue" || day === "Wed" || day === "Thu"
 			? handleHeaderClick(
-					setAreLeftTasksShown,
-					setAreRightTasksShown,
-					areLeftTasksShown,
-					day
-			  )
+				setAreLeftTasksShown,
+				setAreRightTasksShown,
+				areLeftTasksShown,
+				day
+			)
 			: handleHeaderClick(
-					setAreRightTasksShown,
-					setAreLeftTasksShown,
-					areRightTasksShown,
-					day
-			  );
+				setAreRightTasksShown,
+				setAreLeftTasksShown,
+				areRightTasksShown,
+				day
+			);
 	};
 
 	//Sents the above initialized processed events array equal to a processed response from the API functions. The fetchagain parameter ensures it only runs when we want it to.
@@ -82,7 +82,7 @@ function MainApplication({ firebase, uid }) {
 	let repeatevents = eventresponse ? eventresponse.repeatevents : null;
 	// console.log(repeatevents);
 
-	let tododata = ParseTodoResponse(uid);
+	let tododata = ParseTodoResponse(uid).processedtodos;
 	//initialize the week array to be empty and then fill it below
 	let week = [];
 	let weekofevents = [[], [], [], [], [], [], []];
@@ -249,11 +249,11 @@ function MainApplication({ firebase, uid }) {
 				for (let d = 0; d < daycodes.length; d++) {
 					if (
 						truecodes[z] ===
-							truecodes[
-								(truecodes.indexOf(daycodes[d]) +
-									parseInt(repeatevents[y].daystoadd)) %
-									truecodes.length
-							] &&
+						truecodes[
+						(truecodes.indexOf(daycodes[d]) +
+							parseInt(repeatevents[y].daystoadd)) %
+						truecodes.length
+						] &&
 						day > thistime.getTime() &&
 						Math.floor(((calc1 - calc2) / weekinms) % number_to_skip) === 0 &&
 						isenddate(endtime, day) &&
@@ -390,9 +390,8 @@ function MainApplication({ firebase, uid }) {
 						<div className="scrollcontainercontainer">
 							<div className="scrollcontainer">
 								<div
-									className={`todoContainers rightTodo ${
-										areLeftTasksShown ? "rightTodoShow" : null
-									}`}
+									className={`todoContainers rightTodo ${areLeftTasksShown ? "rightTodoShow" : null
+										}`}
 								>
 									<span onClick={() => setAreLeftTasksShown(false)}>
 										<i className="fas fa-times"></i>
@@ -409,9 +408,8 @@ function MainApplication({ firebase, uid }) {
 									/>
 								</div>
 								<div
-									className={`todoContainers leftTodo ${
-										areRightTasksShown ? "leftTodoShow" : null
-									}`}
+									className={`todoContainers leftTodo ${areRightTasksShown ? "leftTodoShow" : null
+										}`}
 								>
 									<span onClick={() => setAreRightTasksShown(false)}>
 										<i className="fas fa-times"></i>
