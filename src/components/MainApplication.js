@@ -16,6 +16,7 @@ import DeletePopup from "./DeletePopup";
 //this value is the number of milliseconds in a week and it is multiplied by the increment value below. An inc value of zero returns current week. Greater than 0 advances by that number of weeks and less than 0 goes back that number of weeks.
 let weekinms = 7 * 24 * 60 * 60 * 1000;
 let dayinms = weekinms / 7;
+let truecodes = ["M", "T", "W", "R", "F", "S", "D"];
 
 //This function is used to generate an array of the datetimes for the current week being looked at and will take in a date and generate the week associated with that date or null which returns the week based on todays date.
 let updateDays = (newweekdate = null) => {
@@ -78,11 +79,12 @@ function MainApplication({ firebase, uid }) {
 
 	//Sents the above initialized processed events array equal to a processed response from the API functions. The fetchagain parameter ensures it only runs when we want it to.
 	let eventresponse = ParseEventResponse(uid);
+	let todoresponse = ParseTodoResponse(uid)
 	let processedevents = eventresponse ? eventresponse.processedevents : null;
 	let repeatevents = eventresponse ? eventresponse.repeatevents : null;
-	// console.log(repeatevents);
 
-	let tododata = ParseTodoResponse(uid).processedtodos;
+	let tododata = todoresponse.processedtodos;
+	let repeattodos = todoresponse.repeattodos;
 	//initialize the week array to be empty and then fill it below
 	let week = [];
 	let weekofevents = [[], [], [], [], [], [], []];
@@ -211,7 +213,6 @@ function MainApplication({ firebase, uid }) {
 
 		//This block reads all the repeatevents and if they fit the criteria for the week being looked at are added to the weekofevents array.
 		for (let y = 0; y < repeatevents.length; y++) {
-			let truecodes = ["M", "T", "W", "R", "F", "S", "D"];
 
 			// Parse the event's repetition code.
 			let eventcode = repeatevents[y].repeatstruct.split(";");
@@ -309,6 +310,57 @@ function MainApplication({ firebase, uid }) {
 					);
 				}
 			}
+		}
+		//Add repeat todos.
+		for (let y = 0; y < repeattodos.length; y++) {
+			let todocode = repeattodos[y].repetition.split(";");
+			let number_to_skip = parseInt(todocode[1]);
+
+			let endtime = todocode[3] ? new Date(parseInt(todocode[3])) : null;
+			let daycodes = todocode[0].split("");
+
+			let thistime = repeattodos[y].time;
+			let initial_repeat_week = updateDays(thistime);
+
+			// These are used to allow for events that repeat any number of weeks.
+			let calc1 = week[6].setHours(0, 0, 0, 0);
+			let calc2 = initial_repeat_week[6].setHours(0, 0, 0, 0);
+
+			let isenddate = (endtime, day) => {
+				let response = true;
+				if (endtime && day > endtime.setHours(0, 0, 0, 0)) {
+					response = false;
+				}
+				return response;
+			};
+
+			for (let z = 0; z < week.length; z++) {
+				let day = week[z].setHours(0, 0, 0, 0);
+				for (let d = 0; d < daycodes.length; d++) {
+					if (
+						truecodes[z] ===
+						truecodes[truecodes.indexOf(daycodes[d])] &&
+						day > thistime.getTime() &&
+						Math.floor(((calc1 - calc2) / weekinms) % number_to_skip) === 0 &&
+						isenddate(endtime, day)
+						//&& checkblacklist(week[z], blacklist, repeatevents[y]) 
+						&& day !== new Date(parseInt(thistime)).setHours(0, 0, 0, 0)
+					) {
+						weekoftodos[new Date(day).getDay()].push(
+							<VisualTodo
+								key={repeattodos[y].id}
+								time={repeattodos[y].time}
+								name={repeattodos[y].name}
+								priority={repeattodos[y].priority}
+								iscomplete={repeattodos[y].iscomplete}
+								day={day}
+								selectForShowTask={selectForShowTask}
+							/>
+						)
+					}
+				}
+			}
+
 		}
 	}
 

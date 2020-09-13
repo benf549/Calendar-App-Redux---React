@@ -188,7 +188,7 @@ export function ParseTodoResponse(uid) {
 
 		for (let j = 0; j < response.length; j++) {
 			let parsedtime = new Date(parseInt(response[j].time));
-			if (response[j].repetition) {
+			if (response[j].repetition_code) {
 				repeattodos.push({
 					id: response[j].id,
 					time: parsedtime,
