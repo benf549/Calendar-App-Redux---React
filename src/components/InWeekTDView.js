@@ -1,5 +1,15 @@
 import React from "react";
 import { DeleteToDoRequest, PutToDoRequest } from "../database";
+import { weekinms, truecodes, updateDays, checkblacklist } from "./MainApplication"
+
+let checkdmy = (day, week) => {
+	//checks that the day, month, and year of the two datetime objects are the same.
+	let flag = false
+	if (day.getDate() === week.getDate() && day.getMonth() === week.getMonth() && day.getFullYear() === week.getFullYear()) {
+		flag = true
+	}
+	return flag
+}
 
 const ToDoEvent = ({
 	name,
@@ -73,9 +83,7 @@ const InWeekTDView = ({
 	data,
 	setfetchtodo,
 	setShowTodo,
-	showTodoForEdit,
-	areRightTasksShown,
-	areLeftTasksShown,
+	showTodoForEdit
 }) => {
 	let dow = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 	let fulldow = [
@@ -101,6 +109,7 @@ const InWeekTDView = ({
 	let nextDayTodos = [];
 	let thirdDayTodos = [];
 	let incompleteTodos = [];
+	let repeatTodos = [];
 
 	if (data) {
 		for (let todo = 0; todo < data.length; todo++) {
@@ -127,50 +136,85 @@ const InWeekTDView = ({
 
 			if (
 				dayClicked &&
-				data[todo].time.getDate() === week[weekind].getDate() &&
-				data[todo].time.getMonth() === week[weekind].getMonth() &&
-				data[todo].time.getFullYear() === week[weekind].getFullYear()
+				checkdmy(data[todo].time, week[weekind])
 			) {
 				currentDayTodos.push(tdevent);
 			} else if (
 				dayClicked === "Sun" &&
-				data[todo].time.getDate() === nextweek[0].getDate() &&
-				data[todo].time.getMonth() === nextweek[0].getMonth() &&
-				data[todo].time.getFullYear() === nextweek[0].getFullYear()
+				checkdmy(data[todo].time, nextweek[0])
 			) {
 				nextDayTodos.push(tdevent);
 			} else if (
 				dayClicked === "Sun" &&
-				data[todo].time.getDate() === nextweek[1].getDate() &&
-				data[todo].time.getMonth() === nextweek[1].getMonth() &&
-				data[todo].time.getFullYear() === nextweek[1].getFullYear()
+				checkdmy(data[todo].time, nextweek[1])
 			) {
 				thirdDayTodos.push(tdevent);
 			} else if (
 				dayClicked === "Sat" &&
-				data[todo].time.getDate() === nextweek[0].getDate() &&
-				data[todo].time.getMonth() === nextweek[0].getMonth() &&
-				data[todo].time.getFullYear() === nextweek[0].getFullYear()
+				checkdmy(data[todo].time, nextweek[0])
 			) {
 				thirdDayTodos.push(tdevent);
 			} else if (
 				dayClicked &&
 				dayClicked !== "Sun" &&
-				data[todo].time.getDate() === week[weekind + 1].getDate() &&
-				data[todo].time.getMonth() === week[weekind + 1].getMonth() &&
-				data[todo].time.getFullYear() === week[weekind + 1].getFullYear()
+				checkdmy(data[todo].time, week[weekind + 1])
 			) {
 				nextDayTodos.push(tdevent);
 			} else if (
 				dayClicked &&
 				dayClicked !== "Sun" &&
 				dayClicked !== "Sat" &&
-				data[todo].time.getDate() === week[weekind + 2].getDate() &&
-				data[todo].time.getMonth() === week[weekind + 2].getMonth() &&
-				data[todo].time.getFullYear() === week[weekind + 2].getFullYear()
+				checkdmy(data[todo].time, week[weekind + 2])
 			) {
 				thirdDayTodos.push(tdevent);
 			}
+			//Handle repeat behavior. Similar to repeatevents array processing in Main Application.
+			let isenddate = (endtime, day) => {
+				let response = true;
+				if (endtime && day > endtime.setHours(0, 0, 0, 0)) {
+					response = false;
+				}
+				return response;
+			};
+			let codearray = data[todo].repetition ? data[todo].repetition.split(";") : []
+			let repetition_days = codearray[0]
+			let number_to_skip = codearray[1]
+
+			let endtime = codearray[3] ? new Date(parseInt(codearray[3])) : null;
+
+			let thistime = data[todo].time.getTime();
+			let initial_repeat_week = updateDays(thistime);
+
+			let calc1 = week[6].setHours(0, 0, 0, 0);
+			let calc2 = initial_repeat_week[6].setHours(0, 0, 0, 0);
+
+			for (let w = 0; w < week.length; w++) {
+				let day = week[w].setHours(0, 0, 0, 0)
+				for (let d = 0; d < repetition_days.length; d++) {
+					if (
+						dayClicked &&
+						truecodes[w] === truecodes[truecodes.indexOf(repetition_days[d])] &&
+						day > data[todo].time.getTime() &&
+						Math.floor(((calc1 - calc2) / weekinms) % number_to_skip) === 0 &&
+						isenddate(endtime, day) && day !== data[todo].time.setHours(0, 0, 0, 0) &&
+						checkdmy(new Date(day), week[weekind])
+					) {
+						currentDayTodos.push(<ToDoEvent
+							key={`${data[todo].id}.${repetition_days[d]}`}
+							name={data[todo].name}
+							time={data[todo].time}
+							priority={data[todo].priority}
+							iscomplete={data[todo].iscomplete}
+							id={data[todo].id}
+							setfetchtodo={setfetchtodo}
+							showTodoForEdit={showTodoForEdit}
+							repetition_code={data[todo].repetition}
+						/>)
+					}
+				}
+			}
+
+
 		}
 	}
 

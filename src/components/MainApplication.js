@@ -14,12 +14,12 @@ import VisualTodo from "./VisualTodo";
 import DeletePopup from "./DeletePopup";
 
 //this value is the number of milliseconds in a week and it is multiplied by the increment value below. An inc value of zero returns current week. Greater than 0 advances by that number of weeks and less than 0 goes back that number of weeks.
-let weekinms = 7 * 24 * 60 * 60 * 1000;
-let dayinms = weekinms / 7;
-let truecodes = ["M", "T", "W", "R", "F", "S", "D"];
+export let weekinms = 7 * 24 * 60 * 60 * 1000;
+export let dayinms = weekinms / 7;
+export let truecodes = ["M", "T", "W", "R", "F", "S", "D"];
 
 //This function is used to generate an array of the datetimes for the current week being looked at and will take in a date and generate the week associated with that date or null which returns the week based on todays date.
-let updateDays = (newweekdate = null) => {
+export let updateDays = (newweekdate = null) => {
 	//This function takes in a day or nothing (to get current week) and returns an array of the days of the current week which is later stored into the 'week' array
 	let curr;
 	newweekdate ? (curr = new Date(newweekdate)) : (curr = new Date());
@@ -34,6 +34,22 @@ let updateDays = (newweekdate = null) => {
 			: temp.push(new Date(curr.setDate(curr.getDate() + 1)));
 	}
 	return temp;
+};
+
+export let checkblacklist = (daytocheck, blacklist, repeatevent) => {
+	let return_val = true;
+	if (blacklist.length && repeatevent) {
+		for (let b = 0; b < blacklist.length; b++) {
+			let blacklist_day = new Date(parseInt(blacklist[b]));
+			if (
+				daytocheck.setHours(0, 0, 0, 0) - dayinms * repeatevent.daystoadd ===
+				blacklist_day.setHours(0, 0, 0, 0)
+			) {
+				return_val = false;
+			}
+		}
+	}
+	return return_val;
 };
 
 function MainApplication({ firebase, uid }) {
@@ -157,21 +173,7 @@ function MainApplication({ firebase, uid }) {
 		setinc(0);
 	};
 
-	let checkblacklist = (daytocheck, blacklist, repeatevent) => {
-		let return_val = true;
-		if (blacklist.length && repeatevent) {
-			for (let b = 0; b < blacklist.length; b++) {
-				let blacklist_day = new Date(parseInt(blacklist[b]));
-				if (
-					daytocheck.setHours(0, 0, 0, 0) - dayinms * repeatevent.daystoadd ===
-					blacklist_day.setHours(0, 0, 0, 0)
-				) {
-					return_val = false;
-				}
-			}
-		}
-		return return_val;
-	};
+
 
 	// going through each event in the event dictionary and checking if the event date (event.time) is the same date as a day in the week array.
 	if (processedevents) {
