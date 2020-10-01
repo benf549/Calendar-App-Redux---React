@@ -16,7 +16,7 @@ let VisualTodo = ({
 	return (
 		<div
 			className="visualtodo"
-			onClick={() => selectForShowTask(dayforshowing[day.getDay()])}
+			onClick={() => selectForShowTask(dayforshowing[new Date(day).getDay()])}
 			style={{
 				display: iscomplete ? "none" : "inline-block",
 				zIndex: "4",

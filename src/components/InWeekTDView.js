@@ -1,4 +1,5 @@
 import React from "react";
+import { isCompositeComponent } from "react-dom/test-utils";
 import { DeleteToDoRequest, PutToDoRequest } from "../database";
 import { weekinms, truecodes, updateDays, checkblacklist } from "./MainApplication"
 
@@ -112,6 +113,7 @@ const InWeekTDView = ({
 	let repeatTodos = [];
 
 	if (data) {
+
 		for (let todo = 0; todo < data.length; todo++) {
 			let tdevent = (
 				<ToDoEvent
@@ -185,34 +187,78 @@ const InWeekTDView = ({
 			let thistime = data[todo].time.getTime();
 			let initial_repeat_week = updateDays(thistime);
 
+
 			let calc1 = week[6].setHours(0, 0, 0, 0);
 			let calc2 = initial_repeat_week[6].setHours(0, 0, 0, 0);
 
+			//add to the todo visualizer ui for events that occur on that day
 			for (let w = 0; w < week.length; w++) {
 				let day = week[w].setHours(0, 0, 0, 0)
+				let current_next_week = updateDays(new Date(day + weekinms))
 				for (let d = 0; d < repetition_days.length; d++) {
-					if (
-						dayClicked &&
-						truecodes[w] === truecodes[truecodes.indexOf(repetition_days[d])] &&
+
+					let event_to_push = (<ToDoEvent
+						key={`${data[todo].id}.${repetition_days[d]}`}
+						name={data[todo].name}
+						time={data[todo].time}
+						priority={data[todo].priority}
+						iscomplete={data[todo].iscomplete}
+						id={data[todo].id}
+						setfetchtodo={setfetchtodo}
+						showTodoForEdit={showTodoForEdit}
+						repetition_code={data[todo].repetition}
+					/>);
+					if (truecodes[w] === truecodes[truecodes.indexOf(repetition_days[d])] &&
 						day > data[todo].time.getTime() &&
 						Math.floor(((calc1 - calc2) / weekinms) % number_to_skip) === 0 &&
-						isenddate(endtime, day) && day !== data[todo].time.setHours(0, 0, 0, 0) &&
-						checkdmy(new Date(day), week[weekind])
-					) {
-						currentDayTodos.push(<ToDoEvent
-							key={`${data[todo].id}.${repetition_days[d]}`}
-							name={data[todo].name}
-							time={data[todo].time}
-							priority={data[todo].priority}
-							iscomplete={data[todo].iscomplete}
-							id={data[todo].id}
-							setfetchtodo={setfetchtodo}
-							showTodoForEdit={showTodoForEdit}
-							repetition_code={data[todo].repetition}
-						/>)
+						day !== data[todo].time.setHours(0, 0, 0, 0)) {
+						if (
+							dayClicked &&
+							isenddate(endtime, day) &&
+							checkdmy(new Date(day), week[weekind])
+						) {
+							currentDayTodos.push(event_to_push)
+						} else if (
+							dayClicked === "Sun" &&
+							isenddate(endtime, day + weekinms) &&
+							checkdmy(new Date(day + weekinms), current_next_week[0])
+						) {
+							nextDayTodos.push(event_to_push)
+						} else if (
+							dayClicked === "Sun" &&
+							isenddate(endtime, day + weekinms) &&
+							checkdmy(new Date(day + weekinms), current_next_week[1])
+
+						) {
+							thirdDayTodos.push(event_to_push)
+						} else if (
+							dayClicked === "Sat" && isenddate(endtime, day + weekinms) &&
+							checkdmy(new Date(day + weekinms), current_next_week[0])
+						) {
+							thirdDayTodos.push(tdevent);
+						} else if (
+							dayClicked &&
+							dayClicked !== "Sun" && isenddate(endtime, day) &&
+							checkdmy(new Date(day), week[weekind + 1])
+
+						) {
+							nextDayTodos.push(tdevent);
+						} else if (
+							dayClicked &&
+							dayClicked !== "Sun" &&
+							dayClicked !== "Sat" && isenddate(endtime, day) &&
+							checkdmy(new Date(day), week[weekind + 2])
+						) {
+							thirdDayTodos.push(tdevent);
+						}
 					}
+
+
+
 				}
 			}
+
+
 
 
 		}
