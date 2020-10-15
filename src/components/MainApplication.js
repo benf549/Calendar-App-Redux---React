@@ -100,7 +100,9 @@ function MainApplication({ firebase, uid }) {
 	let repeatevents = eventresponse ? eventresponse.repeatevents : null;
 
 	let tododata = todoresponse.processedtodos;
+	console.log(tododata)
 	let repeattodos = todoresponse.repeattodos;
+	console.log(repeattodos)
 	//initialize the week array to be empty and then fill it below
 	let week = [];
 	let weekofevents = [[], [], [], [], [], [], []];

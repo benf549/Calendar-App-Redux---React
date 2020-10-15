@@ -1,5 +1,4 @@
 import React from "react";
-import { isCompositeComponent } from "react-dom/test-utils";
 import { DeleteToDoRequest, PutToDoRequest } from "../database";
 import { weekinms, truecodes, updateDays, checkblacklist } from "./MainApplication"
 
@@ -110,11 +109,10 @@ const InWeekTDView = ({
 	let nextDayTodos = [];
 	let thirdDayTodos = [];
 	let incompleteTodos = [];
-	let repeatTodos = [];
 
 	if (data) {
-
 		for (let todo = 0; todo < data.length; todo++) {
+			console.log(data[todo].time)
 			let tdevent = (
 				<ToDoEvent
 					key={data[todo].id}
@@ -191,9 +189,10 @@ const InWeekTDView = ({
 			let calc1 = week[6].setHours(0, 0, 0, 0);
 			let calc2 = initial_repeat_week[6].setHours(0, 0, 0, 0);
 
-			//add to the todo visualizer ui for events that occur on that day
+			//adds repeats to the todo visualizer ui for events that occur on selected day
 			for (let w = 0; w < week.length; w++) {
 				let day = week[w].setHours(0, 0, 0, 0)
+				console.log('d: ', day, 'dtgt:', data[todo].time.getTime())
 				let current_next_week = updateDays(new Date(day + weekinms))
 				for (let d = 0; d < repetition_days.length; d++) {
 
@@ -208,10 +207,11 @@ const InWeekTDView = ({
 						showTodoForEdit={showTodoForEdit}
 						repetition_code={data[todo].repetition}
 					/>);
+
 					if (truecodes[w] === truecodes[truecodes.indexOf(repetition_days[d])] &&
 						day > data[todo].time.getTime() &&
-						Math.floor(((calc1 - calc2) / weekinms) % number_to_skip) === 0 &&
-						day !== data[todo].time.setHours(0, 0, 0, 0)) {
+						Math.floor(((calc1 - calc2) / weekinms) % number_to_skip) === 0
+					) {
 						if (
 							dayClicked &&
 							isenddate(endtime, day) &&

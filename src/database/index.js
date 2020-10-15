@@ -173,9 +173,12 @@ export function ParseTodoResponse(uid) {
 	const response = FetchData(uid).userTodos;
 	let processedtodos = [];
 	let repeattodos = [];
+	let parsedtime;
 	if (response.length) {
 		for (let t = 0; t < response.length; t++) {
-			let parsedtime = new Date(parseInt(response[t].time));
+			//console.log(response[t].time)
+			parsedtime = new Date(parseInt(response[t].time));
+			console.log(parsedtime)
 			processedtodos.push({
 				id: response[t].id,
 				time: parsedtime,
@@ -187,8 +190,10 @@ export function ParseTodoResponse(uid) {
 		}
 
 		for (let j = 0; j < response.length; j++) {
-			let parsedtime = new Date(parseInt(response[j].time));
+			parsedtime = new Date(parseInt(response[j].time));
+			console.log(response[j].time)
 			if (response[j].repetition_code) {
+				console.log(parsedtime)
 				repeattodos.push({
 					id: response[j].id,
 					time: parsedtime,
@@ -201,6 +206,7 @@ export function ParseTodoResponse(uid) {
 		}
 	}
 
+	//console.log(processedtodos, repeattodos)
 
 
 	return { processedtodos, repeattodos };

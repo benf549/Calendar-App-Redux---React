@@ -29,22 +29,22 @@ let ToDoEdit = ({ todoforedit, tododata, hidepopup, editevent }) => {
 		let repeatfreq = 1
 		let repeatend = ""
 
-		var test = tododata
-			? tododata.find((obj) => {
-				return obj.id === todoforedit;
-			})
+		var edit_todo = tododata ? tododata.find((obj) => {
+			return obj.id === todoforedit;
+		})
 			: "";
 
-		if (test) {
-			titleforedit = test.name;
-			startforedit = test.time;
-			priorityforedit = test.priority;
-			completeforedit = test.iscomplete;
-			blacklistforset = test.blacklist;
-			repeatbehavior = test.repetition ? test.repetition.split(";")[0].split("") : "";
-			repeatfreq = test.repetition ? parseInt(test.repetition.split(";")[1]) : 1;
-			repeatend = test.repetition ? test.repetition.split(";")[3]
-				? new Date(parseInt(test.repetition.split(";")[3]))
+		if (edit_todo) {
+			console.log(edit_todo)
+			titleforedit = edit_todo.name;
+			startforedit = edit_todo.time;
+			priorityforedit = edit_todo.priority;
+			completeforedit = edit_todo.iscomplete;
+			blacklistforset = edit_todo.blacklist;
+			repeatbehavior = edit_todo.repetition ? edit_todo.repetition.split(";")[0].split("") : "";
+			repeatfreq = edit_todo.repetition ? parseInt(edit_todo.repetition.split(";")[1]) : 1;
+			repeatend = edit_todo.repetition ? edit_todo.repetition.split(";")[3]
+				? new Date(parseInt(edit_todo.repetition.split(";")[3]))
 				: "" : "";
 		}
 
@@ -90,6 +90,8 @@ let ToDoEdit = ({ todoforedit, tododata, hidepopup, editevent }) => {
 				: (repetition_code = "");
 			PutToDoRequest(todoforedit, newName, start, priority, iscomplete, repetition_code);
 
+			console.log(todoforedit, newName, start, priority, iscomplete, repetition_code)
+
 			setNewName("");
 			setStartDate(new Date());
 			setBlacklist("")
@@ -132,7 +134,7 @@ let ToDoEdit = ({ todoforedit, tododata, hidepopup, editevent }) => {
 
 			<div className="inputlayout">
 				<label htmlFor="date">Start Date</label>
-				<div className="testwrap">
+				<div className="edit_todowrap">
 					<DatePicker
 						selected={startDate}
 						onChange={(date) => setStartDate(date)}
