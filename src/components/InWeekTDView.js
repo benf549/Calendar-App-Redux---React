@@ -112,7 +112,6 @@ const InWeekTDView = ({
 
 	if (data) {
 		for (let todo = 0; todo < data.length; todo++) {
-			console.log(data[todo].time)
 			let tdevent = (
 				<ToDoEvent
 					key={data[todo].id}
@@ -177,7 +176,7 @@ const InWeekTDView = ({
 				return response;
 			};
 			let codearray = data[todo].repetition ? data[todo].repetition.split(";") : []
-			let repetition_days = codearray[0]
+			let repetition_days = codearray ? codearray[0] : []
 			let number_to_skip = codearray[1]
 
 			let endtime = codearray[3] ? new Date(parseInt(codearray[3])) : null;
@@ -190,71 +189,72 @@ const InWeekTDView = ({
 			let calc2 = initial_repeat_week[6].setHours(0, 0, 0, 0);
 
 			//adds repeats to the todo visualizer ui for events that occur on selected day
-			for (let w = 0; w < week.length; w++) {
-				let day = week[w].setHours(0, 0, 0, 0)
-				console.log('d: ', day, 'dtgt:', data[todo].time.getTime())
-				let current_next_week = updateDays(new Date(day + weekinms))
-				for (let d = 0; d < repetition_days.length; d++) {
+			if (repetition_days) {
+				for (let w = 0; w < week.length; w++) {
+					let day = week[w].setHours(0, 0, 0, 0)
+					let current_next_week = updateDays(new Date(day + weekinms))
+					for (let d = 0; d < repetition_days.length; d++) {
 
-					let event_to_push = (<ToDoEvent
-						key={`${data[todo].id}.${repetition_days[d]}`}
-						name={data[todo].name}
-						time={data[todo].time}
-						priority={data[todo].priority}
-						iscomplete={data[todo].iscomplete}
-						id={data[todo].id}
-						setfetchtodo={setfetchtodo}
-						showTodoForEdit={showTodoForEdit}
-						repetition_code={data[todo].repetition}
-					/>);
+						let event_to_push = (<ToDoEvent
+							key={`${data[todo].id}.${repetition_days[d]}`}
+							name={data[todo].name}
+							time={data[todo].time}
+							priority={data[todo].priority}
+							iscomplete={data[todo].iscomplete}
+							id={data[todo].id}
+							setfetchtodo={setfetchtodo}
+							showTodoForEdit={showTodoForEdit}
+							repetition_code={data[todo].repetition}
+						/>);
 
-					if (truecodes[w] === truecodes[truecodes.indexOf(repetition_days[d])] &&
-						day > data[todo].time.getTime() &&
-						Math.floor(((calc1 - calc2) / weekinms) % number_to_skip) === 0
-					) {
-						if (
-							dayClicked &&
-							isenddate(endtime, day) &&
-							checkdmy(new Date(day), week[weekind])
+						if (truecodes[w] === truecodes[truecodes.indexOf(repetition_days[d])] &&
+							day > data[todo].time.getTime() &&
+							Math.floor(((calc1 - calc2) / weekinms) % number_to_skip) === 0
 						) {
-							currentDayTodos.push(event_to_push)
-						} else if (
-							dayClicked === "Sun" &&
-							isenddate(endtime, day + weekinms) &&
-							checkdmy(new Date(day + weekinms), current_next_week[0])
-						) {
-							nextDayTodos.push(event_to_push)
-						} else if (
-							dayClicked === "Sun" &&
-							isenddate(endtime, day + weekinms) &&
-							checkdmy(new Date(day + weekinms), current_next_week[1])
+							if (
+								dayClicked &&
+								isenddate(endtime, day) &&
+								checkdmy(new Date(day), week[weekind])
+							) {
+								currentDayTodos.push(event_to_push)
+							} else if (
+								dayClicked === "Sun" &&
+								isenddate(endtime, day + weekinms) &&
+								checkdmy(new Date(day + weekinms), current_next_week[0])
+							) {
+								nextDayTodos.push(event_to_push)
+							} else if (
+								dayClicked === "Sun" &&
+								isenddate(endtime, day + weekinms) &&
+								checkdmy(new Date(day + weekinms), current_next_week[1])
 
-						) {
-							thirdDayTodos.push(event_to_push)
-						} else if (
-							dayClicked === "Sat" && isenddate(endtime, day + weekinms) &&
-							checkdmy(new Date(day + weekinms), current_next_week[0])
-						) {
-							thirdDayTodos.push(tdevent);
-						} else if (
-							dayClicked &&
-							dayClicked !== "Sun" && isenddate(endtime, day) &&
-							checkdmy(new Date(day), week[weekind + 1])
+							) {
+								thirdDayTodos.push(event_to_push)
+							} else if (
+								dayClicked === "Sat" && isenddate(endtime, day + weekinms) &&
+								checkdmy(new Date(day + weekinms), current_next_week[0])
+							) {
+								thirdDayTodos.push(tdevent);
+							} else if (
+								dayClicked &&
+								dayClicked !== "Sun" && isenddate(endtime, day) &&
+								checkdmy(new Date(day), week[weekind + 1])
 
-						) {
-							nextDayTodos.push(tdevent);
-						} else if (
-							dayClicked &&
-							dayClicked !== "Sun" &&
-							dayClicked !== "Sat" && isenddate(endtime, day) &&
-							checkdmy(new Date(day), week[weekind + 2])
-						) {
-							thirdDayTodos.push(tdevent);
+							) {
+								nextDayTodos.push(tdevent);
+							} else if (
+								dayClicked &&
+								dayClicked !== "Sun" &&
+								dayClicked !== "Sat" && isenddate(endtime, day) &&
+								checkdmy(new Date(day), week[weekind + 2])
+							) {
+								thirdDayTodos.push(tdevent);
+							}
 						}
+
+
+
 					}
-
-
-
 				}
 			}
 
