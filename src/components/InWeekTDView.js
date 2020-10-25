@@ -1,6 +1,6 @@
 import React from "react";
 import { DeleteToDoRequest, PutToDoRequest } from "../database";
-import { weekinms, truecodes, updateDays, checkblacklist } from "./MainApplication"
+import { weekinms, truecodes, updateDays } from "./MainApplication"
 
 let checkdmy = (day, week) => {
 	//checks that the day, month, and year of the two datetime objects are the same.
@@ -18,7 +18,9 @@ const ToDoEvent = ({
 	iscomplete,
 	id,
 	showTodoForEdit,
-	repetition_code
+	repetition_code,
+	blacklistday,
+	day
 }) => {
 	return (
 		<div className="todoitem">
@@ -30,8 +32,9 @@ const ToDoEvent = ({
 						name,
 						time.getTime().toString(),
 						priority,
-						!iscomplete,
-						repetition_code
+						iscomplete,
+						repetition_code,
+						blacklistday ? blacklistday + ';' + day : day
 					)
 				}
 				style={
@@ -123,6 +126,8 @@ const InWeekTDView = ({
 					setfetchtodo={setfetchtodo}
 					showTodoForEdit={showTodoForEdit}
 					repetition_code={data[todo].repetition}
+					blacklistday={data[todo].blacklist}
+
 				/>
 			);
 			if (
@@ -132,7 +137,6 @@ const InWeekTDView = ({
 			) {
 				incompleteTodos.push(tdevent);
 			}
-
 			if (
 				dayClicked &&
 				checkdmy(data[todo].time, week[weekind])
@@ -167,19 +171,33 @@ const InWeekTDView = ({
 			) {
 				thirdDayTodos.push(tdevent);
 			}
-			//Handle repeat behavior. Similar to repeatevents array processing in Main Application.
 			let isenddate = (endtime, day) => {
+				//Handle repeat behavior. Similar to repeatevents array processing in Main Application.
 				let response = true;
 				if (endtime && day > endtime.setHours(0, 0, 0, 0)) {
 					response = false;
 				}
 				return response;
 			};
+
+			let checktodoblacklist = (list, daytocheck) => {
+				//takes in the blacklist and the current day being looked at if any in the blacklist match returns false
+				let out = true
+				for (let i = 0; i < list.length; i++) {
+					if (list[i] === daytocheck) {
+						out = false
+					}
+				}
+				return out
+			}
+
 			let codearray = data[todo].repetition ? data[todo].repetition.split(";") : []
 			let repetition_days = codearray ? codearray[0] : []
 			let number_to_skip = codearray[1]
 
 			let endtime = codearray[3] ? new Date(parseInt(codearray[3])) : null;
+
+			let blacklist = data[todo].blacklist.toString().split(';')
 
 			let thistime = data[todo].time.getTime();
 			let initial_repeat_week = updateDays(thistime);
@@ -205,11 +223,14 @@ const InWeekTDView = ({
 							setfetchtodo={setfetchtodo}
 							showTodoForEdit={showTodoForEdit}
 							repetition_code={data[todo].repetition}
+							blacklistday={data[todo].blacklist}
+							day={day}
 						/>);
 
 						if (truecodes[w] === truecodes[truecodes.indexOf(repetition_days[d])] &&
 							day > data[todo].time.getTime() &&
 							Math.floor(((calc1 - calc2) / weekinms) % number_to_skip) === 0
+							&& checktodoblacklist(blacklist, day)
 						) {
 							if (
 								dayClicked &&
@@ -234,33 +255,26 @@ const InWeekTDView = ({
 								dayClicked === "Sat" && isenddate(endtime, day + weekinms) &&
 								checkdmy(new Date(day + weekinms), current_next_week[0])
 							) {
-								thirdDayTodos.push(tdevent);
+								thirdDayTodos.push(event_to_push);
 							} else if (
 								dayClicked &&
 								dayClicked !== "Sun" && isenddate(endtime, day) &&
 								checkdmy(new Date(day), week[weekind + 1])
 
 							) {
-								nextDayTodos.push(tdevent);
+								nextDayTodos.push(event_to_push);
 							} else if (
 								dayClicked &&
 								dayClicked !== "Sun" &&
 								dayClicked !== "Sat" && isenddate(endtime, day) &&
 								checkdmy(new Date(day), week[weekind + 2])
 							) {
-								thirdDayTodos.push(tdevent);
+								thirdDayTodos.push(event_to_push);
 							}
 						}
-
-
-
 					}
 				}
 			}
-
-
-
-
 		}
 	}
 

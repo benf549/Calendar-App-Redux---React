@@ -39,8 +39,6 @@ export function FetchData(uid) {
 
 export function ParseEventResponse(uid) {
 	const response = FetchData(uid).userEvents;
-	//console.log(response);
-
 	if (response.length) {
 		let processedevents = [];
 		let repeatevents = [];
@@ -178,37 +176,33 @@ export function ParseTodoResponse(uid) {
 		for (let t = 0; t < response.length; t++) {
 			//console.log(response[t].time)
 			parsedtime = new Date(parseInt(response[t].time));
-			console.log(parsedtime)
+			//console.log(parsedtime)
 			processedtodos.push({
 				id: response[t].id,
 				time: parsedtime,
 				name: response[t].name,
 				priority: response[t].priority,
 				iscomplete: response[t].iscomplete,
-				repetition: response[t].repetition_code
+				repetition: response[t].repetition_code,
+				blacklist: response[t].rep_blacklist
 			});
 		}
 
 		for (let j = 0; j < response.length; j++) {
 			parsedtime = new Date(parseInt(response[j].time));
-			console.log(response[j].time)
 			if (response[j].repetition_code) {
-				console.log(parsedtime)
 				repeattodos.push({
 					id: response[j].id,
 					time: parsedtime,
 					name: response[j].name,
 					priority: response[j].priority,
 					iscomplete: response[j].iscomplete,
-					repetition: response[j].repetition_code
+					repetition: response[j].repetition_code,
+					blacklist: response[j].rep_blacklist
 				})
 			}
 		}
 	}
-
-	//console.log(processedtodos, repeattodos)
-
-
 	return { processedtodos, repeattodos };
 }
 
@@ -222,16 +216,18 @@ export function PostToDoData({ uid, newName, time, priority, repetition_code }) 
 		priority: parseInt(priority),
 		iscomplete: false,
 		repetition_code: repetition_code,
+		rep_blacklist: "",
 	});
 }
 
-export function PutToDoRequest(id, newName, start, priority, iscomplete, repetition_code) {
+export function PutToDoRequest(id, newName, start, priority, iscomplete, repetition_code, blacklistday) {
 	userDataRef.doc(id).update({
 		name: newName,
 		time: start,
 		priority: parseInt(priority),
 		iscomplete: iscomplete,
 		repetition_code: repetition_code,
+		rep_blacklist: blacklistday
 	});
 }
 

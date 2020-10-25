@@ -88,9 +88,9 @@ let ToDoEdit = ({ todoforedit, tododata, hidepopup, editevent }) => {
 				? (repetition_code = `${selecteddays.join("")};${week_freq};W;${endRepeatDate ? endRepeatDate.getTime() : ""
 					}`)
 				: (repetition_code = "");
-			PutToDoRequest(todoforedit, newName, start, priority, iscomplete, repetition_code);
+			PutToDoRequest(todoforedit, newName, start, priority, iscomplete, repetition_code, blacklist);
 
-			console.log(todoforedit, newName, start, priority, iscomplete, repetition_code)
+			console.log(todoforedit, newName, start, priority, iscomplete, repetition_code, blacklist)
 
 			setNewName("");
 			setStartDate(new Date());

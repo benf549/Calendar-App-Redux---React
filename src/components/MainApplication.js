@@ -36,7 +36,8 @@ export let updateDays = (newweekdate = null) => {
 	return temp;
 };
 
-export let checkblacklist = (daytocheck, blacklist, repeatevent) => {
+let checkblacklist = (daytocheck, blacklist, repeatevent) => {
+	//takes in a Date object, the full blacklist, and the repeatevent with a daystoadd integer as a prop
 	let return_val = true;
 	if (blacklist.length && repeatevent) {
 		for (let b = 0; b < blacklist.length; b++) {
@@ -51,6 +52,17 @@ export let checkblacklist = (daytocheck, blacklist, repeatevent) => {
 	}
 	return return_val;
 };
+
+let checktodoblacklist = (daytocheck, blacklist) => {
+	//takes in a day to check string and checks blacklist of unix epoch strings to ensure the day is not blacklisted.
+	let out = true
+	for (let i = 0; i < blacklist.length; i++) {
+		if (daytocheck === blacklist[i]) {
+			out = false
+		}
+	}
+	return out
+}
 
 function MainApplication({ firebase, uid }) {
 	let [areLeftTasksShown, setAreLeftTasksShown] = useState(false);
@@ -100,9 +112,11 @@ function MainApplication({ firebase, uid }) {
 	let repeatevents = eventresponse ? eventresponse.repeatevents : null;
 
 	let tododata = todoresponse.processedtodos;
-	console.log(tododata)
 	let repeattodos = todoresponse.repeattodos;
-	console.log(repeattodos)
+
+	//console.log(tododata)
+	//console.log(repeattodos)
+
 	//initialize the week array to be empty and then fill it below
 	let week = [];
 	let weekofevents = [[], [], [], [], [], [], []];
@@ -291,6 +305,7 @@ function MainApplication({ firebase, uid }) {
 	}
 	// repeat the procedure used above for todos
 	if (tododata) {
+		//console.log(tododata)
 		for (let x = 0; x < tododata.length; x++) {
 			let itemtime = tododata[x].time;
 
@@ -323,6 +338,8 @@ function MainApplication({ firebase, uid }) {
 			let endtime = todocode[3] ? new Date(parseInt(todocode[3])) : null;
 			let daycodes = todocode[0].split("");
 
+			let blacklist_todo = repeattodos[y].blacklist.toString().split(";")
+
 			let thistime = repeattodos[y].time;
 			let initial_repeat_week = updateDays(thistime);
 
@@ -347,7 +364,7 @@ function MainApplication({ firebase, uid }) {
 						day > thistime.getTime() &&
 						Math.floor(((calc1 - calc2) / weekinms) % number_to_skip) === 0 &&
 						isenddate(endtime, day)
-						//&& checkblacklist(week[z], blacklist, repeatevents[y]) 
+						&& checktodoblacklist(week[z].setHours(0, 0, 0, 0).toString(), blacklist_todo)
 						&& day !== new Date(parseInt(thistime)).setHours(0, 0, 0, 0)
 					) {
 						weekoftodos[new Date(day).getDay()].push(
