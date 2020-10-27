@@ -38,7 +38,7 @@ const ToDoEvent = ({
 			<div
 				className="markoff"
 				onClick={() => {
-					let blacklist_array = blacklist.split(';')
+					let blacklist_array = blacklist ? blacklist.split(';') : []
 					let filtered_array = blacklist_array.filter(item => item !== day.toString())
 					if (arraysEqual(blacklist_array, filtered_array)) {
 						filtered_array.push(day.toString())
@@ -150,7 +150,7 @@ const InWeekTDView = ({
 			);
 			if (
 				dayClicked &&
-				!data[todo].iscomplete &&
+				!data[todo].iscomplete && //update to check blacklist rather than iscomplete.
 				data[todo].time.getTime() < new Date().getTime()
 			) {
 				incompleteTodos.push(tdevent);
