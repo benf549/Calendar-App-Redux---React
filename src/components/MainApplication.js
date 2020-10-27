@@ -305,7 +305,6 @@ function MainApplication({ firebase, uid }) {
 	}
 	// repeat the event parsing procedure used above for todos
 	if (tododata) {
-		//console.log(tododata)
 		for (let x = 0; x < tododata.length; x++) {
 			let itemtime = tododata[x].time;
 
@@ -314,7 +313,8 @@ function MainApplication({ firebase, uid }) {
 				if (
 					itemtime.getDate() === day.getDate() &&
 					itemtime.getMonth() === day.getMonth() &&
-					itemtime.getFullYear() === day.getFullYear() && !checktodoblacklist(tododata[x].time.getTime().toString(), tododata[x].blacklist)
+					itemtime.getFullYear() === day.getFullYear() &&
+					checktodoblacklist(tododata[x].time.getTime().toString(), tododata[x].blacklist.split(';'))
 				) {
 					weekoftodos[day.getDay()].push(
 						<VisualTodo

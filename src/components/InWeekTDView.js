@@ -11,6 +11,17 @@ let checkdmy = (day, week) => {
 	return flag
 }
 
+let arraysEqual = (a, b) => {
+	if (a === b) return true;
+	if (a == null || b == null) return false;
+	if (a.length !== b.length) return false;
+
+	for (var i = 0; i < a.length; ++i) {
+		if (a[i] !== b[i]) return false;
+	}
+	return true;
+}
+
 const ToDoEvent = ({
 	name,
 	time,
@@ -22,12 +33,17 @@ const ToDoEvent = ({
 	blacklist,
 	day
 }) => {
-	console.log({ 'B': blacklist, 'D': day })
 	return (
 		<div className="todoitem">
 			<div
 				className="markoff"
-				onClick={() =>
+				onClick={() => {
+					let blacklist_array = blacklist.split(';')
+					let filtered_array = blacklist_array.filter(item => item !== day.toString())
+					if (arraysEqual(blacklist_array, filtered_array)) {
+						filtered_array.push(day.toString())
+					}
+					console.log(filtered_array)
 					PutToDoRequest(
 						id,
 						name,
@@ -35,8 +51,9 @@ const ToDoEvent = ({
 						priority,
 						iscomplete,
 						repetition_code,
-						blacklist ? blacklist + ';' + day.toString() : day.toString() //need to fix.
+						filtered_array.join(';')
 					)
+				}
 				}
 				style={
 					priority === 5
