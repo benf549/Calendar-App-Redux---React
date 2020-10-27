@@ -53,7 +53,7 @@ let checkblacklist = (daytocheck, blacklist, repeatevent) => {
 	return return_val;
 };
 
-let checktodoblacklist = (daytocheck, blacklist) => {
+export let checktodoblacklist = (daytocheck, blacklist) => {
 	//takes in a day to check string and checks blacklist of unix epoch strings to ensure the day is not blacklisted.
 	let out = true
 	for (let i = 0; i < blacklist.length; i++) {
@@ -303,7 +303,7 @@ function MainApplication({ firebase, uid }) {
 			//console.log(weekofevents);
 		}
 	}
-	// repeat the procedure used above for todos
+	// repeat the event parsing procedure used above for todos
 	if (tododata) {
 		//console.log(tododata)
 		for (let x = 0; x < tododata.length; x++) {
@@ -314,7 +314,7 @@ function MainApplication({ firebase, uid }) {
 				if (
 					itemtime.getDate() === day.getDate() &&
 					itemtime.getMonth() === day.getMonth() &&
-					itemtime.getFullYear() === day.getFullYear()
+					itemtime.getFullYear() === day.getFullYear() && !checktodoblacklist(tododata[x].time.getTime().toString(), tododata[x].blacklist)
 				) {
 					weekoftodos[day.getDay()].push(
 						<VisualTodo

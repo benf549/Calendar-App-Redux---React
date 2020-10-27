@@ -1,6 +1,6 @@
 import React from "react";
 import { DeleteToDoRequest, PutToDoRequest } from "../database";
-import { weekinms, truecodes, updateDays } from "./MainApplication"
+import { weekinms, truecodes, updateDays, checktodoblacklist } from "./MainApplication"
 
 let checkdmy = (day, week) => {
 	//checks that the day, month, and year of the two datetime objects are the same.
@@ -19,9 +19,10 @@ const ToDoEvent = ({
 	id,
 	showTodoForEdit,
 	repetition_code,
-	blacklistday,
+	blacklist,
 	day
 }) => {
+	console.log({ 'B': blacklist, 'D': day })
 	return (
 		<div className="todoitem">
 			<div
@@ -34,7 +35,7 @@ const ToDoEvent = ({
 						priority,
 						iscomplete,
 						repetition_code,
-						blacklistday ? blacklistday + ';' + day : day
+						blacklist ? blacklist + ';' + day.toString() : day.toString() //need to fix.
 					)
 				}
 				style={
@@ -53,7 +54,7 @@ const ToDoEvent = ({
 				<h4
 					onClick={() => showTodoForEdit(id)}
 					style={{
-						color: iscomplete
+						color: !checktodoblacklist(day.toString(), blacklist.split(';'))
 							? "grey"
 							: priority === 5
 								? "var(--red-accent)"
@@ -126,8 +127,8 @@ const InWeekTDView = ({
 					setfetchtodo={setfetchtodo}
 					showTodoForEdit={showTodoForEdit}
 					repetition_code={data[todo].repetition}
-					blacklistday={data[todo].blacklist}
-
+					blacklist={data[todo].blacklist}
+					day={data[todo].time.getTime()}
 				/>
 			);
 			if (
@@ -180,17 +181,6 @@ const InWeekTDView = ({
 				return response;
 			};
 
-			let checktodoblacklist = (list, daytocheck) => {
-				//takes in the blacklist and the current day being looked at if any in the blacklist match returns false
-				let out = true
-				for (let i = 0; i < list.length; i++) {
-					if (list[i] === daytocheck) {
-						out = false
-					}
-				}
-				return out
-			}
-
 			let codearray = data[todo].repetition ? data[todo].repetition.split(";") : []
 			let repetition_days = codearray ? codearray[0] : []
 			let number_to_skip = codearray[1]
@@ -223,14 +213,14 @@ const InWeekTDView = ({
 							setfetchtodo={setfetchtodo}
 							showTodoForEdit={showTodoForEdit}
 							repetition_code={data[todo].repetition}
-							blacklistday={data[todo].blacklist}
+							blacklist={data[todo].blacklist}
 							day={day}
 						/>);
 
 						if (truecodes[w] === truecodes[truecodes.indexOf(repetition_days[d])] &&
 							day > data[todo].time.getTime() &&
 							Math.floor(((calc1 - calc2) / weekinms) % number_to_skip) === 0
-							&& checktodoblacklist(blacklist, day)
+							&& checktodoblacklist(day, blacklist)
 						) {
 							if (
 								dayClicked &&
